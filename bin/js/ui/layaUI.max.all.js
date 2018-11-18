@@ -29,7 +29,7 @@ var ui;
                     _super.prototype.createChildren.call(this);
                     this.createView(ui.game.scene.DeskSceneUI.uiView);
                 };
-                DeskSceneUI.uiView = { "type": "View", "props": { "width": 1136, "height": 640 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "visible": false, "skin": "game/bg.png" } }, { "type": "Clock", "props": { "y": 317, "x": 572, "visible": false, "rotation": 0, "runtime": "ui.game.view.ClockUI" } }, { "type": "View", "props": { "y": 46, "x": 288, "width": 573, "height": 164 } }, { "type": "View", "props": { "y": 466, "x": 67, "width": 1017, "height": 162 } }, { "type": "View", "props": { "y": 125, "x": 110, "width": 210, "height": 398 } }, { "type": "View", "props": { "y": 126, "x": 835, "width": 210, "height": 398 } }] };
+                DeskSceneUI.uiView = { "type": "View", "props": { "width": 1136, "height": 640 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "visible": true, "skin": "game/bg.png" } }, { "type": "Clock", "props": { "y": 320, "x": 568, "visible": true, "var": "clockUI", "rotation": 0, "runtime": "ui.game.view.ClockUI" } }, { "type": "View", "props": { "y": 12, "x": 322, "width": 492, "var": "upView", "height": 50 } }, { "type": "View", "props": { "y": 539, "x": 198, "width": 793, "var": "downView", "height": 89, "anchorY": 0, "anchorX": 0 } }, { "type": "View", "props": { "y": 121, "x": 169, "width": 57, "var": "leftView", "height": 398 } }, { "type": "View", "props": { "y": 121, "x": 942, "width": 59, "var": "rightView", "height": 398 } }, { "type": "View", "props": { "y": 479, "x": 297, "width": 32, "var": "outDownView", "height": 37 } }, { "type": "View", "props": { "y": 82, "x": 801, "width": 29, "var": "outUpView", "rotation": 0, "height": 34 } }, { "type": "View", "props": { "y": 179, "x": 202, "width": 15, "var": "outLeftView", "rotation": 0, "height": 29 } }, { "type": "View", "props": { "y": 390, "x": 886, "width": 17, "var": "outRightView", "rotation": 0, "height": 26 } }] };
                 return DeskSceneUI;
             }(View));
             scene.DeskSceneUI = DeskSceneUI;
@@ -50,7 +50,7 @@ var ui;
                     _super.prototype.createChildren.call(this);
                     this.createView(ui.game.view.ClockUI.uiView);
                 };
-                ClockUI.uiView = { "type": "View", "props": { "y": 94, "x": 94, "width": 189, "visible": true, "pivotY": 0.5, "pivotX": 0.5, "height": 189, "anchorY": 0.5, "anchorX": 0.5 }, "child": [{ "type": "Image", "props": { "y": -1, "x": -2, "skin": "game/clock/west.png" } }, { "type": "Image", "props": { "y": -56, "x": -54, "skin": "game/clock/west_up.png" } }, { "type": "Image", "props": { "y": 0, "x": -1, "skin": "game/clock/south.png" } }, { "type": "Image", "props": { "y": -1, "x": 93, "skin": "game/clock/north.png" } }, { "type": "Image", "props": { "y": -56, "x": 37, "visible": false, "skin": "game/clock/north_up.png" } }, { "type": "Image", "props": { "y": 93, "x": -1, "skin": "game/clock/east.png" } }, { "type": "Image", "props": { "y": -55, "x": -57, "visible": false, "skin": "game/clock/south_up.png" } }, { "type": "Image", "props": { "y": 39, "x": -54, "visible": false, "skin": "game/clock/east_up.png" } }, { "type": "Image", "props": { "y": 57, "x": 58, "skin": "game/clock/yuan.png" }, "child": [{ "type": "FontClip", "props": { "var": "timeLabel", "value": "12", "skin": "game/clock/clock_num.png", "sheet": "0123456789", "centerY": 0, "centerX": 0 } }] }] };
+                ClockUI.uiView = { "type": "View", "props": { "y": 94, "x": 94, "width": 189, "visible": true, "pivotY": 0.5, "pivotX": 0.5, "height": 189, "anchorY": 0.5, "anchorX": 0.5 }, "child": [{ "type": "Image", "props": { "y": -1, "x": -2, "skin": "game/clock/west.png" } }, { "type": "Image", "props": { "y": 1, "x": 3, "var": "upSelected", "skin": "game/clock/west_up.png" } }, { "type": "Image", "props": { "y": 0, "x": -1, "skin": "game/clock/south.png" } }, { "type": "Image", "props": { "y": -1, "x": 93, "skin": "game/clock/north.png" } }, { "type": "Image", "props": { "y": 1, "x": 97, "visible": false, "var": "rightSelected", "skin": "game/clock/north_up.png" } }, { "type": "Image", "props": { "y": 93, "x": -1, "skin": "game/clock/east.png" } }, { "type": "Image", "props": { "y": 3, "x": 0, "visible": false, "var": "leftSelected", "skin": "game/clock/south_up.png" } }, { "type": "Image", "props": { "y": 96, "x": 4, "visible": false, "var": "downSelected", "skin": "game/clock/east_up.png" } }, { "type": "Image", "props": { "y": 57, "x": 58, "skin": "game/clock/yuan.png" }, "child": [{ "type": "FontClip", "props": { "var": "timeLabel", "value": "12", "skin": "game/clock/clock_num.png", "sheet": "0123456789", "centerY": 0, "centerX": 0 } }] }] };
                 return ClockUI;
             }(View));
             view.ClockUI = ClockUI;
@@ -83,6 +83,27 @@ var ui;
     (function (game) {
         var view;
         (function (view) {
+            var OperationUI = /** @class */ (function (_super) {
+                __extends(OperationUI, _super);
+                function OperationUI() {
+                    return _super.call(this) || this;
+                }
+                OperationUI.prototype.createChildren = function () {
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.game.view.OperationUI.uiView);
+                };
+                OperationUI.uiView = { "type": "View", "props": { "width": 621, "height": 109 }, "child": [{ "type": "Image", "props": { "y": 1, "x": 468, "var": "quitBtn", "skin": "game/operationImg/btn_type1.png" } }, { "type": "Image", "props": { "y": 0, "x": 352, "var": "huBtn", "skin": "game/operationImg/btn_type5.png" } }, { "type": "Image", "props": { "y": 1, "x": 235, "var": "gangBtn", "skin": "game/operationImg/btn_type4.png" } }, { "type": "Image", "props": { "y": 1, "x": 118, "var": "pengBtn", "skin": "game/operationImg/btn_type3.png" } }, { "type": "Image", "props": { "y": 1, "x": 1, "var": "chuBtn", "skin": "game/operationImg/btn_type2.png" } }] };
+                return OperationUI;
+            }(View));
+            view.OperationUI = OperationUI;
+        })(view = game.view || (game.view = {}));
+    })(game = ui.game || (ui.game = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var game;
+    (function (game) {
+        var view;
+        (function (view) {
             var OutCardUI = /** @class */ (function (_super) {
                 __extends(OutCardUI, _super);
                 function OutCardUI() {
@@ -92,7 +113,7 @@ var ui;
                     _super.prototype.createChildren.call(this);
                     this.createView(ui.game.view.OutCardUI.uiView);
                 };
-                OutCardUI.uiView = { "type": "View", "props": {}, "child": [{ "type": "Image", "props": { "var": "card", "skin": "game/outCard/buttom_top/w_5.png" } }] };
+                OutCardUI.uiView = { "type": "View", "props": {}, "child": [{ "type": "Image", "props": { "var": "card" } }] };
                 return OutCardUI;
             }(View));
             view.OutCardUI = OutCardUI;

@@ -17,6 +17,7 @@ var Handler = Laya.Handler;
 var Loader = Laya.Loader;
 var WebGL = Laya.WebGL;
 var DeskScene = MjGame.DeskScene;
+var GlobalConfig = MjGame.GlobalConfig;
 var TestUI = /** @class */ (function (_super) {
     __extends(TestUI, _super);
     function TestUI() {
@@ -65,11 +66,11 @@ var TestUI = /** @class */ (function (_super) {
 //初始化微信小游戏
 Laya.MiniAdpter.init();
 //程序入口
-Laya.init(600, 400, WebGL);
+Laya.init(GlobalConfig.DESK_WIDHT, GlobalConfig.DESK_HEIGHT, WebGL);
 //激活资源版本控制
 Laya.ResourceVersion.enable("version.json", Handler.create(null, beginLoad), Laya.ResourceVersion.FILENAME_VERSION);
 function beginLoad() {
-    Laya.loader.load(["res/atlas/comp.atlas", "res/atlas/game/ui.atlas", "res/atlas/game/positionMark.atlas",
+    Laya.loader.load(["res/atlas/comp.atlas", "res/atlas/game/ui.atlas",
         "res/atlas/game/clock.atlas", "res/atlas/game/operationImg.atlas", "res/atlas/game/direction.atlas",
         "res/atlas/game/handCard.atlas", "res/atlas/game/bgCard.atlas", "res/atlas/game/outCard/buttom_top.atlas",
         "res/atlas/game/outCard/left.atlas", "res/atlas/game/outCard/right.atlas"], Handler.create(null, onLoaded));

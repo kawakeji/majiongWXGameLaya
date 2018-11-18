@@ -4,11 +4,14 @@
 var MjGame;
 (function (MjGame) {
     var HandCardCm = /** @class */ (function () {
-        function HandCardCm() {
+        function HandCardCm(parentView, cardPos) {
+            this.parentView = parentView;
+            this.cardPos = cardPos;
         }
-        HandCardCm.prototype.createHandCard = function (cmj, parentView) {
+        HandCardCm.prototype.createHandCard = function (cmj) {
             var index = 0;
-            var startX = 10; //this.addChiPengGangPai(cmj);
+            var startX = 0; //this.addChiPengGangPai(cmj);
+            var startY = 0;
             var card;
             var arr;
             for (var j = 0; j < MjGame.GlobalConfig.CARD_TYPE_NUM; j++) {
@@ -18,9 +21,9 @@ var MjGame;
                         if (arr[i] > 0) {
                             for (var k = 0; k < arr[i]; k++) {
                                 card = new MjGame.HandCard();
-                                card.cardPos = MjGame.GlobalConfig.DOWN_POS;
-                                card.setData(new MjGame.StPAI(j, i), startX, index);
-                                parentView.addChild(card);
+                                card.cardPos = this.cardPos;
+                                card.setData(new MjGame.StPAI(j, i), startX, startY, index);
+                                this.parentView.addChild(card);
                                 index++;
                             }
                         }

@@ -3,14 +3,19 @@
 */
 module MjGame{
 	export class HandCardCm{
-		constructor(){
-
+		parentView:View;
+		cardPos:number;
+		constructor(parentView:View,cardPos:number)
+		{
+			this.parentView = parentView;
+			this.cardPos = cardPos;
 		}
 
-		createHandCard(cmj:CMJ,parentView:any)
+		createHandCard(cmj:CMJ)
 		{
             var index:number = 0;
-            var startX:number = 10;//this.addChiPengGangPai(cmj);
+            var startX:number = 0;//this.addChiPengGangPai(cmj);
+            var startY:number = 0;
             var card:HandCard;
             var arr:Array<number>;
             for (var j:number = 0; j < GlobalConfig.CARD_TYPE_NUM; j ++) 
@@ -25,9 +30,9 @@ module MjGame{
                             for (var k:number = 0; k < arr[i]; k++) 
                             {
                                 card = new HandCard();
-                                card.cardPos = GlobalConfig.DOWN_POS;
-                                card.setData(new StPAI(j,i),startX,index);
-                                parentView.addChild(card);   
+                                card.cardPos = this.cardPos;
+                                card.setData(new StPAI(j,i),startX,startY,index);
+                                this.parentView.addChild(card);   
                                 index ++;
                             }
                         }

@@ -27,27 +27,32 @@ var MjGame;
             _this.cardPos = 0;
             return _this;
         }
-        HandCard.prototype.setData = function (stPai, startX, index) {
+        HandCard.prototype.setData = function (stPai, startX, startY, index) {
             var resUrl = "";
             var offW = 0;
+            var offH = 0;
             if (this.cardPos == MjGame.GlobalConfig.DOWN_POS) {
-                offW = 50;
+                offW = 55;
+                offH = 0;
                 resUrl = this.downResBasePath + MjGame.GlobalConfig.GetPaiPrefixByType(stPai.m_Type) + stPai.m_Value + ".png";
             }
             else if (this.cardPos == MjGame.GlobalConfig.RIGHT_POS) {
-                offW = 50;
+                offW = 0;
+                offH = 27;
                 resUrl = this.rightResBasePath;
             }
             else if (this.cardPos == MjGame.GlobalConfig.UP_POS) {
-                offW = 50;
+                offW = 37;
+                offH = 0;
                 resUrl = this.upResBasePath;
             }
             else {
-                offW = 50;
+                offW = 0;
+                offH = 27;
                 resUrl = this.leftResBasePath;
             }
             this.card.loadImage(resUrl);
-            this.card.pos(startX + offW * index, 50);
+            this.card.pos(startX + offW * index, startY + offH * index);
         };
         return HandCard;
     }(ui.game.view.HandCardUI));

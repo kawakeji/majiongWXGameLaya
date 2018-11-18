@@ -97,9 +97,6 @@ P 9DB610C3 feng_1.png
 P 6F0160C0 feng_2.png
 P 16AF2CBD feng_3.png
 P AAC1CB3E feng_4.png
-P 1A22356C feng_5.png
-P 2CF9E3C7 feng_6.png
-P 5578B19E feng_7.png
 P FCDA57DF tiao_1.png
 P A4F762C4 tiao_2.png
 P AAE2C25C tiao_3.png
@@ -127,6 +124,9 @@ P 96845042 w_6.png
 P 0C3D85EA w_7.png
 P 6B7206A0 w_8.png
 P 6D365EBF w_9.png
+P 1A22356C zhong_1.png
+P 2CF9E3C7 zhong_2.png
+P 5578B19E zhong_3.png
 D game/operationImg
 P DBB50D7D btn_type1.png
 P D6B319B5 btn_type2.png
@@ -154,9 +154,6 @@ P C7421003 feng_1.png
 P 32C52DDD feng_2.png
 P 1284D719 feng_3.png
 P 75A524D3 feng_4.png
-P 22DD970A feng_5.png
-P CFFD8CAF feng_6.png
-P 6BE00976 feng_7.png
 P 510AA67B tiao_1.png
 P BC54263C tiao_2.png
 P DB94BB40 tiao_3.png
@@ -184,14 +181,14 @@ P E646874B w_6.png
 P 384F4F39 w_7.png
 P 71AC1E59 w_8.png
 P 44190DF1 w_9.png
+P 22DD970A zhong_1.png
+P CFFD8CAF zhong_2.png
+P 6BE00976 zhong_3.png
 D game/outCard/left
 P F47CDF49 feng_1.png
 P 4FA78D2B feng_2.png
 P 67E5B265 feng_3.png
 P 297CBCDC feng_4.png
-P 9F863B36 feng_5.png
-P 1E3E7B28 feng_6.png
-P ABD9AD0E feng_7.png
 P 178EAE53 tiao_1.png
 P 9F4E9983 tiao_2.png
 P 85D55D87 tiao_3.png
@@ -219,14 +216,14 @@ P 9FFDD288 w_6.png
 P B0C171E8 w_7.png
 P 254AD582 w_8.png
 P EEE454FC w_9.png
+P 9F863B36 zhong_1.png
+P 1E3E7B28 zhong_2.png
+P ABD9AD0E zhong_3.png
 D game/outCard/right
 P 6218A60E feng_1.png
 P 17563032 feng_2.png
 P B740718B feng_3.png
 P 4AAD1622 feng_4.png
-P 059D115E feng_5.png
-P 4F641A6F feng_6.png
-P 08663893 feng_7.png
 P 1DB6CEBB tiao_1.png
 P EAFDC52F tiao_2.png
 P AB8F35C1 tiao_3.png
@@ -245,7 +242,8 @@ P FDFA2011 tong_6.png
 P CC35E83E tong_7.png
 P 238B6139 tong_8.png
 P F634B2B2 tong_9.png
-P DE97DD28 w_1.png
+P A1B23C40 w_1.png
+P DE97DD28 w_12.png
 P D7F902E0 w_2.png
 P E5027E13 w_3.png
 P 8C75D635 w_4.png
@@ -254,3 +252,6 @@ P C3609147 w_6.png
 P 0FFC6E82 w_7.png
 P 1F870CBB w_8.png
 P 9DF8601B w_9.png
+P 059D115E zhong_1.png
+P 4F641A6F zhong_2.png
+P 08663893 zhong_3.png

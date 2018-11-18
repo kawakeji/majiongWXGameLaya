@@ -14,32 +14,37 @@ module MjGame{
 			super();
 		}
 
-		setData(stPai:StPAI,startX:number,index:number)
+		setData(stPai:StPAI,startX:number,startY:number,index:number)
 		{
             var resUrl:string = "";
 			var offW:number = 0;
+            var offH:number = 0;
             if(this.cardPos == GlobalConfig.DOWN_POS)
             {
-				offW = 50;
+				offW = 55;
+                offH = 0;
                 resUrl = this.downResBasePath  + GlobalConfig.GetPaiPrefixByType(stPai.m_Type) + stPai.m_Value + ".png";
             }
             else if(this.cardPos == GlobalConfig.RIGHT_POS)
             {
-				offW = 50;
-                 resUrl = this.rightResBasePath;
+				offW = 0;
+                offH = 27;
+                resUrl = this.rightResBasePath;
             }
             else if(this.cardPos == GlobalConfig.UP_POS)
             {
-				offW = 50;
+				offW = 37;
+                offH = 0;
                 resUrl = this.upResBasePath;
             }
             else
             {
-				offW = 50;
+				offW = 0;
+                offH = 27;
                 resUrl = this.leftResBasePath;
             }
 			this.card.loadImage(resUrl);
-			this.card.pos(startX + offW*index,50);
+			this.card.pos(startX + offW * index,startY + offH * index);
 		}
 	}
 }

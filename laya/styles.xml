@@ -1,4 +1,10 @@
 <res>
    <item name="game/clock/pricenumber.png" type="FontClip" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
    <item name="game/clock/clock_num.png" type="FontClip" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/operationImg/btn_type1.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/operationImg/btn_type5.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/operationImg/btn_type4.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/operationImg/btn_type3.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/operationImg/btn_type2.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/operationImg/btn_type6.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
 </res>
