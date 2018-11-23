@@ -68,9 +68,9 @@ module ui.game.view {
 		public huBtn:Laya.Image;
 		public gangBtn:Laya.Image;
 		public pengBtn:Laya.Image;
-		public chuBtn:Laya.Image;
+		public chiBtn:Laya.Image;
 
-        public static  uiView:any ={"type":"View","props":{"width":621,"height":109},"child":[{"type":"Image","props":{"y":1,"x":468,"var":"quitBtn","skin":"game/operationImg/btn_type1.png"}},{"type":"Image","props":{"y":0,"x":352,"var":"huBtn","skin":"game/operationImg/btn_type5.png"}},{"type":"Image","props":{"y":1,"x":235,"var":"gangBtn","skin":"game/operationImg/btn_type4.png"}},{"type":"Image","props":{"y":1,"x":118,"var":"pengBtn","skin":"game/operationImg/btn_type3.png"}},{"type":"Image","props":{"y":1,"x":1,"var":"chuBtn","skin":"game/operationImg/btn_type2.png"}}]};
+        public static  uiView:any ={"type":"View","props":{"width":621,"height":109},"child":[{"type":"Image","props":{"y":1,"x":468,"var":"quitBtn","skin":"game/operationImg/btn_type1.png"}},{"type":"Image","props":{"y":0,"x":352,"var":"huBtn","skin":"game/operationImg/btn_type5.png"}},{"type":"Image","props":{"y":1,"x":235,"var":"gangBtn","skin":"game/operationImg/btn_type4.png"}},{"type":"Image","props":{"y":1,"x":118,"var":"pengBtn","skin":"game/operationImg/btn_type3.png"}},{"type":"Image","props":{"y":1,"x":1,"var":"chiBtn","skin":"game/operationImg/btn_type2.png"}}]};
         constructor(){ super()}
         createChildren():void {
         
