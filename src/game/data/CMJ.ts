@@ -86,18 +86,21 @@ module MjGame{
 			var tempArr:Array<number>;
 			var tempPai:StPAI;
 			var count:number = 0;
-			var paiValue:number = 0;
+			var paiCount:number = 0;
 			for (var i:number = 0; i < GlobalConfig.CARD_TYPE_NUM; i++) 
 			{
 				tempArr = this.m_MyPAIVec[i];
-				for (var j:number = 1; j < GlobalConfig.CARD_VALUE_NUM; j++) {
-					paiValue = tempArr[j];
-					count = count + paiValue;
-					if (count >= pos) {
-						tempPai = new StPAI();
-						tempPai.m_Type = i;
-						tempPai.m_Value = j;
-						return tempPai;
+				if (tempArr[0] > 0)
+				{
+					for (var j:number = 1; j < GlobalConfig.CARD_VALUE_NUM; j++) {
+						paiCount = tempArr[j];
+						count = count + paiCount;
+						if (count >= pos) {
+							tempPai = new StPAI();
+							tempPai.m_Type = i;
+							tempPai.m_Value = j;
+							return tempPai;
+						}
 					}
 				}
 			}
@@ -107,18 +110,20 @@ module MjGame{
 		getPaiPos(pai:StPAI):number
 		{
 			var tempArr:Array<number>;
-			var tempPai:StPAI;
 			var count:number = 0;
 			for (var i:number = 0; i < GlobalConfig.CARD_TYPE_NUM; i++) 
 			{
 				tempArr = this.m_MyPAIVec[i];
-				for (var j:number = 0; j < tempArr.length; j++) 
+				if (tempArr[0] > 0)
 				{
-					if(tempPai.m_Type == pai.m_Type && tempPai.m_Value == pai.m_Value)
+					for (var j:number = 1; j < GlobalConfig.CARD_VALUE_NUM; j++) 
 					{
-						return count;
+						if(i == pai.m_Type && j == pai.m_Value)
+						{
+							return count;
+						}
+						count ++;
 					}
-					count ++;
 				}
 			}
 			return -1;
@@ -294,7 +299,7 @@ module MjGame{
 		}
 		
 		//吃牌  
-		doChiPai(p_iIndex:number,pai:StPAI):void
+		doChiPai(p_iIndex:number,pai:StPAI):boolean
 		{   
 			this.addPai(pai,false);  
 			var tempCHI:StCHI;
@@ -307,9 +312,10 @@ module MjGame{
 					this.delPai(tempCHI.getPai(2),false);  
 					this.delPai(tempCHI.getPai(3),false);  
 					this.m_ChiPAIVec.push(tempCHI);
-					break;  
+					return true;  
 				}  
 			}  
+			return false;
 		} 
 		
 		//碰牌  
@@ -335,7 +341,7 @@ module MjGame{
 			return false;  
 		}  
 		//碰牌  
-		doPengPai(pai:StPAI):void
+		doPengPai(pai:StPAI):boolean
 		{  
 			this.addPai(pai,false);
 			var tempPai:StPAI = null;
@@ -348,9 +354,10 @@ module MjGame{
 					this.delPai(tempPai, false);
 					this.delPai(tempPai, false);
 					this.m_PengPAIVec.push(tempPai);
-					break;
+					return true;
 				}
 			}
+			return false;
 		}  
 		
 		doPengPaiServer(pai:StPAI):void
@@ -438,7 +445,7 @@ module MjGame{
 			return false;  
 		}  
 		//杠牌  
-		doGangPai(pai:StPAI):void  
+		doGangPai(pai:StPAI):boolean  
 		{  
 			var tempPai:StPAI = null;
 			for (var i:number = 0; i < this.m_TempGangPAIVec.length; i++) 
@@ -458,12 +465,13 @@ module MjGame{
 						if (st.m_Type == tempPai.m_Type && st.m_Value == tempPai.m_Value) 
 						{
 							this.m_PengPAIVec.splice(j,1);
-							break;
+							return true;
 						}
 					}
-					break;
+					return true;
 				}
 			}
+			return false;
 		}  
 		
 		//杠牌  
@@ -510,7 +518,7 @@ module MjGame{
 		//检测胡  
 		checkHU(pai:StPAI,isSelfFetch:boolean = false):boolean
 		{  
-			console.log("当前抓的牌为：",this.cmjManager.traceSinglePai(pai.m_Type,pai.m_Value));
+			// console.log("当前抓的牌为：",this.cmjManager.traceSinglePai(pai.m_Type,pai.m_Value));
 			this.addPai(pai,false,isSelfFetch);
 			var flag:boolean = false;
 			var hunPai:StPAI = this.cmjManager.getHunPai();
@@ -524,17 +532,6 @@ module MjGame{
 			}
 			this.delPai(pai,false);
 			return flag;
-		}  
-		
-		//检测是否胡牌  
-		checkAllPai(pai:StPAI = null):boolean
-		{  
-			//检测是否平胡  
-			if(this.checkHU(pai))  
-			{  
-				return true;  
-			}  
-			return false;  
 		}  
 		
 		getChiPai():StCHI

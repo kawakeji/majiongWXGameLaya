@@ -21,7 +21,7 @@ module MjGame{
             var resUrl:string = this.resBasePathArr[this.cardPos];
             resUrl = resUrl + GlobalConfig.GetPaiPrefixByType(stPai.m_Type) + stPai.m_Value + ".png";
 
-			this.card.loadImage(resUrl);
+			this.card.skin = resUrl;
             this.setCardPos(startX,startY,index);
 		}
 
@@ -43,7 +43,10 @@ module MjGame{
                     startY = startY - 61 * rowInx;
                 }
                 startX = startX + offW * index;
-                this.parent.setChildIndex(this,index);
+                if (index < this.parent.numChildren)
+                {
+                    this.parent.setChildIndex(this,index);
+                }  
             }
             else if(this.cardPos == GlobalConfig.RIGHT_POS)
             {
@@ -83,6 +86,8 @@ module MjGame{
                     startX = startX + 43 * rowInx;
                 }
                 startY = startY + offH * index;
+                // var childNum = this.parent.numChildren;
+                // this.parent.setChildIndex(this,childNum - index -1);
             }
             this.card.pos(startX,startY);
         }

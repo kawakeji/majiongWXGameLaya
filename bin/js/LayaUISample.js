@@ -69,6 +69,7 @@ Laya.MiniAdpter.init();
 Laya.init(GlobalConfig.DESK_WIDHT, GlobalConfig.DESK_HEIGHT, WebGL);
 //激活资源版本控制
 Laya.ResourceVersion.enable("version.json", Handler.create(null, beginLoad), Laya.ResourceVersion.FILENAME_VERSION);
+Laya.stage.screenMode = Laya.Stage.SCREEN_HORIZONTAL;
 function beginLoad() {
     Laya.loader.load(["res/atlas/comp.atlas", "res/atlas/game/ui.atlas",
         "res/atlas/game/clock.atlas", "res/atlas/game/operationImg.atlas", "res/atlas/game/direction.atlas",

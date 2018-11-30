@@ -10,7 +10,7 @@ module MjGame{
 			this.parentView = parentView;
 			this.cardPos = cardPos;
 		}
-		createOutCard(cmj:CMJ)
+		updateOutCard(cmj:CMJ)
 		{
             var startX:number = 0;//this.addChiPengGangPai(cmj);
             var startY:number = 0;
@@ -21,7 +21,7 @@ module MjGame{
 				stPai = cmj.m_OutPAIVec[i];
 				card = new OutCard();
 				card.cardPos = this.cardPos;
-				this.parentView.addChildAt(card,i);
+				this.parentView.addChild(card);
 				card.setData(stPai,startX,startY,i);
 			}
 		}

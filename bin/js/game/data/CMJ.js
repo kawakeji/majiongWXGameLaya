@@ -53,17 +53,19 @@ var MjGame;
             var tempArr;
             var tempPai;
             var count = 0;
-            var paiValue = 0;
+            var paiCount = 0;
             for (var i = 0; i < MjGame.GlobalConfig.CARD_TYPE_NUM; i++) {
                 tempArr = this.m_MyPAIVec[i];
-                for (var j = 1; j < MjGame.GlobalConfig.CARD_VALUE_NUM; j++) {
-                    paiValue = tempArr[j];
-                    count = count + paiValue;
-                    if (count >= pos) {
-                        tempPai = new StPAI();
-                        tempPai.m_Type = i;
-                        tempPai.m_Value = j;
-                        return tempPai;
+                if (tempArr[0] > 0) {
+                    for (var j = 1; j < MjGame.GlobalConfig.CARD_VALUE_NUM; j++) {
+                        paiCount = tempArr[j];
+                        count = count + paiCount;
+                        if (count >= pos) {
+                            tempPai = new StPAI();
+                            tempPai.m_Type = i;
+                            tempPai.m_Value = j;
+                            return tempPai;
+                        }
                     }
                 }
             }
@@ -71,15 +73,16 @@ var MjGame;
         };
         CMJ.prototype.getPaiPos = function (pai) {
             var tempArr;
-            var tempPai;
             var count = 0;
             for (var i = 0; i < MjGame.GlobalConfig.CARD_TYPE_NUM; i++) {
                 tempArr = this.m_MyPAIVec[i];
-                for (var j = 0; j < tempArr.length; j++) {
-                    if (tempPai.m_Type == pai.m_Type && tempPai.m_Value == pai.m_Value) {
-                        return count;
+                if (tempArr[0] > 0) {
+                    for (var j = 1; j < MjGame.GlobalConfig.CARD_VALUE_NUM; j++) {
+                        if (i == pai.m_Type && j == pai.m_Value) {
+                            return count;
+                        }
+                        count++;
                     }
-                    count++;
                 }
             }
             return -1;
@@ -235,9 +238,10 @@ var MjGame;
                     this.delPai(tempCHI.getPai(2), false);
                     this.delPai(tempCHI.getPai(3), false);
                     this.m_ChiPAIVec.push(tempCHI);
-                    break;
+                    return true;
                 }
             }
+            return false;
         };
         //碰牌  
         CMJ.prototype.checkPengPai = function (pai) {
@@ -269,9 +273,10 @@ var MjGame;
                     this.delPai(tempPai, false);
                     this.delPai(tempPai, false);
                     this.m_PengPAIVec.push(tempPai);
-                    break;
+                    return true;
                 }
             }
+            return false;
         };
         CMJ.prototype.doPengPaiServer = function (pai) {
             this.addPai(pai, false);
@@ -358,12 +363,13 @@ var MjGame;
                         var st = this.m_PengPAIVec[j];
                         if (st.m_Type == tempPai.m_Type && st.m_Value == tempPai.m_Value) {
                             this.m_PengPAIVec.splice(j, 1);
-                            break;
+                            return true;
                         }
                     }
-                    break;
+                    return true;
                 }
             }
+            return false;
         };
         //杠牌  
         CMJ.prototype.doGangPaiServer = function (pai) {
@@ -399,7 +405,7 @@ var MjGame;
         //检测胡  
         CMJ.prototype.checkHU = function (pai, isSelfFetch) {
             if (isSelfFetch === void 0) { isSelfFetch = false; }
-            console.log("当前抓的牌为：", this.cmjManager.traceSinglePai(pai.m_Type, pai.m_Value));
+            // console.log("当前抓的牌为：",this.cmjManager.traceSinglePai(pai.m_Type,pai.m_Value));
             this.addPai(pai, false, isSelfFetch);
             var flag = false;
             var hunPai = this.cmjManager.getHunPai();
@@ -411,15 +417,6 @@ var MjGame;
             }
             this.delPai(pai, false);
             return flag;
-        };
-        //检测是否胡牌  
-        CMJ.prototype.checkAllPai = function (pai) {
-            if (pai === void 0) { pai = null; }
-            //检测是否平胡  
-            if (this.checkHU(pai)) {
-                return true;
-            }
-            return false;
         };
         CMJ.prototype.getChiPai = function () {
             return this.m_ChiPAIVec[this.m_ChiPAIVec.length - 1];

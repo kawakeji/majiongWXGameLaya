@@ -1,6 +1,3 @@
-/*
-* 游戏桌面场景;
-*/
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14,11 +11,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-// import {StPAI} from '../data/StPAI'
-// import {CMJ} from './data/CMJ'
-// import {CMJManager} from '../core/CMJManager'
-// import {CMJ} from '../data/CMJ'
-var Dictionary = MjGame.Dictionary;
+/*
+* 游戏桌面场景;
+*/
 var MjGame;
 (function (MjGame) {
     var DeskScene = /** @class */ (function (_super) {
@@ -26,12 +21,12 @@ var MjGame;
         function DeskScene() {
             var _this = _super.call(this) || this;
             _this.createCardMainView();
+            _this.scale(0.2, 0.2);
             return _this;
         }
         DeskScene.prototype.createCardMainView = function () {
             this.cardMainView = new MjGame.CardMainView(this);
-            this.operationView = new MjGame.OperationView();
-            this.addChild(this.operationView);
+            var socket = new MjGame.NetWorkSocket();
         };
         return DeskScene;
     }(ui.game.scene.DeskSceneUI));

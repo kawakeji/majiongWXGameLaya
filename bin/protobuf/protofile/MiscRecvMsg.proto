@@ -1,0 +1,8 @@
+syntax = "proto2";
+package message;
+
+//登陆协议
+message LoginCMsg {
+	required string username = 1; //账户名
+	required int32 roomId = 2;
+}

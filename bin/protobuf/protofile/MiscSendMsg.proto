@@ -1,0 +1,18 @@
+syntax = "proto2";
+package message;
+
+//登陆成功结束协议
+message LoginSuccessEndSMsg {
+	required bool reconnect = 1; //是否重连
+	required int64 systemTime = 2; //系统时间
+}
+
+//登陆成功协议
+message LoginSuccessSMsg {
+	optional int64 playerId = 1;
+}
+
+// 返回给客户端的结果类型(例如金币不足、钻石不足等)
+message ResultTypeSMsg {
+	required int32 type = 1;
+}

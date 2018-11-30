@@ -1,0 +1,40 @@
+syntax = "proto2";
+package message;
+
+message IntMsg {
+	required int32 value = 1; //int 参数
+}
+
+message IntListMsg {
+	repeated int32 value = 1; //int 参数
+}
+
+message LongListMsg {
+	repeated double value = 1;
+}
+
+message BoolMsg {
+	required int32 value = 1;
+}
+
+message LongMsg {
+	required double value = 1; //long
+}
+
+message Int2Msg {
+	required int32 value1 = 1;
+	required int32 value2 = 2;
+}
+
+message StringMsg {
+	required string value = 1;
+}
+
+message StringListMsg {
+	repeated string value = 1;
+}
+
+message BytesMsg {
+	required bytes value = 1;
+}
+

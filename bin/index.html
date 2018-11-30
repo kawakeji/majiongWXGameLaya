@@ -41,6 +41,8 @@
 	<!-- 物理引擎matter.js -->
 	<!--用户自定义顺序文件添加到这里-->
 	<!--jsfile--Custom-->
+	<script type="text/javascript" src="protobuf/library/protobuf-library.js"></script>
+	<script type="text/javascript" src="protobuf/bundles/protobuf-bundles.js"></script>
 	<script src="js/game/data/StGoodInfo.js"></script>
 	<script src="js/game/config/GlobalConfig.js"></script>
 	<script src="js/game/utils/util.js"></script>
@@ -61,14 +63,19 @@
 	<!--自定义的js(src文件夹下)文件自动添加到下面jsfile模块标签里面里-->
 	<!--删除标签，ide不会自动添加js文件，请谨慎操作-->
 	<!--jsfile--startTag-->
+	<script src="js/game/socket/NetWorkSocket.js"></script>
 	<script src="js/game/module/card/OutCardCm.js"></script>
 	<script src="js/game/module/card/HandCardCm.js"></script>
 	<script src="js/game/module/card/CardMainView.js"></script>
+	<script src="js/game/event/ClientHandEvent.js"></script>
+	<script src="js/game/event/BaseEvent.js"></script>
 	<script src="js/game/data/PlayerVO.js"></script>
 	<script src="js/game/core/SinglePlayManager.js"></script>
 	<script src="js/game/core/CheckHUBase.js"></script>
+	<script src="js/game/manager/EventManager.js"></script>
 	<script src="js/game/module/card/HandCard.js"></script>
 	<script src="js/game/module/card/OutCard.js"></script>
+	<script src="js/game/module/operation/CHICards.js"></script>
 	<script src="js/game/module/operation/OperationView.js"></script>
 	<!--jsfile--endTag-->
 

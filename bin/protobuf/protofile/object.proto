@@ -1,0 +1,84 @@
+syntax = "proto2";
+package message;
+import "base.proto";
+
+//玩家信息  （單獨 update）
+message PlayerBMsg {
+	required double playerId = 1; //playerId
+	required string nickName = 2; //昵称
+	required int32 roomId = 3; //房间ID
+	required int32 position = 4; //房间的位置
+}
+
+message AllPlayerCMJBMsg{
+	required CMJBMsg pos1 = 1;
+	required CMJBMsg pos2 = 2;
+	required CMJBMsg pos3 = 3;
+	required CMJBMsg pos4 = 4;
+}
+
+message CMJBMsg {
+	repeated IntListMsg mMyPAIVec = 1;//玩家的麻将手牌
+	required bool mDealer = 9;//是否是庄家
+}
+
+message AddPaiBMsg {
+	required double playerId = 1;
+	required StPAIBMsg addPai = 2;
+}
+
+message DelPaiBMsg{
+	required double playerId = 1;
+	required StPAIBMsg delPai = 2;
+}
+
+message ChiPaiBMsg{
+	required double playerId = 1;
+	required StCHIBMsg stChi = 2;
+}
+
+message PengPaiBMsg{
+	required double playerId = 1;
+	required StPAIBMsg stPai = 2;
+}
+
+message GangPaiBMsg{
+	required double playerId = 1;
+	required StPAIBMsg stPai = 2;
+}
+
+message HuPaiBMsg{
+	required double playerId = 1;
+	optional StGoodInfoBMsg goodInfo = 2;
+	optional StPAIBMsg stPai = 3;
+}
+
+message OperationBMsg{
+	required double playerId = 1;
+	required int32 operationType = 2;
+	optional StPAIBMsg stPai = 3;
+	optional bool isSelfHand = 4;//是否是自摸
+}
+
+//单个麻将
+message StPAIBMsg {
+	required int32 mType = 1;
+	required int32 mValue = 2;
+	optional bool isGang = 3;//是否是杠上来的牌
+}
+
+message StCHIBMsg {
+	required int32 mType = 1; // 牌类型
+	required int32 mValue1 = 2; // 牌字
+	required int32 mValue2 = 3; // 牌字
+	required int32 mValue3 = 4; // 牌字
+	required int32 byChiIndex = 5;//被吃牌的索引
+}
+
+
+message StGoodInfoBMsg {
+	repeated int32 goodTypes = 1;
+	required int32 goodValue = 2;
+}
+
+

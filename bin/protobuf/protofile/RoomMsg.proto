@@ -1,0 +1,9 @@
+syntax = "proto2";
+package message;
+import "object.proto";
+
+//进入离开房间
+message PlayerOperationRoomMsg {
+	required bool isEnter = 1;//true 进入 false 离开
+	repeated PlayerBMsg player = 2; //玩家
+}
