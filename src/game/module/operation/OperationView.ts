@@ -10,13 +10,15 @@ module MjGame{
         tempChiPaiView:Laya.Box;
         curChiPaiIndex:number;
 		isCanDrag:boolean;
-		constructor(){
+		constructor()
+        {
 			super();
 			this.init();
 		}
+
 		init()
 		{
-			this.viewArr = [this.outBtn,this.chiBtn,this.pengBtn,this.gangBtn,this.huBtn,this.quitBtn];
+			this.viewArr = [this.huBtn,this.gangBtn,this.pengBtn,this.chiBtn,this.quitBtn];
 			for (var btn of this.viewArr) {
 				btn.on(Laya.Event.CLICK,this,this.onClickControl);
 			}
@@ -51,7 +53,6 @@ module MjGame{
 					{
 						this.hideAllBtn();
 						this.showChiView();
-						// EventManager.getInstance().event(ClientHandEvent.WAITING_OPERATION_CHI,[this.handCardCm.curChiPaiIndex]);
 					}
 					break;
 				}
@@ -84,8 +85,25 @@ module MjGame{
 				}
 				case this.quitBtn:
 				{
+                    var oType:number = Constants.O_TYPE_NULL;
+					if(this.huBtn.visible == true)
+					{
+						oType = Constants.O_TYPE_HU;
+					}
+					else if(this.gangBtn.visible == true)
+					{
+						oType = Constants.O_TYPE_GANG;
+					}
+					else if(this.pengBtn.visible == true)
+					{
+						oType = Constants.O_TYPE_PENG;
+					}
+					else if(this.chiBtn.visible == true)
+					{
+						oType = Constants.O_TYPE_CHI;
+					}
 					this.hideAllBtn();
-					EventManager.getInstance().event(ClientHandEvent.QUIT_OPERATION,[ClientHandEvent.QUIT_OPERATION]);
+					EventManager.getInstance().event(ClientHandEvent.QUIT_OPERATION,[ClientHandEvent.QUIT_OPERATION,oType]);
 					break;
 				}
 				default:
@@ -110,8 +128,35 @@ module MjGame{
         showOutBtn()
         {
 			this.isCanDrag = true;
-			this.outBtn.visible = false;
+			// this.outBtn.visible = false;
             // this.refreshPos();
+        }
+
+        showView(operations:any)
+        {
+            this.isCanDrag = false;
+            if (operations[Constants.O_TYPE_DA])
+            {
+                this.showOutBtn();
+                this.quitBtn.visible = false;
+            }
+            else
+            {
+                for (var oType = 1; oType < 5; oType++) 
+                {
+                    var isExist:boolean = operations[oType];
+                    if (isExist)
+                    {
+                        this.viewArr[oType-1].visible = true;
+                        this.quitBtn.visible = true;
+                    }
+                    else
+                    {
+                        this.viewArr[oType-1].visible = false;
+                    }
+                }
+            }
+            this.refreshPos();
         }
 
 		showHuBtn(returnVal:boolean)
@@ -182,29 +227,33 @@ module MjGame{
 
 		showChiView()
 		{
-			// var t_Chi = new StCHI();
-			// t_Chi.m_Type = 1;
-			// t_Chi.m_Value1 = Number(2);
-			// t_Chi.m_Value2 = Number(3);
-			// t_Chi.m_Value3 = 4;
-			// t_Chi.byChiIndex = 3;
-			// this.handCardCm.cmj.m_TempChiPAIVec.push(t_Chi);
-			if(this.handCardCm.cmj.getChiPaiNum() > 0)
+            let chiPaiNum:number = this.handCardCm.cmj.getChiPaiNum()
+			if(chiPaiNum > 1)
             {
                 this.tempChiPaiView.removeChildren();
                 var tempStChi:StCHI;
                 var chiCards:CHICards;
-                for (var i:number = 0; i < this.handCardCm.cmj.getChiPaiNum(); i++) 
+                for (var i:number = 0; i < chiPaiNum; i++) 
                 {
                     chiCards = new CHICards();
 					this.tempChiPaiView.addChild(chiCards);
                     tempStChi = this.handCardCm.cmj.m_TempChiPAIVec[i];
                     chiCards.setData(tempStChi);
-                    chiCards.x = i * chiCards.width + 10;
+                    chiCards.x = i * chiCards.width - 10;
                     chiCards.index = i;
                     chiCards.on(Laya.Event.CLICK,this,this.onClickChiCards);                    
                 }
+
+                var quitChiBtn:Laya.Image = new Laya.Image;
+                quitChiBtn.skin = "game/operationImg/btn_type1.png";
+                quitChiBtn.x = chiCards.x + chiCards.width;
+                quitChiBtn.on(Laya.Event.CLICK,this,this.onQuitChiBtn);
+                this.tempChiPaiView.addChild(quitChiBtn);
 			}
+            else if(chiPaiNum > 0)
+            {
+                EventManager.getInstance().event(ClientHandEvent.WAITING_OPERATION_CHI,[ClientHandEvent.WAITING_OPERATION_CHI,0]);
+            }
 		}
 		
         onClickChiCards(evt:Event):void
@@ -213,6 +262,13 @@ module MjGame{
 			this.curChiPaiIndex = selectedChiCards.index;
 			EventManager.getInstance().event(ClientHandEvent.WAITING_OPERATION_CHI,[ClientHandEvent.WAITING_OPERATION_CHI,this.curChiPaiIndex]);
 			this.tempChiPaiView.removeChildren();
+        }
+
+        onQuitChiBtn()
+        {
+            this.tempChiPaiView.removeChildren();
+            this.hideAllBtn();
+            EventManager.getInstance().event(ClientHandEvent.QUIT_OPERATION,[ClientHandEvent.QUIT_OPERATION,Constants.O_TYPE_CHI]);
         }
 
 		refreshPos():void

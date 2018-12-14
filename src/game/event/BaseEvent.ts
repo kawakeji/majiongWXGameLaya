@@ -23,6 +23,10 @@ module MjGame{
 		 * 玩家自己进入房间 
 		 */		
 		public static SELF_ENTER_ROOM:string = "self_enter_room";
+        /**
+		 * 解散房间 
+		 */		
+        public static DISBAND_ROOM:string = "disband_room";
 		/**
 		 * 登录失败
 		 */		

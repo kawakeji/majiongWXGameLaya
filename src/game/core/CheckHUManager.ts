@@ -1,7 +1,5 @@
 module MjGame
 {
-	import CheckHUBase = MjGame.CheckHUBase;
-
 	export class CheckHUManager
 	{
 		cmjManager:CMJManager = CMJManager.getInstance();

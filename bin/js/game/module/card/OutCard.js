@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -18,7 +18,7 @@ var MjGame;
 (function (MjGame) {
     var OutCard = /** @class */ (function (_super) {
         __extends(OutCard, _super);
-        function OutCard() {
+        function OutCard(outScale) {
             var _this = _super.call(this) || this;
             _this.downResBasePath = 'game/outCard/buttom_top/';
             _this.rightResBasePath = "game/outCard/right/";
@@ -26,6 +26,12 @@ var MjGame;
             _this.leftResBasePath = "game/outCard/left/";
             _this.resBasePathArr = [];
             _this.cardPos = 0;
+            _this.outScale = 0.65;
+            _this.startX = 0;
+            _this.startY = 0;
+            if (outScale) {
+                _this.outScale = outScale;
+            }
             _this.resBasePathArr = [_this.downResBasePath, _this.rightResBasePath, _this.upResBasePath, _this.leftResBasePath];
             return _this;
         }
@@ -44,7 +50,7 @@ var MjGame;
                 index = Math.floor(index % 15);
                 offW = 55;
                 offH = 0;
-                this.scale(0.65, 0.65);
+                this.scale(this.outScale, this.outScale);
                 if (rowInx >= 1) {
                     startY = startY - 61 * rowInx;
                 }
@@ -70,7 +76,7 @@ var MjGame;
                 index = Math.floor(index % 15);
                 offW = -55;
                 offH = 0;
-                this.scale(0.65, 0.65);
+                this.scale(this.outScale, this.outScale);
                 if (rowInx >= 1) {
                     startY = startY + 61 * rowInx;
                 }
@@ -85,10 +91,10 @@ var MjGame;
                     startX = startX + 43 * rowInx;
                 }
                 startY = startY + offH * index;
-                // var childNum = this.parent.numChildren;
-                // this.parent.setChildIndex(this,childNum - index -1);
             }
             this.card.pos(startX, startY);
+            this.startX = startX + offW;
+            this.startY = startY + offH;
         };
         return OutCard;
     }(ui.game.view.OutCardUI));

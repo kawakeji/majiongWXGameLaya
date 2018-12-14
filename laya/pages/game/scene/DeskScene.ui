@@ -2,7 +2,7 @@
     "x":0,
     "type":"View",
     "selectedBox":1,
-    "selecteID":32,
+    "selecteID":39,
     "props":{"width":1136,"sceneColor":"#064030","height":640},
     "nodeParent":-1,
     "label":"View",
@@ -15,7 +15,7 @@
         {
             "x":15,
             "type":"Image",
-            "props":{"y":0,"x":0,"visible":true,"skin":"game/bg.png"},
+            "props":{"y":0,"x":0,"visible":true,"skin":"game/game/loginbg.png"},
             "nodeParent":1,
             "label":"Image",
             "isDirectory":false,
@@ -86,7 +86,7 @@
         {
             "x":15,
             "type":"View",
-            "props":{"y":121,"x":942,"width":59,"var":"rightView","height":398},
+            "props":{"y":483,"x":942,"width":59,"var":"rightView","height":9},
             "nodeParent":1,
             "label":"View(rightView)",
             "isOpen":true,
@@ -150,6 +150,19 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":38,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Label",
+            "props":{"var":"hunPai","text":"label","fontSize":30},
+            "nodeParent":1,
+            "label":"Label(hunPai)",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":39,
             "child":[
                 ]
         }],

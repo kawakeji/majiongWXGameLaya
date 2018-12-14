@@ -35,7 +35,10 @@ P E466EB1C vslider$bar.png
 P 2BFF7046 vslider.png
 D game
 R 6ADE54BC bg.png
+R B4552A8C hallLayer_bg.png
+R 97C3675E loginbg.png
 R 64719AA7 sc_room_bg.jpg
+D game/anim
 D game/animation
 D game/bgCard
 P 4261ECEA an_leftRight.png
@@ -92,6 +95,12 @@ P 16DE4AE5 xi_right.png
 P 3D88C799 xi_right_bg.png
 P 853D0A57 xi_top.png
 P 10E11F69 xi_top_bg.png
+D game/hall
+P 6D6341B7 btn_craeteRoom.png
+P 8750D589 btn_enterRoom.png
+P CD36D2C3 createRoomBG.png
+P 405C0D7E enterRoomBG.png
+P B3AF389E top_bg.png
 D game/handCard
 P 9DB610C3 feng_1.png
 P 6F0160C0 feng_2.png
@@ -127,6 +136,26 @@ P 6D365EBF w_9.png
 P 1A22356C zhong_1.png
 P 2CF9E3C7 zhong_2.png
 P 5578B19E zhong_3.png
+D game/head
+P 0B214217 kuang_on.png
+P CB5974AF local_head_01.png
+P D9538A05 local_head_02.png
+P 3F25FA37 local_head_03.png
+P 4772FD26 local_head_04.png
+P 1D34B0AF local_head_05.png
+P 50F4C3B0 local_head_06.png
+P B816E13C local_head_07.png
+P E2F47412 local_head_08.png
+P 423FDEDC local_head_09.png
+P B9EBEAE4 local_head_10.png
+P 3F63D0A3 local_head_11.png
+P D0276041 local_head_12.png
+P 4C91E319 local_head_13.png
+P 89BE93AB local_head_14.png
+P 6130F9A3 local_head_15.png
+P 75D5DDB2 local_head_16.png
+P 7A59EC93 local_head_17.png
+P DC67C3C6 local_head_18.png
 D game/operationImg
 P 79FCC256 4tin.png
 P DBB50D7D btn_type1.png
@@ -138,17 +167,163 @@ P 2728192C btn_type6.png
 P 09D16F39 head_banker.png
 P 27EDECAE win.png
 D game/outCard
+D game/result
+P 2C92C709 btn-1.png
+P 819CCD86 btn-2.png
+P 36EDBDF9 di.png
+R A55A8702 futura-48.fnt
+P 74C62E28 futura-48.png
+P 12A02926 headKuang.png
+P E5BEF9FF normalHead.png
+P 79F1DDE5 win_di.png
+D game/roomNumInput
+P 36D4761C 0.png
+P EC00505A 1.png
+P 29AF0996 2.png
+P 40A4FCAE 3.png
+P D6329DFF 4.png
+P EE8DC410 5.png
+P 32583298 6.png
+P C7D1FCFB 7.png
+P 44529083 8.png
+P 2593E21F 9.png
+P A6AA2C43 bg.png
+P C0FEA48A btn_close.png
+P 9129806A chongshu.png
+R A9A446E8 meng.png
+P 732D71B8 shanchu.png
 D game/ui
-P 1DA7B64A head_trust.png
-P 6E0BDC0E hh_li_laizi.png
-P B774430C left_gang_lai.png
-P C70F375C metop_gang_lai.png
-P 6E0BDC0E metop_lai.png
+P 5D00C60C btn_chiType1.png
+P 6C1E8AFE btn_guest.png
+P 6F4D1107 btn_start.png
 P 909FC4D4 mj_bg_hun.png
-P A22A0D67 right_gang_lai.png
-P BDE025DE right_lai.png
+P 5AB76680 room_btn.png
+P BDDD1CF8 word_ready.png
+D game/anim/banker
+P 915BBC47 banker_1.png
+P AFCF43F9 banker_2.png
+P B2A94654 banker_3.png
+P E4A7078E banker_4.png
+P C5A09230 banker_5.png
+P 4E5599F6 banker_6.png
+P E5540656 banker_7.png
+P E889FF6C banker_8.png
+D game/anim/chi
+P 55C22703 chi_1.png
+P B2727DE0 chi_10.png
+P 5224F8EF chi_11.png
+P EBF27D3C chi_12.png
+P 556151C5 chi_13.png
+P 0CC0BFD1 chi_14.png
+P 49382FCB chi_15.png
+P C1C0AF7C chi_2.png
+P D0E99ED2 chi_3.png
+P AB6CF82F chi_4.png
+P ABF5398D chi_5.png
+P E3E7244E chi_6.png
+P E5C16165 chi_7.png
+P 82C84EF2 chi_8.png
+P 4DE502D5 chi_9.png
+D game/anim/chip
+P 49FC5D3E anim_1.png
+P AD234337 anim_10.png
+P 6E482EB5 anim_12.png
+P F911DA1A anim_13.png
+P FBF4EDAD anim_2.png
+P 13C58219 anim_3.png
+P 929917FA anim_4.png
+P FAC2F27D anim_5.png
+P C7FFD992 anim_6.png
+P F2F7EA1A anim_7.png
+P 04DF08E4 anim_8.png
+P F2F7EA1A anim_9.png
+P 59A5E4EF shaizi_1.png
+P 55B15BA0 shaizi_2.png
+P CAE70418 shaizi_3.png
+P FF78926F shaizi_4.png
+P 82421151 shaizi_5.png
+P 87269AB8 shaizi_6.png
+D game/anim/drawn
+P FAC9ABA1 drawn_1.png
+P 5DE6BD36 drawn_2.png
+P F1A876E5 drawn_3.png
+P FF016D3B drawn_4.png
+P 8996AB7D drawn_5.png
+D game/anim/gang
+P 3954F7B5 gang_1.png
+P E6FE5E5F gang_10.png
+P 5C42E4A5 gang_11.png
+P 6EBF7BC9 gang_2.png
+P 0EBE0A90 gang_3.png
+P D19B05C7 gang_4.png
+P D30A7582 gang_5.png
+P 891F10E0 gang_6.png
+P 4A3351F9 gang_7.png
+P 158020C4 gang_8.png
+P 06E8041D gang_9.png
+D game/anim/hu
+P B0E87D41 hu_1.png
+P F347BD1E hu_10.png
+P C5BE12E8 hu_11.png
+P 559AB349 hu_2.png
+P C3B3091D hu_3.png
+P 5ED8B99A hu_4.png
+P 2A5377C5 hu_5.png
+P C69865C0 hu_6.png
+P 9017D18C hu_7.png
+P 23A7DD81 hu_8.png
+P 9D5D62B1 hu_9.png
+D game/anim/mission
+P F1882653 mis_1.png
+P 339F8EB4 mis_10.png
+P F26B8F22 mis_2.png
+P B4A06364 mis_3.png
+P 369BF747 mis_4.png
+P E95BB6E5 mis_5.png
+P A7894B22 mis_6.png
+P 729F05F5 mis_7.png
+P EC313AED mis_8.png
+P D181DCCF mis_9.png
+D game/anim/open
+P 15EDE5CD open_1.png
+P B3CEB0AE open_2.png
+P 7BCBC89B open_3.png
+P C22C3CB2 open_4.png
+P 7133FFA5 open_5.png
+P 5FCDFA77 open_6.png
+P 854A4CCB open_7.png
+P A1C5C733 open_8.png
+D game/anim/peng
+P 3D321386 peng_1.png
+P 051B8932 peng_10.png
+P 3D321386 peng_2.png
+P 12BB4917 peng_3.png
+P 20FB73C5 peng_4.png
+P 8DFC70A5 peng_5.png
+P C0D8BAB3 peng_6.png
+P D8109318 peng_7.png
+P D6796EEC peng_8.png
+P 3C1C4E38 peng_9.png
+D game/anim/pointer
+P A5F10EF5 pointer_1.png
+P BE07BCC5 pointer_2.png
+P 3E20A17C pointer_3.png
+P F6AAEA78 pointer_4.png
+P F55CA1FD pointer_5.png
+P 3F362B6F pointer_6.png
+D game/anim/ting
+P 0F8CC31C ting_1.png
+P 4979E199 ting_10.png
+P 2F98B5E9 ting_2.png
+P 0D53B7DC ting_3.png
+P 25B9659D ting_4.png
+P 8C56C18D ting_5.png
+P 8C74F6BD ting_6.png
+P FCB420A5 ting_7.png
+P 675CDF4B ting_8.png
+P 78B7A49B ting_9.png
 D game/animation/1pen
-R 94CDD19E 1pen.png
+P 94CDD19E 1pen.png
 R 43819D8B 1pen.sk
 D game/outCard/buttom_top
 P C7421003 feng_1.png

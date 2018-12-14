@@ -34,17 +34,12 @@ module MjGame{
         createPlayers():Array<PlayerVO>
         {
             var playerVOs = []
-            for (var index = 0; index < GlobalConfig.OTHER_PLAYER_NUM + 1; index++) 
+            for (var index = 0; index < GlobalConfig.MAX_MEMBER_NUM; index++) 
             {
                 var cmj = new CMJ();
                 var playerVO = new PlayerVO();
                 playerVO.cmj = cmj;
-                playerVO.isSelf = false; 
-                if (index == 0)
-                {
-                    playerVO.isSelf = true;
-                }
-                playerVO.nickName = 'pos' + index;
+                playerVO.username = 'pos' + index;
                 playerVO.position = index;
                 playerVO.roomId = 10001;
                 this.distributeCard(cmj);

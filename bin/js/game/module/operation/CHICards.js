@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -35,12 +35,12 @@ var MjGame;
             var nWidth = 0;
             var nHeight = 0;
             for (var j = 1; j <= 3; j++) {
-                tempPai = tempStChi.getPai(j);
+                tempPai = MjGame.util.getByChiPai(tempStChi, j);
                 tempCard = new MjGame.OutCard();
                 tempCard.cardPos = MjGame.GlobalConfig.DOWN_POS;
                 this.addChild(tempCard);
                 tempCard.setData(tempPai, 0, 0, j);
-                nWidth = nWidth + tempCard.width;
+                nWidth = nWidth + tempCard.card.width;
                 nHeight = tempCard.height;
                 // tempCard.x = (j -1) * (tempCard.width - 5);               
             }

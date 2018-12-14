@@ -7,7 +7,12 @@ module MjGame
 		
 		public static DESK_HEIGHT:number = 640;
 		
-		public static OTHER_PLAYER_NUM:number = 3;
+        public static MAX_MEMBER_NUM: number = 2;
+
+        //==================gate 服务器信息=================================
+        public static HOST:string  = '127.0.0.1';
+
+        public static PORT:number = 3010;
 		
 		//==================玩家的视图位置=================================
 		/**

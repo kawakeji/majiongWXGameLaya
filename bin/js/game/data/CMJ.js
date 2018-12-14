@@ -6,12 +6,12 @@ var MjGame;
     var CheckHunHuManager = MjGame.CheckHunHuManager;
     var CMJManager = MjGame.CMJManager;
     var CMJ = /** @class */ (function () {
-        function CMJ() {
+        function CMJ(cmjManager) {
             this.checkHuManager = CheckHUManager.getInstance();
             this.checkHunHuManager = CheckHunHuManager.getInstance();
-            this.cmjManager = CMJManager.getInstance();
             this.m_LastPAIIsSelf = false; // 最后一张牌的是否是自摸上来的
             this.fengChiConfig = {};
+            this.cmjManager = CMJManager.getInstance();
             this.init();
         }
         CMJ.prototype.init = function () {
@@ -31,8 +31,6 @@ var MjGame;
             this.m_GangPAIVec = new Array();
             this.m_HuPAIVec = new Array();
             this.m_TempChiPAIVec = new Array();
-            this.m_TempPengPAIVec = new Array();
-            this.m_TempGangPAIVec = new Array();
             this.fengChiConfig = {};
             this.fengChiConfig[1] = "2,3|2,4|3,4".split("|");
             this.fengChiConfig[2] = "1,3|1,4|3,4".split("|");
@@ -129,6 +127,9 @@ var MjGame;
                 this.m_OutPAIVec.push(pai);
             }
         };
+        CMJ.prototype.setHunPai = function (hunPai) {
+            this.cmjManager.setHunPai(hunPai);
+        };
         // 获取手牌癞子的数量
         CMJ.prototype.getHunPaiNum = function (hunPai) {
             var tempArr;
@@ -157,6 +158,7 @@ var MjGame;
         };
         // 获取吃牌的类型个数
         CMJ.prototype.getChiPaiNum = function () {
+            this.checkChiPai(this.cmjManager.curOperationPai);
             return this.m_TempChiPAIVec.length;
         };
         //吃牌 
@@ -220,11 +222,11 @@ var MjGame;
             return false;
         };
         CMJ.prototype.doChiPaiServer = function (stChi) {
-            var stPai = stChi.getPai(stChi.byChiIndex);
+            var stPai = MjGame.util.getByChiPai(stChi);
             this.addPai(stPai, false);
-            this.delPai(stChi.getPai(1), false);
-            this.delPai(stChi.getPai(2), false);
-            this.delPai(stChi.getPai(3), false);
+            this.delPai(MjGame.util.getByChiPai(stChi, 1), false);
+            this.delPai(MjGame.util.getByChiPai(stChi, 2), false);
+            this.delPai(MjGame.util.getByChiPai(stChi, 3), false);
             this.m_ChiPAIVec.push(stChi);
         };
         //吃牌  
@@ -234,9 +236,9 @@ var MjGame;
             for (var i = 0; i < this.m_TempChiPAIVec.length; i++) {
                 tempCHI = this.m_TempChiPAIVec[i];
                 if (i == p_iIndex) {
-                    this.delPai(tempCHI.getPai(1), false);
-                    this.delPai(tempCHI.getPai(2), false);
-                    this.delPai(tempCHI.getPai(3), false);
+                    this.delPai(MjGame.util.getByChiPai(tempCHI, 1), false);
+                    this.delPai(MjGame.util.getByChiPai(tempCHI, 2), false);
+                    this.delPai(MjGame.util.getByChiPai(tempCHI, 3), false);
                     this.m_ChiPAIVec.push(tempCHI);
                     return true;
                 }
@@ -247,7 +249,7 @@ var MjGame;
         CMJ.prototype.checkPengPai = function (pai) {
             var p_Type = pai.m_Type;
             var p_Value = pai.m_Value;
-            this.m_TempPengPAIVec = new Array();
+            var m_TempPengPAIVec = new Array();
             var tempArr = this.m_MyPAIVec[p_Type];
             var iSize = tempArr[p_Value];
             var t_Peng;
@@ -255,28 +257,32 @@ var MjGame;
                 t_Peng = new StPAI();
                 t_Peng.m_Type = p_Type;
                 t_Peng.m_Value = p_Value;
-                this.m_TempPengPAIVec.push(t_Peng);
+                m_TempPengPAIVec.push(t_Peng);
             }
-            if (this.m_TempPengPAIVec.length > 0) {
+            if (m_TempPengPAIVec.length > 0) {
                 return true;
             }
             return false;
         };
         //碰牌  
         CMJ.prototype.doPengPai = function (pai) {
-            this.addPai(pai, false);
-            var tempPai = null;
-            for (var i = 0; i < this.m_TempPengPAIVec.length; i++) {
-                tempPai = this.m_TempPengPAIVec[i];
-                if (tempPai.m_Type == pai.m_Type && tempPai.m_Value == pai.m_Value) {
-                    this.delPai(tempPai, false);
-                    this.delPai(tempPai, false);
-                    this.delPai(tempPai, false);
-                    this.m_PengPAIVec.push(tempPai);
-                    return true;
-                }
-            }
-            return false;
+            this.doPengPaiServer(pai);
+            return true;
+            // this.addPai(pai,false);
+            // var tempPai:StPAI = null;
+            // for (var i:number = 0; i < this.m_TempPengPAIVec.length; i++) 
+            // {
+            // 	tempPai = this.m_TempPengPAIVec[i];
+            // 	if(tempPai.m_Type == pai.m_Type && tempPai.m_Value == pai.m_Value)
+            // 	{
+            // 		this.delPai(tempPai, false);
+            // 		this.delPai(tempPai, false);
+            // 		this.delPai(tempPai, false);
+            // 		this.m_PengPAIVec.push(tempPai);
+            // 		return true;
+            // 	}
+            // }
+            // return false;
         };
         CMJ.prototype.doPengPaiServer = function (pai) {
             this.addPai(pai, false);
@@ -296,7 +302,7 @@ var MjGame;
             if (isSelfHad === void 0) { isSelfHad = true; }
             var p_Type = pai.m_Type;
             var p_Value = pai.m_Value;
-            this.m_TempGangPAIVec = new Array();
+            var m_TempGangPAIVec = new Array();
             var tempArr = this.m_MyPAIVec[p_Type];
             var iSize = tempArr[p_Value];
             var t_Gang;
@@ -305,7 +311,7 @@ var MjGame;
                     t_Gang = new StPAI();
                     t_Gang.m_Type = p_Type;
                     t_Gang.m_Value = p_Value;
-                    this.m_TempGangPAIVec.push(t_Gang);
+                    m_TempGangPAIVec.push(t_Gang);
                 }
                 // 检测已经碰的牌中是否能补杠
                 for (var i = 0; i < this.m_PengPAIVec.length; i++) {
@@ -314,7 +320,7 @@ var MjGame;
                         t_Gang = new StPAI();
                         t_Gang.m_Type = p_Type;
                         t_Gang.m_Value = p_Value;
-                        this.m_TempGangPAIVec.push(t_Gang);
+                        m_TempGangPAIVec.push(t_Gang);
                         break;
                     }
                 }
@@ -329,7 +335,7 @@ var MjGame;
                             t_Gang = new StPAI();
                             t_Gang.m_Type = p_Type;
                             t_Gang.m_Value = p_Value;
-                            this.m_TempGangPAIVec.push(t_Gang);
+                            m_TempGangPAIVec.push(t_Gang);
                         }
                     }
                 }
@@ -339,37 +345,43 @@ var MjGame;
                     t_Gang = new StPAI();
                     t_Gang.m_Type = p_Type;
                     t_Gang.m_Value = p_Value;
-                    this.m_TempGangPAIVec.push(t_Gang);
+                    m_TempGangPAIVec.push(t_Gang);
                 }
             }
-            if (this.m_TempGangPAIVec.length > 0) {
+            if (m_TempGangPAIVec.length > 0) {
                 return true;
             }
             return false;
         };
         //杠牌  
         CMJ.prototype.doGangPai = function (pai) {
-            var tempPai = null;
-            for (var i = 0; i < this.m_TempGangPAIVec.length; i++) {
-                tempPai = this.m_TempGangPAIVec[i];
-                if (tempPai.m_Type == pai.m_Type && tempPai.m_Value == pai.m_Value) {
-                    this.delPai(tempPai, false);
-                    this.delPai(tempPai, false);
-                    this.delPai(tempPai, false);
-                    this.delPai(tempPai, false);
-                    this.m_GangPAIVec.push(tempPai);
-                    // 检测已经碰的牌中是否能补杠
-                    for (var j = 0; j < this.m_PengPAIVec.length; j++) {
-                        var st = this.m_PengPAIVec[j];
-                        if (st.m_Type == tempPai.m_Type && st.m_Value == tempPai.m_Value) {
-                            this.m_PengPAIVec.splice(j, 1);
-                            return true;
-                        }
-                    }
-                    return true;
-                }
-            }
-            return false;
+            this.doGangPaiServer(pai);
+            return true;
+            // var tempPai:StPAI = null;
+            // for (var i:number = 0; i < this.m_TempGangPAIVec.length; i++) 
+            // {
+            // 	tempPai = this.m_TempGangPAIVec[i];
+            // 	if(tempPai.m_Type == pai.m_Type && tempPai.m_Value == pai.m_Value)
+            // 	{
+            // 		this.delPai(tempPai, false);
+            // 		this.delPai(tempPai, false);
+            // 		this.delPai(tempPai, false);
+            // 		this.delPai(tempPai, false);
+            // 		this.m_GangPAIVec.push(tempPai);
+            // 		// 检测已经碰的牌中是否能补杠
+            // 		for (var j:number = 0; j < this.m_PengPAIVec.length; j++) 
+            // 		{
+            // 			var st:StPAI = this.m_PengPAIVec[j];
+            // 			if (st.m_Type == tempPai.m_Type && st.m_Value == tempPai.m_Value) 
+            // 			{
+            // 				this.m_PengPAIVec.splice(j,1);
+            // 				return true;
+            // 			}
+            // 		}
+            // 		return true;
+            // 	}
+            // }
+            // return false;
         };
         //杠牌  
         CMJ.prototype.doGangPaiServer = function (pai) {
@@ -405,7 +417,7 @@ var MjGame;
         //检测胡  
         CMJ.prototype.checkHU = function (pai, isSelfFetch) {
             if (isSelfFetch === void 0) { isSelfFetch = false; }
-            // console.log("当前抓的牌为：",this.cmjManager.traceSinglePai(pai.m_Type,pai.m_Value));
+            // console.log("当前抓的牌为：",Log.traceSinglePai(pai.m_Type,pai.m_Value));
             this.addPai(pai, false, isSelfFetch);
             var flag = false;
             var hunPai = this.cmjManager.getHunPai();

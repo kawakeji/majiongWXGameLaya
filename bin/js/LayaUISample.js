@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -18,6 +18,8 @@ var Loader = Laya.Loader;
 var WebGL = Laya.WebGL;
 var DeskScene = MjGame.DeskScene;
 var GlobalConfig = MjGame.GlobalConfig;
+var LoginScene = MjGame.LoginScene;
+var ProxyManager = MjGame.ProxyManager;
 var TestUI = /** @class */ (function (_super) {
     __extends(TestUI, _super);
     function TestUI() {
@@ -74,13 +76,18 @@ function beginLoad() {
     Laya.loader.load(["res/atlas/comp.atlas", "res/atlas/game/ui.atlas",
         "res/atlas/game/clock.atlas", "res/atlas/game/operationImg.atlas", "res/atlas/game/direction.atlas",
         "res/atlas/game/handCard.atlas", "res/atlas/game/bgCard.atlas", "res/atlas/game/outCard/buttom_top.atlas",
-        "res/atlas/game/outCard/left.atlas", "res/atlas/game/outCard/right.atlas"], Handler.create(null, onLoaded));
+        "res/atlas/game/outCard/left.atlas", "res/atlas/game/outCard/right.atlas", "res/atlas/game/hall.atlas",
+        "res/atlas/game/roomNumInput.atlas", "res/atlas/game/head.atlas", "res/atlas/game/result.atlas",
+        "res/atlas/game/anim/chi.atlas", "res/atlas/game/anim/peng.atlas"], Handler.create(null, onLoaded));
 }
 function onLoaded() {
     //实例UI界面
     // var testUI: TestUI = new TestUI();
     // Laya.stage.addChild(testUI);
-    var deskScene = new DeskScene();
-    Laya.stage.addChild(deskScene);
+    // var deskScene:DeskScene = new DeskScene();
+    // 初始化服务器监听
+    ProxyManager.getInstance();
+    var loginScene = new LoginScene();
+    Laya.stage.addChild(loginScene);
 }
 //# sourceMappingURL=LayaUISample.js.map

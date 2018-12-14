@@ -1,33 +1,31 @@
-module MjGame
-{
-	export class PlayerVO
-	{
-		playerId:number;
-		
-		nickName:string;
-		
-		roomId:number;
-		
-		position:number;
-		
-		isSelf:boolean;
-		
-		cmj:CMJ;
-		
-		// updateCMJ(cmjBMsg:CMJBMsg)
-		// {
-		// 	cmj = new CMJ();
-		// 	cmj.init();
-		// 	cmj.m_Dealer = cmjBMsg.mDealer;
-		// 	var intListMsg:IntListMsg;
-		// 	for (var i:number = 0; i < cmjBMsg.mMyPAIVec.length; i++) 
-		// 	{
-		// 		intListMsg = cmjBMsg.mMyPAIVec[i];
-		// 		for (var j:number = 0; j < intListMsg.value.length; j++) 
-		// 		{
-		// 			cmj.m_MyPAIVec[i][j] = intListMsg.value[j];
-		// 		}
-		// 	}
-		// }
+module MjGame {
+	export class PlayerVO {
+        constructor()
+        {
+            this.playerId = 0;
+            this.roomId = 0;
+            this.isRoomOwner = false;
+            this.isDealer = false;
+            this.isReady = false;
+            this.position = 0;
+            this.cmj = new CMJ();
+        }
+
+		playerId: number;
+
+		username: string;
+
+		roomId: number;
+
+		isRoomOwner: boolean;
+
+		isDealer: boolean;
+
+        isReady:boolean;
+
+		position: number;
+
+		cmj: CMJ;
+
 	}
 }

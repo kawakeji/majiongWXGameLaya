@@ -4,8 +4,10 @@
 var MjGame;
 (function (MjGame) {
     var OutCardCm = /** @class */ (function () {
-        function OutCardCm(parentView, cardPos) {
+        function OutCardCm(parentView, player, cardPos) {
+            var selfPlayer = MjGame.PlayerManager.getInstance().selfPlayerVO;
             this.parentView = parentView;
+            this.player = player;
             this.cardPos = cardPos;
         }
         OutCardCm.prototype.updateOutCard = function (cmj) {

@@ -4,11 +4,12 @@
 var MjGame;
 (function (MjGame) {
     var HandCardCm = /** @class */ (function () {
-        function HandCardCm(parentView, outCardCm, cardPos) {
+        function HandCardCm(parentView, outCardCm, player, cardPos) {
             this.parentView = parentView;
             this.outCardCm = outCardCm;
+            this.player = player;
             this.cardPos = cardPos;
-            if (cardPos == MjGame.GlobalConfig.DOWN_POS) {
+            if (this.cardPos == MjGame.GlobalConfig.DOWN_POS) {
                 this.operationView = new MjGame.OperationView();
                 this.operationView.pos(300, 420);
                 parentView.parent.addChild(this.operationView);
@@ -36,6 +37,9 @@ var MjGame;
         HandCardCm.prototype.cleanUp = function () {
             // this.cmj.cleanUp();
         };
+        HandCardCm.prototype.showOpertaionView = function (operations) {
+            this.operationView.showView(operations);
+        };
         HandCardCm.prototype.checkHU = function (pai) {
             var returnVal = this.cmj.checkHU(pai);
             this.operationView.showHuBtn(returnVal);
@@ -62,6 +66,11 @@ var MjGame;
             this.updateHandCard(this.cmj);
             return flag;
         };
+        HandCardCm.prototype.doChiPaiServer = function (stChi) {
+            this.cmj.doChiPaiServer(stChi);
+            this.updateHandCard(this.cmj);
+            return true;
+        };
         HandCardCm.prototype.doGangPai = function (curOutPai) {
             var flag = this.cmj.doGangPai(curOutPai);
             this.updateHandCard(this.cmj);
@@ -77,8 +86,9 @@ var MjGame;
             this.cmj = cmj;
             this.parentView.removeChildren();
             var index = 0;
-            var startX = 0; //this.addChiPengGangPai(cmj);
-            var startY = 0;
+            var ret = this.addChiPengGangPai(cmj);
+            var startX = ret.startX;
+            var startY = ret.startY;
             var card;
             var arr;
             var tempStPai;
@@ -165,46 +175,55 @@ var MjGame;
         };
         HandCardCm.prototype.addChiPengGangPai = function (t_MyPlayer) {
             var card;
-            var index;
+            var tempPai;
+            var startX = 0;
+            var startY = 0;
+            var outPaiArr = new Array();
             for (var i = 0; i < t_MyPlayer.m_ChiPAIVec.length; i++) {
                 var stChi = t_MyPlayer.m_ChiPAIVec[i];
-                for (var i2 = 1; i2 <= 3; i2++) {
-                    card = new MjGame.OutCard();
-                    // setOutCardPos(card,index);
-                    // card.dataSource = stChi.getPai(i2);
-                    // _box.addChild(card);
-                    index++;
+                for (var i2 = 0; i2 < 3; i2++) {
+                    tempPai = MjGame.util.getByChiPai(stChi, i2 + 1);
+                    outPaiArr.push(tempPai);
                 }
             }
             for (var j = 0; j < t_MyPlayer.m_PengPAIVec.length; j++) {
+                tempPai = t_MyPlayer.m_PengPAIVec[j];
                 for (var i3 = 0; i3 < 3; i3++) {
-                    card = new MjGame.OutCard();
-                    // setOutCardPos(card,index);
-                    // card.dataSource = t_MyPlayer.m_PengPAIVec[j];
-                    // _box.addChild(card);
-                    index++;
+                    outPaiArr.push(tempPai);
                 }
             }
             for (var k = 0; k < t_MyPlayer.m_GangPAIVec.length; k++) {
+                tempPai = t_MyPlayer.m_PengPAIVec[j];
                 for (var i4 = 0; i4 < 4; i4++) {
-                    card = new MjGame.OutCard();
-                    // card.dataSource = t_MyPlayer.m_GangPAIVec[k];
-                    // setOutCardPos(card,index);
-                    // _box.addChild(card);
-                    index++;
+                    outPaiArr.push(tempPai);
                 }
             }
-            if (t_MyPlayer.m_HuPAIVec.length > 0) {
-                index++;
+            for (var index = 0; index < outPaiArr.length; index++) {
+                tempPai = outPaiArr[index];
+                card = new MjGame.OutCard(1);
+                card.cardPos = this.cardPos;
+                this.parentView.addChild(card);
+                card.setData(tempPai, startX, startY, index);
             }
-            for (k = 0; k < t_MyPlayer.m_HuPAIVec.length; k++) {
-                card = new MjGame.OutCard();
-                // card.dataSource = t_MyPlayer.m_HuPAIVec[k];
-                // setOutCardPos(card,index);
-                // _box.addChild(card);
-                index++;
+            if (card) {
+                startX = card.startX;
+                startY = card.startY;
             }
-            return index * (card ? card.width : 0);
+            var offX = 0;
+            var offY = 0;
+            if (this.cardPos == MjGame.GlobalConfig.DOWN_POS) {
+                offX = 30;
+            }
+            else if (this.cardPos == MjGame.GlobalConfig.RIGHT_POS) {
+                offY = -30;
+            }
+            else if (this.cardPos == MjGame.GlobalConfig.UP_POS) {
+                offX = -30;
+            }
+            else {
+                offY = 30;
+            }
+            return { startX: startX + offX, startY: startY + offY };
         };
         return HandCardCm;
     }());

@@ -5,11 +5,15 @@ module MjGame{
 	export class OutCardCm{
 		parentView:View;
 		cardPos:number;
-		constructor(parentView:View,cardPos:number)
+        player:PlayerVO;
+		constructor(parentView:View,player:PlayerVO,cardPos:number)
 		{
+            let selfPlayer:PlayerVO = PlayerManager.getInstance().selfPlayerVO;
 			this.parentView = parentView;
+            this.player = player;
 			this.cardPos = cardPos;
 		}
+
 		updateOutCard(cmj:CMJ)
 		{
             var startX:number = 0;//this.addChiPengGangPai(cmj);

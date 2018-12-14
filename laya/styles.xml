@@ -7,4 +7,9 @@
    <item name="game/operationImg/btn_type3.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
    <item name="game/operationImg/btn_type2.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
    <item name="game/operationImg/btn_type6.png" type="Image" compress="0" pack="0" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/hall/top_bg.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/roomNumInput/bg.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/result/win_di.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/result/di.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/animation/1pen/1pen.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
 </res>

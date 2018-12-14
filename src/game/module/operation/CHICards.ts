@@ -26,12 +26,12 @@ module MjGame{
             var nHeight:number = 0;
             for (var j:number = 1; j <= 3; j++) 
             {
-                tempPai = tempStChi.getPai(j);
+                tempPai = util.getByChiPai(tempStChi,j);
                 tempCard = new OutCard();
 				tempCard.cardPos = GlobalConfig.DOWN_POS;
 				this.addChild(tempCard);
                 tempCard.setData(tempPai,0,0,j);
-                nWidth = nWidth + tempCard.width;
+                nWidth = nWidth + tempCard.card.width;
                 nHeight = tempCard.height;
                 // tempCard.x = (j -1) * (tempCard.width - 5);               
             }
@@ -39,7 +39,7 @@ module MjGame{
             this.width = nWidth;
             this.height = nHeight;
         }
-        
+
         getStChi():StCHI
         {
             return this.stChi;

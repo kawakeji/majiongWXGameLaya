@@ -27,6 +27,10 @@ var MjGame;
          */
         BaseEvent.SELF_ENTER_ROOM = "self_enter_room";
         /**
+         * 解散房间
+         */
+        BaseEvent.DISBAND_ROOM = "disband_room";
+        /**
          * 登录失败
          */
         BaseEvent.LOGIN_FAIL = "login_fail";

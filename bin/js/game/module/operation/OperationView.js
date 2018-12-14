@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -24,7 +24,7 @@ var MjGame;
             return _this;
         }
         OperationView.prototype.init = function () {
-            this.viewArr = [this.outBtn, this.chiBtn, this.pengBtn, this.gangBtn, this.huBtn, this.quitBtn];
+            this.viewArr = [this.huBtn, this.gangBtn, this.pengBtn, this.chiBtn, this.quitBtn];
             for (var _i = 0, _a = this.viewArr; _i < _a.length; _i++) {
                 var btn = _a[_i];
                 btn.on(Laya.Event.CLICK, this, this.onClickControl);
@@ -53,7 +53,6 @@ var MjGame;
                         if (MjGame.CMJManager.getInstance().curOutPai) {
                             this.hideAllBtn();
                             this.showChiView();
-                            // EventManager.getInstance().event(ClientHandEvent.WAITING_OPERATION_CHI,[this.handCardCm.curChiPaiIndex]);
                         }
                         break;
                     }
@@ -83,8 +82,21 @@ var MjGame;
                     }
                 case this.quitBtn:
                     {
+                        var oType = MjGame.Constants.O_TYPE_NULL;
+                        if (this.huBtn.visible == true) {
+                            oType = MjGame.Constants.O_TYPE_HU;
+                        }
+                        else if (this.gangBtn.visible == true) {
+                            oType = MjGame.Constants.O_TYPE_GANG;
+                        }
+                        else if (this.pengBtn.visible == true) {
+                            oType = MjGame.Constants.O_TYPE_PENG;
+                        }
+                        else if (this.chiBtn.visible == true) {
+                            oType = MjGame.Constants.O_TYPE_CHI;
+                        }
                         this.hideAllBtn();
-                        MjGame.EventManager.getInstance().event(MjGame.ClientHandEvent.QUIT_OPERATION, [MjGame.ClientHandEvent.QUIT_OPERATION]);
+                        MjGame.EventManager.getInstance().event(MjGame.ClientHandEvent.QUIT_OPERATION, [MjGame.ClientHandEvent.QUIT_OPERATION, oType]);
                         break;
                     }
                 default:
@@ -105,8 +117,28 @@ var MjGame;
         };
         OperationView.prototype.showOutBtn = function () {
             this.isCanDrag = true;
-            this.outBtn.visible = false;
+            // this.outBtn.visible = false;
             // this.refreshPos();
+        };
+        OperationView.prototype.showView = function (operations) {
+            this.isCanDrag = false;
+            if (operations[MjGame.Constants.O_TYPE_DA]) {
+                this.showOutBtn();
+                this.quitBtn.visible = false;
+            }
+            else {
+                for (var oType = 1; oType < 5; oType++) {
+                    var isExist = operations[oType];
+                    if (isExist) {
+                        this.viewArr[oType - 1].visible = true;
+                        this.quitBtn.visible = true;
+                    }
+                    else {
+                        this.viewArr[oType - 1].visible = false;
+                    }
+                }
+            }
+            this.refreshPos();
         };
         OperationView.prototype.showHuBtn = function (returnVal) {
             this.isCanDrag = false;
@@ -156,26 +188,28 @@ var MjGame;
             this.handCardCm = handCardCm;
         };
         OperationView.prototype.showChiView = function () {
-            // var t_Chi = new StCHI();
-            // t_Chi.m_Type = 1;
-            // t_Chi.m_Value1 = Number(2);
-            // t_Chi.m_Value2 = Number(3);
-            // t_Chi.m_Value3 = 4;
-            // t_Chi.byChiIndex = 3;
-            // this.handCardCm.cmj.m_TempChiPAIVec.push(t_Chi);
-            if (this.handCardCm.cmj.getChiPaiNum() > 0) {
+            var chiPaiNum = this.handCardCm.cmj.getChiPaiNum();
+            if (chiPaiNum > 1) {
                 this.tempChiPaiView.removeChildren();
                 var tempStChi;
                 var chiCards;
-                for (var i = 0; i < this.handCardCm.cmj.getChiPaiNum(); i++) {
+                for (var i = 0; i < chiPaiNum; i++) {
                     chiCards = new MjGame.CHICards();
                     this.tempChiPaiView.addChild(chiCards);
                     tempStChi = this.handCardCm.cmj.m_TempChiPAIVec[i];
                     chiCards.setData(tempStChi);
-                    chiCards.x = i * chiCards.width + 10;
+                    chiCards.x = i * chiCards.width - 10;
                     chiCards.index = i;
                     chiCards.on(Laya.Event.CLICK, this, this.onClickChiCards);
                 }
+                var quitChiBtn = new Laya.Image;
+                quitChiBtn.skin = "game/operationImg/btn_type1.png";
+                quitChiBtn.x = chiCards.x + chiCards.width;
+                quitChiBtn.on(Laya.Event.CLICK, this, this.onQuitChiBtn);
+                this.tempChiPaiView.addChild(quitChiBtn);
+            }
+            else if (chiPaiNum > 0) {
+                MjGame.EventManager.getInstance().event(MjGame.ClientHandEvent.WAITING_OPERATION_CHI, [MjGame.ClientHandEvent.WAITING_OPERATION_CHI, 0]);
             }
         };
         OperationView.prototype.onClickChiCards = function (evt) {
@@ -183,6 +217,11 @@ var MjGame;
             this.curChiPaiIndex = selectedChiCards.index;
             MjGame.EventManager.getInstance().event(MjGame.ClientHandEvent.WAITING_OPERATION_CHI, [MjGame.ClientHandEvent.WAITING_OPERATION_CHI, this.curChiPaiIndex]);
             this.tempChiPaiView.removeChildren();
+        };
+        OperationView.prototype.onQuitChiBtn = function () {
+            this.tempChiPaiView.removeChildren();
+            this.hideAllBtn();
+            MjGame.EventManager.getInstance().event(MjGame.ClientHandEvent.QUIT_OPERATION, [MjGame.ClientHandEvent.QUIT_OPERATION, MjGame.Constants.O_TYPE_CHI]);
         };
         OperationView.prototype.refreshPos = function () {
             var btn;

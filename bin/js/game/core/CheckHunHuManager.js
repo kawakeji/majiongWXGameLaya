@@ -21,7 +21,7 @@ var MjGame;
             var flag = false;
             var hunPai = this.cmjManager.getHunPai();
             var curHunNum = cmj.getHunPaiNum(hunPai);
-            console.log("当前癞子为：", MjGame.CMJManager.getInstance().traceSinglePai(hunPai.m_Type, hunPai.m_Value));
+            console.log("当前癞子为：", MjGame.Log.traceSinglePai(hunPai.m_Type, hunPai.m_Value));
             console.log("当前拥有的的癞子数：", curHunNum);
             flag = this.checkPingHu(cmj, hunPai, curHunNum);
             if (flag == true) {

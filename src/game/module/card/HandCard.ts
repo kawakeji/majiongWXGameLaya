@@ -90,8 +90,11 @@ module MjGame{
             else if(this.cardPos == GlobalConfig.RIGHT_POS)
             {
 				offW = 0;
-                offH = 27;
+                offH = -27;
                 resUrl = this.rightResBasePath;
+                var childNum = this.parent.numChildren;
+                var curIndex = this.parent.getChildIndex(this);
+                this.parent.setChildIndex(this, childNum - curIndex - 1);
             }
             else if(this.cardPos == GlobalConfig.UP_POS)
             {

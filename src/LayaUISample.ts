@@ -5,6 +5,8 @@ import Loader = Laya.Loader;
 import WebGL = Laya.WebGL;
 import DeskScene = MjGame.DeskScene;
 import GlobalConfig = MjGame.GlobalConfig;
+import LoginScene = MjGame.LoginScene;
+import ProxyManager = MjGame.ProxyManager;
 
 class TestUI extends ui.test.TestPageUI {
 
@@ -68,13 +70,22 @@ function beginLoad(){
 	Laya.loader.load(["res/atlas/comp.atlas","res/atlas/game/ui.atlas",
 	"res/atlas/game/clock.atlas","res/atlas/game/operationImg.atlas","res/atlas/game/direction.atlas",
 	"res/atlas/game/handCard.atlas","res/atlas/game/bgCard.atlas","res/atlas/game/outCard/buttom_top.atlas",
-	"res/atlas/game/outCard/left.atlas","res/atlas/game/outCard/right.atlas"], Handler.create(null, onLoaded));
+	"res/atlas/game/outCard/left.atlas","res/atlas/game/outCard/right.atlas","res/atlas/game/hall.atlas",
+	"res/atlas/game/roomNumInput.atlas","res/atlas/game/head.atlas","res/atlas/game/result.atlas",
+    "res/atlas/game/anim/chi.atlas","res/atlas/game/anim/peng.atlas","res/atlas/game/anim/hu.atlas",
+    "res/atlas/game/anim/gang.atlas","res/atlas/game/anim/chip.atlas","res/atlas/game/anim/drawn.atlas",
+    "res/atlas/game/anim/open.atlas","res/atlas/game/anim/ting.atlas","res/atlas/game/anim/pointer.atlas"], Handler.create(null, onLoaded));
 }
 
 function onLoaded(): void {
 	//实例UI界面
 	// var testUI: TestUI = new TestUI();
 	// Laya.stage.addChild(testUI);
-	var deskScene:DeskScene = new DeskScene();
-	Laya.stage.addChild(deskScene);
+	// var deskScene:DeskScene = new DeskScene();
+
+	// 初始化服务器监听
+	ProxyManager.getInstance();
+
+	var loginScene:LoginScene = new LoginScene();
+	Laya.stage.addChild(loginScene);
 }
