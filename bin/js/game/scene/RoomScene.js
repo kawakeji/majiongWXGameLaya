@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    };
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -23,8 +23,8 @@ var MjGame;
             _this.playerPosView = [_this.downPosPlayer, _this.rightPosPlayer, _this.upPosPlayer, _this.leftPosPlayer];
             _this.updatePlayerInfo();
             _this.addEvent();
-            _this.scale(0.4, 0.4);
             return _this;
+            // this.scale(0.4,0.4);
         }
         RoomScene.prototype.addEvent = function () {
             MjGame.EventManager.getInstance().on(MjGame.BaseEvent.PLAYER_ENTER_ROOM, this, this.updatePlayerInfo);
@@ -46,18 +46,25 @@ var MjGame;
             var playerView;
             var playerNum = playerVOs.length;
             this.startBtn.visible = false;
-            for (var index = 0; index < MjGame.GlobalConfig.MAX_MEMBER_NUM; index++) {
-                player = playerVOs[index];
-                if (player) {
-                    playerView = this.playerPosView[index];
-                    playerView.isReady.visible = player.isReady;
-                    playerView.headIcon.visible = true;
-                    playerView.playerName.text = player.username;
-                    this.updateStartBtnState(player, playerNum);
-                    this.roomNum.text = "房间号：" + player.roomId;
+            this.readyBtn.visible = false;
+            for (var index = 0; index < 4; index++) {
+                playerView = this.playerPosView[index];
+                if (index < MjGame.GlobalConfig.MAX_MEMBER_NUM) {
+                    player = playerVOs[index];
+                    if (player) {
+                        playerView.isReady.visible = player.isReady;
+                        playerView.headIcon.visible = true;
+                        playerView.playerName.text = player.username;
+                        this.updateStartBtnState(player, playerNum);
+                        this.roomNum.text = "房间号：" + player.roomId;
+                    }
+                    else {
+                        playerView.isReady.visible = false;
+                        playerView.headIcon.visible = false;
+                        playerView.playerName.text = "";
+                    }
                 }
                 else {
-                    playerView = this.playerPosView[index];
                     playerView.isReady.visible = false;
                     playerView.headIcon.visible = false;
                     playerView.playerName.text = "";
@@ -76,8 +83,7 @@ var MjGame;
         RoomScene.prototype.updateStartBtnState = function (player, playerNum) {
             if (player.isRoomOwner && MjGame.PlayerManager.getInstance().selfUsername == player.username) {
                 this.startBtn.visible = true;
-                this.readyBtn.visible = false;
-                if (playerNum == MjGame.GlobalConfig.MAX_MEMBER_NUM) {
+                if (playerNum >= MjGame.GlobalConfig.MAX_MEMBER_NUM) {
                     this.startBtn.gray = false;
                     this.startBtn.mouseEnabled = true;
                 }
@@ -86,15 +92,8 @@ var MjGame;
                     this.startBtn.mouseEnabled = false;
                 }
             }
-            else {
-                if (player.isReady) {
-                    this.startBtn.visible = false;
-                    this.readyBtn.visible = false;
-                }
-                else {
-                    this.startBtn.visible = false;
-                    this.readyBtn.visible = true;
-                }
+            else if (!player.isReady && !player.isRoomOwner) {
+                this.readyBtn.visible = true;
             }
         };
         RoomScene.prototype.onReady = function () {

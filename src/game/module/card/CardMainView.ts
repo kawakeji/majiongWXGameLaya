@@ -41,7 +41,8 @@ module MjGame{
         myHandCardCm:HandCardCm;
         otherHandCardCms:Array<HandCardCm>;
         curOperationPai:StPAI;
-        accoutView:AccoutView
+        accoutView:AccoutView;
+        anim:CMJAnim;
         constructor(deskScene:DeskScene)
         {
             this.deskScene = deskScene;
@@ -55,6 +56,8 @@ module MjGame{
 
         initView()
         {        
+            this.anim = new CMJAnim(this.deskScene,"game/anim/CMJ.ani");
+            this.anim.pos(GlobalConfig.DESK_WIDHT*0.5,GlobalConfig.DESK_HEIGHT*0.5);
             this.updateCardViews();
         }
 
@@ -325,57 +328,27 @@ module MjGame{
 		
 		playOperationEffect(oType:number,playerView:HandCardCm,cb?:Function):void
 		{
-			// TweenMax.killTweensOf(_oTypeImg,true);
-			// if (oType == Constants.O_TYPE_HU)
-			// {
-			// 	_oTypeImg.url = "png.mjassets.hu";
-			// }
-			// else if (oType == Constants.O_TYPE_GANG)
-			// {
-			// 	_oTypeImg.url = "png.mjassets.gang";
-			// }
-			// else if (oType == Constants.O_TYPE_PENG)
-			// {
-			// 	_oTypeImg.url = "png.mjassets.peng";
-			// }
-			// else if (oType == Constants.O_TYPE_CHI)
-			// {
-			// 	_oTypeImg.url = "png.mjassets.chi";
-			// }
-			// this.addChild(_oTypeImg);
-			// var startX:number;
-			// var startY:number;
-			// switch(playerView.pos)
-			// {
-			// 	case Constants.DOWN_POS:
-			// 	{
-			// 		startX = this.width * 0.5;
-			// 		startY = this.height;
-			// 		break;
-			// 	}
-			// 	case Constants.RIGHT_POS:
-			// 	{
-			// 		startX = this.width;
-			// 		startY = this.height * 0.5;
-			// 		break;
-			// 	}
-			// 	case Constants.UP_POS:
-			// 	{
-			// 		startX = this.width * 0.5;
-			// 		startY = 0;
-			// 		break;
-			// 	}
-			// 	case Constants.LEFT_POS:
-			// 	{
-			// 		startX = 0;
-			// 		startY = this.height * 0.5;
-			// 		break;
-			// 	}
-			// }
-			// TweenMax.fromTo(_oTypeImg,0.6,{x:startX,y:startY,scale:0.2,alpha:0.5},{x:this.width * 0.5,y:this.height * 0.5,scale:1,alpha:1,onComplete:onPlayComplete});
+            var movieLabel:string;
+			if (oType == Constants.O_TYPE_HU)
+			{
+				movieLabel = "hu";
+			}
+			else if (oType == Constants.O_TYPE_GANG)
+			{
+				movieLabel = "gang";
+			}
+			else if (oType == Constants.O_TYPE_PENG)
+			{
+				movieLabel = "peng";
+			}
+			else if (oType == Constants.O_TYPE_CHI)
+			{
+				movieLabel = "chi";
+			}
+			this.anim.play(movieLabel,this.onAnimComplete);
 		}
 		
-		onPlayComplete():void
+		onAnimComplete():void
 		{
 			// _oTypeImg.remove();
 		}

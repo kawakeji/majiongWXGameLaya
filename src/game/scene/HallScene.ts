@@ -8,7 +8,7 @@ module MjGame
 		constructor(){
 			super();
 			this.addEvent();
-            this.scale(0.4,0.4);
+            // this.scale(0.4,0.4);
 		}
 
         addEvent()

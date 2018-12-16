@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    };
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -78,7 +78,9 @@ function beginLoad() {
         "res/atlas/game/handCard.atlas", "res/atlas/game/bgCard.atlas", "res/atlas/game/outCard/buttom_top.atlas",
         "res/atlas/game/outCard/left.atlas", "res/atlas/game/outCard/right.atlas", "res/atlas/game/hall.atlas",
         "res/atlas/game/roomNumInput.atlas", "res/atlas/game/head.atlas", "res/atlas/game/result.atlas",
-        "res/atlas/game/anim/chi.atlas", "res/atlas/game/anim/peng.atlas"], Handler.create(null, onLoaded));
+        "res/atlas/game/anim/chi.atlas", "res/atlas/game/anim/peng.atlas", "res/atlas/game/anim/hu.atlas",
+        "res/atlas/game/anim/gang.atlas", "res/atlas/game/anim/chip.atlas", "res/atlas/game/anim/drawn.atlas",
+        "res/atlas/game/anim/open.atlas", "res/atlas/game/anim/ting.atlas", "res/atlas/game/anim/pointer.atlas"], Handler.create(null, onLoaded));
 }
 function onLoaded() {
     //实例UI界面

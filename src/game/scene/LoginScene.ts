@@ -5,45 +5,33 @@ module MjGame
 {
 	export class LoginScene extends ui.game.scene.LoginSceneUI 
 	{
-        anim:CMJAnim
 		constructor(){
 			super();
 			this.loginBtn.on(Laya.Event.CLICK,this,this.onLogin);
-            this.scale(0.4,0.4);
-            
-            this.anim = new CMJAnim(this,"game/anim/CMJ.ani");
-            this.anim.play("chi",this.onComplete)
+            // this.scale(0.4,0.4);
 		}
-
-        onComplete()
-        {
-            console.log(" ani  peng complete")
-        }
 
 		onLogin():void
 		{
-            // this.tl.loadAnimation("game/anim/Peng.ani");
-            this.anim.play("peng",this.onComplete)
-            // this.anim.play("chi",this.onComplete)
-            // var self = this;
-			// var username:string = this.username.text;
-            // SocketManager.getInstance().close();
-			// SocketManager.getInstance().connect(GlobalConfig.HOST,GlobalConfig.PORT,function(data)
-            // {
-            //     if (data == MjSocket.OPEN)
-            //     {
-            //         SocketManager.getInstance().request(ProtocolType.GATE_QUERYENTRY,{uid:username});
-            //     }
-            // });
+            var self = this;
+			var username:string = this.username.text;
+            SocketManager.getInstance().close();
+			SocketManager.getInstance().connect(GlobalConfig.HOST,GlobalConfig.PORT,function(data)
+            {
+                if (data == MjSocket.OPEN)
+                {
+                    SocketManager.getInstance().request(ProtocolType.GATE_QUERYENTRY,{uid:username});
+                }
+            });
 
-            // SocketManager.getInstance().addProto(ProtocolType.GATE_QUERYENTRY,function (data)
-            // {
-            //     var code = data.code;
-            //     if (code == 200)
-            //     {
-            //         self.enterConnector(data);
-            //     }
-            // })
+            SocketManager.getInstance().addProto(ProtocolType.GATE_QUERYENTRY,function (data)
+            {
+                var code = data.code;
+                if (code == 200)
+                {
+                    self.enterConnector(data);
+                }
+            })
 		}
 
         enterConnector(data:any):void

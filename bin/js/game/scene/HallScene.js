@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    };
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -21,8 +21,8 @@ var MjGame;
         function HallScene() {
             var _this = _super.call(this) || this;
             _this.addEvent();
-            _this.scale(0.4, 0.4);
             return _this;
+            // this.scale(0.4,0.4);
         }
         HallScene.prototype.addEvent = function () {
             this.createRoomBtn.on(Laya.Event.CLICK, this, this.onCreateRoom);

@@ -130,7 +130,8 @@ module MjGame{
         sendReadyToServer(playerVO:PlayerVO):void
         {
             var msg:any = {};
-			msg.value = playerVO.playerId;
+			msg.playerId = playerVO.playerId;
+			msg.isReady = true;
 			SocketManager.getInstance().request(ProtocolType.CMJ_READY,msg);
         }
 	}

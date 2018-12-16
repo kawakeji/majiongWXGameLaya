@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    };
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -26,8 +26,8 @@ var MjGame;
             _this.initView();
             _this.createCardMainView();
             _this.clockUI.timeLabel;
-            _this.scale(0.3, 0.3);
             return _this;
+            // this.scale(0.3,0.3);
         }
         DeskScene.prototype.initView = function () {
             for (var index = 0; index < this.selectedDirectionArr.length; index++) {

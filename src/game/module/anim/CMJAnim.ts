@@ -18,7 +18,7 @@ module MjGame
             this.anim.loadAnimation(this.animPath);
 
             this.anim.on(Laya.Event.COMPLETE, this, this.onComplete);
-
+            this.anim.visible = false;
             this.parentView.addChild(this.anim);
             //播放Animation动画
         }
@@ -39,6 +39,11 @@ module MjGame
             this.compCb = compCb;
             //添加到舞台
             this.anim.play(0, false, labelName);
+        }
+
+        pos(x:number,y:number)
+        {
+            this.anim.pos(x,y)
         }
     }
 }

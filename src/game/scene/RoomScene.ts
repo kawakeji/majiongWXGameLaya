@@ -12,7 +12,7 @@ module MjGame
             this.playerPosView = [this.downPosPlayer, this.rightPosPlayer, this.upPosPlayer, this.leftPosPlayer];
             this.updatePlayerInfo();
             this.addEvent();
-            this.scale(0.4,0.4);
+            // this.scale(0.4,0.4);
         }
 
         addEvent()
@@ -40,21 +40,30 @@ module MjGame
             var playerView: ui.game.view.PlayerViewUI;
             var playerNum:number = playerVOs.length;
             this.startBtn.visible = false;
-            for (var index = 0; index < GlobalConfig.MAX_MEMBER_NUM; index++)
+            this.readyBtn.visible = false;
+            for (var index = 0; index < 4; index++)
             {
-                player = playerVOs[index];
-                if (player)
+                playerView = this.playerPosView[index];
+                if (index < GlobalConfig.MAX_MEMBER_NUM)
                 {
-                    playerView = this.playerPosView[index];
-                    playerView.isReady.visible = player.isReady;
-                    playerView.headIcon.visible = true;
-                    playerView.playerName.text = player.username;
-                    this.updateStartBtnState(player,playerNum);
-                    this.roomNum.text = "房间号：" + player.roomId;
+                    player = playerVOs[index];
+                    if (player)
+                    {
+                        playerView.isReady.visible = player.isReady;
+                        playerView.headIcon.visible = true;
+                        playerView.playerName.text = player.username;
+                        this.updateStartBtnState(player,playerNum);
+                        this.roomNum.text = "房间号：" + player.roomId;
+                    }
+                    else
+                    {
+                        playerView.isReady.visible = false;
+                        playerView.headIcon.visible = false;
+                        playerView.playerName.text = "";
+                    }
                 }
                 else
                 {
-                    playerView = this.playerPosView[index];
                     playerView.isReady.visible = false;
                     playerView.headIcon.visible = false;
                     playerView.playerName.text = "";
@@ -80,8 +89,7 @@ module MjGame
             if (player.isRoomOwner && PlayerManager.getInstance().selfUsername == player.username)
             {
                 this.startBtn.visible = true;
-                this.readyBtn.visible = false;
-                if (playerNum == GlobalConfig.MAX_MEMBER_NUM)
+                if (playerNum >= GlobalConfig.MAX_MEMBER_NUM)
                 {
                     this.startBtn.gray = false;
                     this.startBtn.mouseEnabled = true;
@@ -92,18 +100,9 @@ module MjGame
                     this.startBtn.mouseEnabled = false;
                 }   
             }
-            else
+            else if (!player.isReady && !player.isRoomOwner)
             {
-                if (player.isReady)
-                {
-                    this.startBtn.visible = false;
-                    this.readyBtn.visible = false;
-                }
-                else
-                {
-                    this.startBtn.visible = false;
-                    this.readyBtn.visible = true;
-                }
+                this.readyBtn.visible = true;
             }
         }
 

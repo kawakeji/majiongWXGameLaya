@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    };
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -107,7 +107,8 @@ var MjGame;
         };
         GameProxy.prototype.sendReadyToServer = function (playerVO) {
             var msg = {};
-            msg.value = playerVO.playerId;
+            msg.playerId = playerVO.playerId;
+            msg.isReady = true;
             MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.CMJ_READY, msg);
         };
         return GameProxy;

@@ -11,6 +11,7 @@ var MjGame;
             //加载动画文件
             this.anim.loadAnimation(this.animPath);
             this.anim.on(Laya.Event.COMPLETE, this, this.onComplete);
+            this.anim.visible = false;
             this.parentView.addChild(this.anim);
             //播放Animation动画
         }
@@ -26,6 +27,9 @@ var MjGame;
             this.compCb = compCb;
             //添加到舞台
             this.anim.play(0, false, labelName);
+        };
+        CMJAnim.prototype.pos = function (x, y) {
+            this.anim.pos(x, y);
         };
         return CMJAnim;
     }());

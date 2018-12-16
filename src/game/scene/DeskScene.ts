@@ -15,7 +15,7 @@ module MjGame{
             this.initView();
             this.createCardMainView();
             this.clockUI.timeLabel
-            this.scale(0.3,0.3);
+            // this.scale(0.3,0.3);
         }
 
         initView()

@@ -8,7 +8,7 @@ module ui.game.dialog {
 		public contentView:View;
 		public descLabel:Laya.Label;
 
-        public static  uiView:any ={"type":"Dialog","props":{},"child":[{"type":"Image","props":{"y":-12,"x":-228,"width":1056,"skin":"game/result/win_di.png","sizeGrid":"10,10,10,10","height":540}},{"type":"Button","props":{"y":-30,"x":789,"var":"closeBtn","stateNum":1,"skin":"game/roomNumInput/btn_close.png"}},{"type":"Image","props":{"y":434,"x":196,"var":"continueBtn","skin":"game/result/btn-2.png"}},{"type":"View","props":{"y":176,"x":-56,"width":721,"var":"contentView","height":100}},{"type":"Label","props":{"y":114,"x":-29,"var":"descLabel","text":"label","fontSize":35}}]};
+        public static  uiView:any ={"type":"Dialog","props":{"y":0,"x":0,"width":1056,"height":540},"child":[{"type":"Image","props":{"y":-1,"x":-3,"width":1056,"skin":"game/result/win_di.png","sizeGrid":"10,10,10,10","height":540}},{"type":"Button","props":{"y":-11,"x":1014,"var":"closeBtn","stateNum":1,"skin":"game/roomNumInput/btn_close.png"}},{"type":"Image","props":{"y":438,"x":421,"var":"continueBtn","skin":"game/result/btn-2.png"}},{"type":"View","props":{"y":195,"x":169,"width":721,"var":"contentView","height":100}},{"type":"Label","props":{"y":133,"x":196,"var":"descLabel","text":"label","fontSize":35}}]};
         constructor(){ super()}
         createChildren():void {
         
