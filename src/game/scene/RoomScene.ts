@@ -12,7 +12,8 @@ module MjGame
             this.playerPosView = [this.downPosPlayer, this.rightPosPlayer, this.upPosPlayer, this.leftPosPlayer];
             this.updatePlayerInfo();
             this.addEvent();
-            // this.scale(0.4,0.4);
+            // this.visible = false;
+            // MjSoundManager.getInstance().playMusic(SoundType.MAIN);
         }
 
         addEvent()
@@ -21,6 +22,7 @@ module MjGame
             EventManager.getInstance().on(BaseEvent.DISBAND_ROOM, this, this.onDisband);
             EventManager.getInstance().on(BaseEvent.PLAYER_LEAVE_ROOM, this, this.onLeave);
             EventManager.getInstance().on(BaseEvent.START_GAME, this, this.onStartGame);
+            EventManager.getInstance().on(ServerHandEvent.STATUS_CHANGE, this, this.onStatusChange);
             this.startBtn.on(Laya.Event.CLICK, this, this.onStart);
             this.readyBtn.on(Laya.Event.CLICK, this, this.onReady);
         }
@@ -31,43 +33,46 @@ module MjGame
             EventManager.getInstance().off(BaseEvent.DISBAND_ROOM, this, this.onDisband);
             EventManager.getInstance().off(BaseEvent.PLAYER_LEAVE_ROOM, this, this.onLeave);
             EventManager.getInstance().off(BaseEvent.START_GAME, this, this.onStartGame);
+            EventManager.getInstance().off(ServerHandEvent.STATUS_CHANGE, this, this.onStatusChange);
+            this.startBtn.off(Laya.Event.CLICK, this, this.onStart);
+            this.readyBtn.off(Laya.Event.CLICK, this, this.onReady);
         }
 
         updatePlayerInfo()
         {
             var playerVOs: Array<PlayerVO> = RoomManager.getInstance().playerVOs;
+            let selfPlayer: PlayerVO = PlayerManager.getInstance().selfPlayerVO;
             var player: PlayerVO;
             var playerView: ui.game.view.PlayerViewUI;
             var playerNum:number = playerVOs.length;
+            var clientPos: number = 0;
+            var maxPos:number = clientPos;
             this.startBtn.visible = false;
             this.readyBtn.visible = false;
-            for (var index = 0; index < 4; index++)
+
+            this.roomNum.text = "房间号：" + selfPlayer.roomId;
+
+            for (var i = 0; i < playerVOs.length; i++) 
+            {
+                player = playerVOs[i];
+                clientPos = util.getClientRefPos(player.position, selfPlayer.position);
+                playerView = this.playerPosView[clientPos];
+                playerView.isReady.visible = player.status == Constants.PLAYER_STATE_READY;
+                playerView.headIcon.visible = true;
+                playerView.playerName.text = player.username;
+                playerView.dealerImg.visible = player.isDealer;
+                playerView.visible = true;
+                this.updateStartBtnState(player,playerNum);
+                if (maxPos < clientPos)
+                {
+                    maxPos = clientPos;
+                }
+            }
+
+            for (var index = (maxPos + 1); index < 4; index++)
             {
                 playerView = this.playerPosView[index];
-                if (index < GlobalConfig.MAX_MEMBER_NUM)
-                {
-                    player = playerVOs[index];
-                    if (player)
-                    {
-                        playerView.isReady.visible = player.isReady;
-                        playerView.headIcon.visible = true;
-                        playerView.playerName.text = player.username;
-                        this.updateStartBtnState(player,playerNum);
-                        this.roomNum.text = "房间号：" + player.roomId;
-                    }
-                    else
-                    {
-                        playerView.isReady.visible = false;
-                        playerView.headIcon.visible = false;
-                        playerView.playerName.text = "";
-                    }
-                }
-                else
-                {
-                    playerView.isReady.visible = false;
-                    playerView.headIcon.visible = false;
-                    playerView.playerName.text = "";
-                }
+                playerView.visible = false;
             }
         }
 
@@ -82,6 +87,24 @@ module MjGame
             Laya.stage.addChild(hallScene);
             this.removeEvent();
             this.removeSelf();
+        }
+
+        onStatusChange(data)
+        {
+            if (data)
+            {
+                let selfPlayer: PlayerVO = PlayerManager.getInstance().selfPlayerVO;
+                var playerView: ui.game.view.PlayerViewUI;
+                var clientPos: number = 0;
+                var player: PlayerVO = RoomManager.getInstance().getPlayer(data.playerId);
+                if(player)
+                {
+                    player.status = data.status;
+                    clientPos = util.getClientRefPos(player.position, selfPlayer.position);
+                    playerView = this.playerPosView[clientPos];
+                    playerView.isReady.visible = player.status == Constants.PLAYER_STATE_READY;
+                }
+            }
         }
 
         updateStartBtnState(player:PlayerVO,playerNum:number)
@@ -100,7 +123,7 @@ module MjGame
                     this.startBtn.mouseEnabled = false;
                 }   
             }
-            else if (!player.isReady && !player.isRoomOwner)
+            else if (player.status == Constants.PLAYER_STATE_NOT_READY && !player.isRoomOwner && PlayerManager.getInstance().selfUsername == player.username)
             {
                 this.readyBtn.visible = true;
             }
@@ -126,7 +149,7 @@ module MjGame
                 }
                 if (isCanStart)
                 {
-                    SocketManager.getInstance().request(ProtocolType.ROOM_STARTGAME,{username:PlayerManager.getInstance().selfUsername,roomId:RoomManager.getInstance().roomId});
+                    SocketManager.getInstance().request(ProtocolType.ROOM_STARTGAME,{username:PlayerManager.getInstance().selfUsername,roomId:PlayerManager.getInstance().selfPlayerVO.roomId});
                 }
                 else
                 {

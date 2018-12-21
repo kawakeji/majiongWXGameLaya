@@ -19,28 +19,29 @@ module MjGame{
 
         onContinue()
         {
+            this.onClose();
             ProxyManager.getInstance().gameProxy.sendReadyToServer(PlayerManager.getInstance().selfPlayerVO);
         }
 
-        setData(player:PlayerVO,stGoodInfos:Array<StGoodInfo>,stPai:StPAI)
+        setData(player:PlayerVO,goodInfos:Array<number>,stPai:StPAI)
         {
             if (player)
             {
                 var str:string = "";
                 var count:number = 0;
-                for (var i = 0; i < stGoodInfos.length; i++) {
-                    var goodInfo:StGoodInfo = stGoodInfos[i];
-                    str = str + goodInfo.m_GoodName;
-                    count = count + goodInfo.m_GoodValue;
-                    if (i < stGoodInfos.length - 1)
-                    {
-                        str = str + "+";
-                    }
-                }
+                // for (var i = 0; i < goodInfos.length; i++) {
+                //     var goodInfo:StGoodInfo = goodInfos[i];
+                //     str = str + goodInfo.m_GoodName;
+                //     count = count + goodInfo.m_GoodValue;
+                //     if (i < stGoodInfos.length - 1)
+                //     {
+                //         str = str + "+";
+                //     }
+                // }
 
-                str = str + ":" + count + "番";
-                this.descLabel.text = player.username + "           " + str;
-                this.updateHandCard(player.cmj,true);
+                // str = str + ":" + count + "番";
+                // this.descLabel.text = player.username + "           " + str;
+                this.updateHandCard(player.cmj,stPai);
             }
             else
             {
@@ -49,7 +50,7 @@ module MjGame{
             }
         }
 
-        updateHandCard(cmj:CMJ, isShowLast:boolean = true)
+        updateHandCard(cmj:CMJ,lastStPai:StPAI)
 		{
             this.contentView.removeChildren();
             var index:number = 0;
@@ -59,7 +60,6 @@ module MjGame{
             var card:HandCard;
             var arr:Array<number>;
             var tempStPai:StPAI;
-            var lastStPai:StPAI;
             for (var j:number = 0; j < GlobalConfig.CARD_TYPE_NUM; j ++) 
             {
                 arr = cmj.m_MyPAIVec[j];
@@ -70,10 +70,8 @@ module MjGame{
                         for (var k:number = 0; k < arr[i]; k++) 
                         {
                             tempStPai = new StPAI(j,i);
-                            if(isShowLast && cmj.m_LastPAI.m_Type == tempStPai.m_Type && cmj.m_LastPAI.m_Value == tempStPai.m_Value)
+                            if(lastStPai && lastStPai.m_Type == tempStPai.m_Type && lastStPai.m_Value == tempStPai.m_Value)
                             {
-                                lastStPai = cmj.m_LastPAI;
-                                isShowLast = false;
                                 continue;
                             }
                             card = new HandCard();
@@ -86,7 +84,7 @@ module MjGame{
                 }
             }
 
-            if(lastStPai )
+            if(lastStPai)
             {
                 this.addLastPai(lastStPai,startX,startY,index);
             }
@@ -120,7 +118,7 @@ module MjGame{
 			
 			for (var j:number = 0; j < t_MyPlayer.m_PengPAIVec.length; j++) 
 			{
-                tempPai = t_MyPlayer.m_PengPAIVec[j];
+                tempPai = t_MyPlayer.m_PengPAIVec[j].m_stPai;
 				for (var i3:number = 0; i3 < 3; i3++) 
 				{
                     outPaiArr.push(tempPai);
@@ -129,7 +127,7 @@ module MjGame{
 			
 			for (var k:number = 0; k < t_MyPlayer.m_GangPAIVec.length; k++) 
 			{
-                tempPai = t_MyPlayer.m_PengPAIVec[j];
+                tempPai = t_MyPlayer.m_PengPAIVec[j].m_stPai;
 				for (var i4:number = 0; i4 < 4; i4++) 
 				{
                     outPaiArr.push(tempPai);

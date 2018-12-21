@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -24,13 +24,15 @@ var MjGame;
             _this.updatePlayerInfo();
             _this.addEvent();
             return _this;
-            // this.scale(0.4,0.4);
+            // this.visible = false;
+            // MjSoundManager.getInstance().playMusic(SoundType.MAIN);
         }
         RoomScene.prototype.addEvent = function () {
             MjGame.EventManager.getInstance().on(MjGame.BaseEvent.PLAYER_ENTER_ROOM, this, this.updatePlayerInfo);
             MjGame.EventManager.getInstance().on(MjGame.BaseEvent.DISBAND_ROOM, this, this.onDisband);
             MjGame.EventManager.getInstance().on(MjGame.BaseEvent.PLAYER_LEAVE_ROOM, this, this.onLeave);
             MjGame.EventManager.getInstance().on(MjGame.BaseEvent.START_GAME, this, this.onStartGame);
+            MjGame.EventManager.getInstance().on(MjGame.ServerHandEvent.STATUS_CHANGE, this, this.onStatusChange);
             this.startBtn.on(Laya.Event.CLICK, this, this.onStart);
             this.readyBtn.on(Laya.Event.CLICK, this, this.onReady);
         };
@@ -39,36 +41,38 @@ var MjGame;
             MjGame.EventManager.getInstance().off(MjGame.BaseEvent.DISBAND_ROOM, this, this.onDisband);
             MjGame.EventManager.getInstance().off(MjGame.BaseEvent.PLAYER_LEAVE_ROOM, this, this.onLeave);
             MjGame.EventManager.getInstance().off(MjGame.BaseEvent.START_GAME, this, this.onStartGame);
+            MjGame.EventManager.getInstance().off(MjGame.ServerHandEvent.STATUS_CHANGE, this, this.onStatusChange);
+            this.startBtn.off(Laya.Event.CLICK, this, this.onStart);
+            this.readyBtn.off(Laya.Event.CLICK, this, this.onReady);
         };
         RoomScene.prototype.updatePlayerInfo = function () {
             var playerVOs = MjGame.RoomManager.getInstance().playerVOs;
+            var selfPlayer = MjGame.PlayerManager.getInstance().selfPlayerVO;
             var player;
             var playerView;
             var playerNum = playerVOs.length;
+            var clientPos = 0;
+            var maxPos = clientPos;
             this.startBtn.visible = false;
             this.readyBtn.visible = false;
-            for (var index = 0; index < 4; index++) {
+            this.roomNum.text = "房间号：" + selfPlayer.roomId;
+            for (var i = 0; i < playerVOs.length; i++) {
+                player = playerVOs[i];
+                clientPos = MjGame.util.getClientRefPos(player.position, selfPlayer.position);
+                playerView = this.playerPosView[clientPos];
+                playerView.isReady.visible = player.status == MjGame.Constants.PLAYER_STATE_READY;
+                playerView.headIcon.visible = true;
+                playerView.playerName.text = player.username;
+                playerView.dealerImg.visible = player.isDealer;
+                playerView.visible = true;
+                this.updateStartBtnState(player, playerNum);
+                if (maxPos < clientPos) {
+                    maxPos = clientPos;
+                }
+            }
+            for (var index = (maxPos + 1); index < 4; index++) {
                 playerView = this.playerPosView[index];
-                if (index < MjGame.GlobalConfig.MAX_MEMBER_NUM) {
-                    player = playerVOs[index];
-                    if (player) {
-                        playerView.isReady.visible = player.isReady;
-                        playerView.headIcon.visible = true;
-                        playerView.playerName.text = player.username;
-                        this.updateStartBtnState(player, playerNum);
-                        this.roomNum.text = "房间号：" + player.roomId;
-                    }
-                    else {
-                        playerView.isReady.visible = false;
-                        playerView.headIcon.visible = false;
-                        playerView.playerName.text = "";
-                    }
-                }
-                else {
-                    playerView.isReady.visible = false;
-                    playerView.headIcon.visible = false;
-                    playerView.playerName.text = "";
-                }
+                playerView.visible = false;
             }
         };
         RoomScene.prototype.onLeave = function () {
@@ -79,6 +83,20 @@ var MjGame;
             Laya.stage.addChild(hallScene);
             this.removeEvent();
             this.removeSelf();
+        };
+        RoomScene.prototype.onStatusChange = function (data) {
+            if (data) {
+                var selfPlayer = MjGame.PlayerManager.getInstance().selfPlayerVO;
+                var playerView;
+                var clientPos = 0;
+                var player = MjGame.RoomManager.getInstance().getPlayer(data.playerId);
+                if (player) {
+                    player.status = data.status;
+                    clientPos = MjGame.util.getClientRefPos(player.position, selfPlayer.position);
+                    playerView = this.playerPosView[clientPos];
+                    playerView.isReady.visible = player.status == MjGame.Constants.PLAYER_STATE_READY;
+                }
+            }
         };
         RoomScene.prototype.updateStartBtnState = function (player, playerNum) {
             if (player.isRoomOwner && MjGame.PlayerManager.getInstance().selfUsername == player.username) {
@@ -92,7 +110,7 @@ var MjGame;
                     this.startBtn.mouseEnabled = false;
                 }
             }
-            else if (!player.isReady && !player.isRoomOwner) {
+            else if (player.status == MjGame.Constants.PLAYER_STATE_NOT_READY && !player.isRoomOwner && MjGame.PlayerManager.getInstance().selfUsername == player.username) {
                 this.readyBtn.visible = true;
             }
         };
@@ -110,7 +128,7 @@ var MjGame;
                     }
                 }
                 if (isCanStart) {
-                    MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.ROOM_STARTGAME, { username: MjGame.PlayerManager.getInstance().selfUsername, roomId: MjGame.RoomManager.getInstance().roomId });
+                    MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.ROOM_STARTGAME, { username: MjGame.PlayerManager.getInstance().selfUsername, roomId: MjGame.PlayerManager.getInstance().selfPlayerVO.roomId });
                 }
                 else {
                     MjGame.AlertManager.getInstance().showAlert("还有玩家未准备好！");

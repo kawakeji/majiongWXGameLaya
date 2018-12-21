@@ -6,6 +6,7 @@ var MjGame;
     var RoomManager = /** @class */ (function () {
         function RoomManager() {
             this.playerVOs = new Array();
+            this.roomVO = new MjGame.RoomVO();
         }
         RoomManager.getInstance = function () {
             if (!this.instance) {
@@ -42,10 +43,23 @@ var MjGame;
                 }
             }
         };
+        RoomManager.prototype.getPlayerByPos = function (pos) {
+            for (var index = 0; index < this.playerVOs.length; index++) {
+                var player = this.playerVOs[index];
+                if (player.position === pos) {
+                    return player;
+                }
+            }
+        };
+        RoomManager.prototype.setRoomOwner = function (roomOwnerPLayer) {
+            if (this.roomVO) {
+                this.roomVO.roomOwnerPlayer = roomOwnerPLayer;
+            }
+        };
         Object.defineProperty(RoomManager.prototype, "roomId", {
             get: function () {
-                if (this.roomOwnerPlayer) {
-                    return this.roomOwnerPlayer.roomId;
+                if (this.roomVO) {
+                    return this.roomVO.roomId;
                 }
                 return 0;
             },

@@ -2,7 +2,7 @@
     "x":0,
     "type":"View",
     "selectedBox":1,
-    "selecteID":7,
+    "selecteID":2,
     "props":{"width":1136,"sceneColor":"#000000","height":640},
     "nodeParent":-1,
     "label":"View",
@@ -15,7 +15,7 @@
         {
             "x":15,
             "type":"Image",
-            "props":{"y":0,"x":0,"skin":"game/hallLayer_bg.png"},
+            "props":{"y":-181,"x":-144,"skin":"game/loading/ui_di2.jpg"},
             "nodeParent":1,
             "label":"Image",
             "isDirectory":false,
@@ -27,34 +27,8 @@
         },
         {
             "x":15,
-            "type":"Image",
-            "props":{"y":-4,"x":0,"skin":"game/hall/top_bg.png"},
-            "nodeParent":1,
-            "label":"Image",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":3,
-            "child":[
-                ]
-        },
-        {
-            "x":15,
-            "type":"Image",
-            "props":{"y":186,"x":80,"skin":"game/hall/createRoomBG.png"},
-            "nodeParent":1,
-            "label":"Image",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":4,
-            "child":[
-                ]
-        },
-        {
-            "x":15,
             "type":"Button",
-            "props":{"y":430,"x":206,"var":"createRoomBtn","stateNum":"1","skin":"game/hall/btn_craeteRoom.png"},
+            "props":{"y":72,"x":209,"var":"createRoomBtn","stateNum":"1","skin":"game/hall/btn_craeteRoom.png"},
             "nodeParent":1,
             "label":"Button(createRoomBtn)",
             "isDirectory":false,
@@ -66,21 +40,8 @@
         },
         {
             "x":15,
-            "type":"Image",
-            "props":{"y":186,"x":650,"skin":"game/hall/enterRoomBG.png"},
-            "nodeParent":1,
-            "label":"Image",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":6,
-            "child":[
-                ]
-        },
-        {
-            "x":15,
             "type":"Button",
-            "props":{"y":430,"x":788,"var":"enterRoomBtn","stateNum":"1","skin":"game/hall/btn_enterRoom.png"},
+            "props":{"y":204,"x":208,"var":"enterRoomBtn","stateNum":"1","skin":"game/hall/btn_enterRoom.png"},
             "nodeParent":1,
             "label":"Button(enterRoomBtn)",
             "isDirectory":false,

@@ -63,12 +63,8 @@ module MjGame{
                         player.position = element.position;
                         player.isRoomOwner = element.isRoomOwner;
                         player.isDealer = element.isDealer;
-                        player.isReady = element.isReady;
+                        player.status = element.status;
                         Log.print("ON_UPDATE_ROOM ==> player:",util.toString(player))
-                        if (player.isRoomOwner)
-                        {
-                            RoomManager.getInstance().roomOwnerPlayer = player;
-                        }
                         if (player.username == PlayerManager.getInstance().selfUsername)
                         {
                             PlayerManager.getInstance().selfPlayerVO = player;
@@ -85,22 +81,27 @@ module MjGame{
         {
             SocketManager.getInstance().addProto(ProtocolType.ON_START_GAME,function(data)
             {
-                let players:any = data.players;
-                let hunPai:StPAI = data.hunPai;
+                let players:Array<any> = data.players;
+                let roomVO:RoomVO = data.roomVO;
+                RoomManager.getInstance().roomVO = roomVO;
                 if(players)
                 {
-                    for (var playerId in players) 
+                    for (var index = 0; index < players.length; index++) 
                     {
-                        if (players.hasOwnProperty(playerId)) 
+                        var cmjMsg:any = players[index];
+                        var playerId:number = cmjMsg.playerId;
+                        var player:PlayerVO = RoomManager.getInstance().getPlayer(Number(playerId));
+                        if (player)
                         {
-                            var player:PlayerVO = RoomManager.getInstance().getPlayer(Number(playerId));
-                            if (player)
+                            player.cmj = new CMJ();
+                            player.cmj.m_MyPAIVec = cmjMsg.m_MyPAIVec;
+                            player.cmj.m_OutPAIVec = cmjMsg.m_OutPAIVec;
+                            player.cmj.m_ChiPAIVec = cmjMsg.m_ChiPAIVec;
+                            player.cmj.m_PengPAIVec = cmjMsg.m_PengPAIVec;
+                            player.cmj.m_GangPAIVec = cmjMsg.m_GangPAIVec;
+                            if (roomVO && roomVO.roomHunPai)
                             {
-                                player.cmj.m_MyPAIVec = players[playerId];
-                                if (hunPai)
-                                {
-                                    player.cmj.setHunPai(hunPai);
-                                }
+                                player.cmj.setHunPai(roomVO.roomHunPai);
                             }
                         }
                     }

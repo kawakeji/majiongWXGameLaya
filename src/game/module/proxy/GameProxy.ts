@@ -18,8 +18,10 @@ module MjGame{
 			SocketManager.getInstance().addProto(ProtocolType.ON_GANG_PAI,this.onGangPai);
 			SocketManager.getInstance().addProto(ProtocolType.ON_HU_PAI,this.onHuPai);
 			SocketManager.getInstance().addProto(ProtocolType.ON_OPERATION,this.onOperation);
-			SocketManager.getInstance().addProto(ProtocolType.ON_READY,this.onReady);
+			SocketManager.getInstance().addProto(ProtocolType.ON_UPDATE_CUR_OUT_PAI,this.onUpdateCurPai);
+			SocketManager.getInstance().addProto(ProtocolType.ON_STATUS_CHANGE,this.onStatusChange);
 			SocketManager.getInstance().addProto(ProtocolType.ON_HUANG_ZHUANG,this.onHuangZhuang);
+			SocketManager.getInstance().addProto(ProtocolType.ON_TIMEOUT,this.onTimeOut);
 		}
 		
 		onUpdateCurPlayer(data:any):void
@@ -66,12 +68,21 @@ module MjGame{
 		{
 			EventManager.getInstance().event(ServerHandEvent.HUANG_ZHUANG);
 		}
+
+        onUpdateCurPai(data:any)
+        {
+            EventManager.getInstance().event(ServerHandEvent.UPDATE_CUR_OUT_PAI,[data]);
+        }
 		
-		onReady(data:any):void
+		onStatusChange(data:any):void
 		{
-			// var playerVO:PlayerVO = serverModel.getPlayerVOById(msg.value);
-			EventManager.getInstance().event(ServerHandEvent.READY,[data]);
+			EventManager.getInstance().event(ServerHandEvent.STATUS_CHANGE,[data]);
 		}
+
+        onTimeOut(data:any)
+        {
+            EventManager.getInstance().event(ServerHandEvent.TIME_OUT,[data]);
+        }
 
 		removeProtos():void
 		{
@@ -94,36 +105,32 @@ module MjGame{
 			SocketManager.getInstance().request(ProtocolType.CMJ_QUITOPERATIONI,msg);
 		}
 		
-		sendHuToServer(playerVO:PlayerVO,stPai:StPAI):void
+		sendHuToServer(playerVO:PlayerVO):void
 		{
 			var msg:any = {};
 			msg.playerId = playerVO.playerId;
-            msg.stPai = stPai;
-			msg.goodInfo = playerVO.cmj.m_GoodInfoArr;
 			SocketManager.getInstance().request(ProtocolType.CMJ_HU,msg);
 		}
 
-		sendChiToServer(playerVO:PlayerVO, stChi:StCHI):void
+		sendChiToServer(playerVO:PlayerVO, index:number):void
 		{
 			var msg:any = {};
 			msg.playerId = playerVO.playerId;
-			msg.stChi = stChi;
+			msg.index = index;
 			SocketManager.getInstance().request(ProtocolType.CMJ_CHIPAI,msg);
 		}
 		
-		sendPengToServer(playerVO:PlayerVO,stPai:StPAI):void
+		sendPengToServer(playerVO:PlayerVO):void
 		{
 			var msg:any = {};
 			msg.playerId = playerVO.playerId;
-			msg.stPai = stPai;
 			SocketManager.getInstance().request(ProtocolType.CMJ_PENGPAI,msg);
 		}
 		
-		sendGangToServer(playerVO:PlayerVO,stPai:StPAI):void
+		sendGangToServer(playerVO:PlayerVO):void
 		{
 			var msg:any = {};
 			msg.playerId = playerVO.playerId;
-			msg.stPai = stPai;
 			SocketManager.getInstance().request(ProtocolType.CMJ_GANGPAI,msg);
 		}
 		
@@ -131,8 +138,16 @@ module MjGame{
         {
             var msg:any = {};
 			msg.playerId = playerVO.playerId;
-			msg.isReady = true;
+			msg.status = Constants.PLAYER_STATE_READY;
 			SocketManager.getInstance().request(ProtocolType.CMJ_READY,msg);
+        }
+
+        sendTimeOut(playerVO:PlayerVO)
+        {
+            var msg:any = {};
+			msg.playerId = playerVO.playerId;
+			msg.isTimeOut = true;
+			SocketManager.getInstance().request(ProtocolType.CMJ_TIMEOUT,msg);
         }
 	}
 }

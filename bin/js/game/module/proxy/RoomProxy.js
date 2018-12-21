@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -57,11 +57,8 @@ var MjGame;
                         player.position = element.position;
                         player.isRoomOwner = element.isRoomOwner;
                         player.isDealer = element.isDealer;
-                        player.isReady = element.isReady;
+                        player.status = element.status;
                         MjGame.Log.print("ON_UPDATE_ROOM ==> player:", MjGame.util.toString(player));
-                        if (player.isRoomOwner) {
-                            MjGame.RoomManager.getInstance().roomOwnerPlayer = player;
-                        }
                         if (player.username == MjGame.PlayerManager.getInstance().selfUsername) {
                             MjGame.PlayerManager.getInstance().selfPlayerVO = player;
                         }
@@ -74,16 +71,22 @@ var MjGame;
         RoomProxy.prototype.addStartGameListener = function () {
             MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_START_GAME, function (data) {
                 var players = data.players;
-                var hunPai = data.hunPai;
+                var roomVO = data.roomVO;
+                MjGame.RoomManager.getInstance().roomVO = roomVO;
                 if (players) {
-                    for (var playerId in players) {
-                        if (players.hasOwnProperty(playerId)) {
-                            var player = MjGame.RoomManager.getInstance().getPlayer(Number(playerId));
-                            if (player) {
-                                player.cmj.m_MyPAIVec = players[playerId];
-                                if (hunPai) {
-                                    player.cmj.setHunPai(hunPai);
-                                }
+                    for (var index = 0; index < players.length; index++) {
+                        var cmjMsg = players[index];
+                        var playerId = cmjMsg.playerId;
+                        var player = MjGame.RoomManager.getInstance().getPlayer(Number(playerId));
+                        if (player) {
+                            player.cmj = new MjGame.CMJ();
+                            player.cmj.m_MyPAIVec = cmjMsg.m_MyPAIVec;
+                            player.cmj.m_OutPAIVec = cmjMsg.m_OutPAIVec;
+                            player.cmj.m_ChiPAIVec = cmjMsg.m_ChiPAIVec;
+                            player.cmj.m_PengPAIVec = cmjMsg.m_PengPAIVec;
+                            player.cmj.m_GangPAIVec = cmjMsg.m_GangPAIVec;
+                            if (roomVO && roomVO.roomHunPai) {
+                                player.cmj.setHunPai(roomVO.roomHunPai);
                             }
                         }
                     }

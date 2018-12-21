@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -20,7 +20,7 @@ var MjGame;
         __extends(HandCard, _super);
         function HandCard() {
             var _this = _super.call(this) || this;
-            _this.TOGGLE_DIST = 80;
+            _this.TOGGLE_DIST = 50;
             _this.downResBasePath = 'game/handCard/';
             _this.rightResBasePath = "game/bgCard/right_card.png";
             _this.leftResBasePath = "game/bgCard/left_card.png";

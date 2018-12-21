@@ -40,6 +40,7 @@ var MjGame;
         SocketManager.prototype._$game_io_error_handler = function (event) {
             console.log("socket io-error:", event);
             this.handler(MjGame.ProtocolType.CONNECT_RESULT, MjGame.MjSocket.IO_ERROR);
+            MjGame.AlertManager.getInstance().showAlert("服务器关闭了，请稍后连接！");
         };
         SocketManager.prototype._$game_data_handler = function (event) {
             console.log("\nsocket receive Msg \nprotoType:", event.protocol, "\nevent.Data:", event.data);

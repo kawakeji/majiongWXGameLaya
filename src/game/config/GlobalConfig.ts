@@ -2,6 +2,7 @@ module MjGame
 {
     export class GlobalConfig
     {
+        public static IS_PLAY_SOUND:boolean = false;
 
         public static DESK_WIDHT:number = 1136;
 		
@@ -10,7 +11,8 @@ module MjGame
         public static MAX_MEMBER_NUM: number = 2;
 
         //==================gate 服务器信息=================================
-        public static HOST:string  = '127.0.0.1';
+        // public static HOST:string  = '127.0.0.1';
+        public static HOST:string  = '47.105.205.5';
 
         public static PORT:number = 3010;
 		
@@ -76,6 +78,10 @@ module MjGame
         public static MJPAI_WAN:number =  2   //万  
         public static MJPAI_TIAO:number = 3   //条  
         public static MJPAI_BING:number = 4   //饼  
+
+        public static GANG_BU:number = 1 // 补杠
+        public static GANG_MING:number = 2 // 明杠
+        public static GANG_AN:number = 3 // 暗杠
 
         // 对应资源图片的前缀
         public static MJPAI_ZFB_RES_PATH_PRE:string = "zhong_";

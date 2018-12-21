@@ -25,25 +25,35 @@ module MjGame
 
         onComplete()
         {
-            this.anim.stop();
-            this.anim.visible = false;
             if (this.compCb)
             {
+                this.anim.stop();
+                this.anim.visible = false;
                 this.compCb.call(null, []);
             }
         }
 
-        play(labelName: string, compCb: Function)
+        play(labelName: string, compCb: Function, isLoop:boolean = false)
         {
             this.anim.visible = true;
             this.compCb = compCb;
             //添加到舞台
-            this.anim.play(0, false, labelName);
+            this.anim.play(0, isLoop, labelName);
         }
 
         pos(x:number,y:number)
         {
             this.anim.pos(x,y)
+        }
+
+        set visible(val:boolean)
+        {
+            this.anim.visible = val;
+        }
+
+        get visible():boolean
+        {
+            return this.anim.visible;
         }
     }
 }

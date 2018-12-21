@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -21,12 +21,16 @@ var MjGame;
         function LoginScene() {
             var _this = _super.call(this) || this;
             _this.loginBtn.on(Laya.Event.CLICK, _this, _this.onLogin);
+            MjGame.MjSoundManager.getInstance().playMusic(MjGame.SoundType.MAIN, 0);
             return _this;
-            // this.scale(0.4,0.4);
         }
         LoginScene.prototype.onLogin = function () {
             var self = this;
             var username = this.username.text;
+            if (username == "") {
+                MjGame.AlertManager.getInstance().showAlert("用户名不能为空");
+                return;
+            }
             MjGame.SocketManager.getInstance().close();
             MjGame.SocketManager.getInstance().connect(MjGame.GlobalConfig.HOST, MjGame.GlobalConfig.PORT, function (data) {
                 if (data == MjGame.MjSocket.OPEN) {
@@ -49,6 +53,7 @@ var MjGame;
             MjGame.SocketManager.getInstance().connect(host, port, function (data) {
                 MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.CONNECT_ENTER, function (data) {
                     if (data.code == 200) {
+                        MjGame.ServerTimeManager.getInstance().syncServerTime();
                         MjGame.PlayerManager.getInstance().selfUsername = data.username;
                         var hallScene = new MjGame.HallScene();
                         Laya.stage.addChild(hallScene);

@@ -17,7 +17,7 @@
 	<meta http-equiv="Cache-Control" content="no-siteapp"/>
 </head>
 
-<body>
+<body onunload="goodbye()">
 	<!--以下引用了常用类库，如果不使用，可以删除-->
 	
     <!--核心包，封装了显示对象渲染，事件，时间管理，时间轴动画，缓动，消息交互,socket，本地存储，鼠标触摸，声音，加载，颜色滤镜，位图字体等-->
@@ -64,6 +64,7 @@
 	<!--自定义的js(src文件夹下)文件自动添加到下面jsfile模块标签里面里-->
 	<!--删除标签，ide不会自动添加js文件，请谨慎操作-->
 	<!--jsfile--startTag-->
+	<script src="js/MjConfig.js"></script>
 	<script src="js/game/utils/Log.js"></script>
 	<script src="js/game/socket/SocketManager.js"></script>
 	<script src="js/game/socket/ProtocolType.js"></script>
@@ -72,15 +73,21 @@
 	<script src="js/game/module/card/HandCardCm.js"></script>
 	<script src="js/game/module/card/CardMainView.js"></script>
 	<script src="js/game/module/anim/CMJAnim.js"></script>
+	<script src="js/game/manager/ServerTimeManager.js"></script>
 	<script src="js/game/manager/RoomManager.js"></script>
 	<script src="js/game/manager/ProxyManager.js"></script>
 	<script src="js/game/manager/PlayerManager.js"></script>
+	<script src="js/game/manager/MjSoundManager.js"></script>
 	<script src="js/game/manager/AlertManager.js"></script>
 	<script src="js/game/event/ServerHandEvent.js"></script>
 	<script src="js/game/event/ClientHandEvent.js"></script>
 	<script src="js/game/event/BaseEvent.js"></script>
+	<script src="js/game/data/StPeng.js"></script>
+	<script src="js/game/data/StGang.js"></script>
+	<script src="js/game/data/RoomVO.js"></script>
 	<script src="js/game/data/PlayerVO.js"></script>
 	<script src="js/game/core/SinglePlayManager.js"></script>
+	<script src="js/game/config/SoundType.js"></script>
 	<script src="js/game/config/constants.js"></script>
 	<script src="js/game/manager/EventManager.js"></script>
 	<script src="js/game/module/alert/AccoutView.js"></script>
@@ -94,6 +101,7 @@
 	<script src="js/game/module/proxy/HallProxy.js"></script>
 	<script src="js/game/module/proxy/RoomProxy.js"></script>
 	<script src="js/game/scene/HallScene.js"></script>
+	<script src="js/game/scene/LoadingScene.js"></script>
 	<script src="js/game/scene/LoginScene.js"></script>
 	<script src="js/game/scene/RoomScene.js"></script>
 	<script src="js/game/socket/MjSocket.js"></script>
@@ -103,6 +111,20 @@
 	<!--jsfile--Main-->
 	<script src="js/LayaUISample.js"></script>
 	<!--jsfile--Main-->
+
+    <script>
+        function goodbye()
+        {
+            if(MjGame.SocketManager.instance)
+            {
+                MjGame.SocketManager.instance.destroy();
+            }
+        }
+        window.addEventListener("beforeunload", function (e) {
+            (e || window.event).returnValue = 'Are you sure you want to close this page?';
+        })
+    </script>
 </body>
+
 
 </html>

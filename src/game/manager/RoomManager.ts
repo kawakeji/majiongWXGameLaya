@@ -6,7 +6,7 @@ module MjGame
     export class RoomManager
     {
         playerVOs: Array<PlayerVO>;
-        roomOwnerPlayer:PlayerVO;
+        roomVO:RoomVO;
         private static instance: RoomManager;
         public static getInstance(): RoomManager
         {
@@ -19,6 +19,7 @@ module MjGame
         constructor()
         {
             this.playerVOs = new Array();
+            this.roomVO = new RoomVO();
         }
 
         public addPlayer(player: PlayerVO)
@@ -64,13 +65,34 @@ module MjGame
             }
         }
 
+        public getPlayerByPos(pos:number)
+        {
+            for (let index = 0; index < this.playerVOs.length; index++)
+            {
+                let player: PlayerVO = this.playerVOs[index];
+                if (player.position === pos)
+                {
+                    return player;
+                }
+            }
+        }
+
+        setRoomOwner(roomOwnerPLayer:PlayerVO):void
+        {
+            if (this.roomVO)
+            {
+                this.roomVO.roomOwnerPlayer = roomOwnerPLayer;
+            }
+        }
+
         get roomId():number
         {
-            if (this.roomOwnerPlayer)
+            if (this.roomVO)
             {
-                return this.roomOwnerPlayer.roomId;
+                return this.roomVO.roomId;
             }
             return 0;
         }
+
     }
 }

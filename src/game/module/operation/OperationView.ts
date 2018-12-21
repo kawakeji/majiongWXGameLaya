@@ -36,74 +36,56 @@ module MjGame{
 			{
 				case this.outBtn:
 				{
-					if(this.handCardCm.curClickCard)
-					{
-						this.hideAllBtn();
-						EventManager.getInstance().event(ClientHandEvent.WAITING_OUT_MJ,[this.handCardCm.curClickCard.stPai]);
-					}
-					else
-					{
-						console.log("请选择要打的牌！");
-					}
+					// if(this.handCardCm.curClickCard)
+					// {
+						// this.hideAllBtn();
+						// EventManager.getInstance().event(ClientHandEvent.WAITING_OUT_MJ,[this.handCardCm.curClickCard.stPai]);
+					// }
+					// else
+					// {
+					// 	console.log("请选择要打的牌！");
+					// }
 					break;
 				}
 				case this.chiBtn:
 				{
-					if(CMJManager.getInstance().curOutPai)
-					{
+					// if(CMJManager.getInstance().curOutPai)
+					// {
 						this.hideAllBtn();
 						this.showChiView();
-					}
+					// }
 					break;
 				}
 				case this.pengBtn:
 				{
-					if(CMJManager.getInstance().curOutPai)
-					{
+					// if(CMJManager.getInstance().curOutPai)
+					// {
 						this.hideAllBtn();
 						EventManager.getInstance().event(ClientHandEvent.WAITING_OPERATION_PENG,[ClientHandEvent.WAITING_OPERATION_PENG]);
-					}
+					// }
 					break;
 				}
 				case this.gangBtn:
 				{
-					if(CMJManager.getInstance().curOutPai)
-					{
+					// if(CMJManager.getInstance().curOutPai)
+					// {
 						this.hideAllBtn();
 						EventManager.getInstance().event(ClientHandEvent.WAITING_OPERATION_GANG,[ClientHandEvent.WAITING_OPERATION_GANG]);
-					}
+					// }
 					break;
 				}
 				case this.huBtn:
 				{
-					if(CMJManager.getInstance().curOutPai)
-					{
+					// if(CMJManager.getInstance().curOutPai)
+					// {
 						this.hideAllBtn();
 						EventManager.getInstance().event(ClientHandEvent.WAITING_OPERATION_HU,[ClientHandEvent.WAITING_OPERATION_HU]);
-					}
+					// }
 					break;
 				}
 				case this.quitBtn:
 				{
-                    var oType:number = Constants.O_TYPE_NULL;
-					if(this.huBtn.visible == true)
-					{
-						oType = Constants.O_TYPE_HU;
-					}
-					else if(this.gangBtn.visible == true)
-					{
-						oType = Constants.O_TYPE_GANG;
-					}
-					else if(this.pengBtn.visible == true)
-					{
-						oType = Constants.O_TYPE_PENG;
-					}
-					else if(this.chiBtn.visible == true)
-					{
-						oType = Constants.O_TYPE_CHI;
-					}
-					this.hideAllBtn();
-					EventManager.getInstance().event(ClientHandEvent.QUIT_OPERATION,[ClientHandEvent.QUIT_OPERATION,oType]);
+                    this.sendQuitOperation();
 					break;
 				}
 				default:
@@ -285,5 +267,29 @@ module MjGame{
 				}
 			}
 		}
+
+        sendQuitOperation()
+        {
+            var oType:number = Constants.O_TYPE_NULL;
+            if(this.huBtn.visible == true)
+            {
+                oType = Constants.O_TYPE_HU;
+            }
+            else if(this.gangBtn.visible == true)
+            {
+                oType = Constants.O_TYPE_GANG;
+            }
+            else if(this.pengBtn.visible == true)
+            {
+                oType = Constants.O_TYPE_PENG;
+            }
+            else if(this.chiBtn.visible == true)
+            {
+                oType = Constants.O_TYPE_CHI;
+            }
+            this.hideAllBtn();
+            EventManager.getInstance().event(ClientHandEvent.QUIT_OPERATION,[ClientHandEvent.QUIT_OPERATION,oType]);
+        }
+        
 	}
 }

@@ -16,21 +16,32 @@ var MjGame;
             //播放Animation动画
         }
         CMJAnim.prototype.onComplete = function () {
-            this.anim.stop();
-            this.anim.visible = false;
             if (this.compCb) {
+                this.anim.stop();
+                this.anim.visible = false;
                 this.compCb.call(null, []);
             }
         };
-        CMJAnim.prototype.play = function (labelName, compCb) {
+        CMJAnim.prototype.play = function (labelName, compCb, isLoop) {
+            if (isLoop === void 0) { isLoop = false; }
             this.anim.visible = true;
             this.compCb = compCb;
             //添加到舞台
-            this.anim.play(0, false, labelName);
+            this.anim.play(0, isLoop, labelName);
         };
         CMJAnim.prototype.pos = function (x, y) {
             this.anim.pos(x, y);
         };
+        Object.defineProperty(CMJAnim.prototype, "visible", {
+            get: function () {
+                return this.anim.visible;
+            },
+            set: function (val) {
+                this.anim.visible = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return CMJAnim;
     }());
     MjGame.CMJAnim = CMJAnim;

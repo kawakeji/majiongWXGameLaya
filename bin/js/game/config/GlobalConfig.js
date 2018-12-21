@@ -22,11 +22,13 @@ var MjGame;
             }
             return resPath;
         };
+        GlobalConfig.IS_PLAY_SOUND = false;
         GlobalConfig.DESK_WIDHT = 1136;
         GlobalConfig.DESK_HEIGHT = 640;
         GlobalConfig.MAX_MEMBER_NUM = 2;
         //==================gate 服务器信息=================================
-        GlobalConfig.HOST = '127.0.0.1';
+        // public static HOST:string  = '127.0.0.1';
+        GlobalConfig.HOST = '47.105.205.5';
         GlobalConfig.PORT = 3010;
         //==================玩家的视图位置=================================
         /**
@@ -85,6 +87,9 @@ var MjGame;
         GlobalConfig.MJPAI_WAN = 2; //万  
         GlobalConfig.MJPAI_TIAO = 3; //条  
         GlobalConfig.MJPAI_BING = 4; //饼  
+        GlobalConfig.GANG_BU = 1; // 补杠
+        GlobalConfig.GANG_MING = 2; // 明杠
+        GlobalConfig.GANG_AN = 3; // 暗杠
         // 对应资源图片的前缀
         GlobalConfig.MJPAI_ZFB_RES_PATH_PRE = "zhong_";
         GlobalConfig.MJPAI_FENG_RES_PATH_PRE = "feng_";

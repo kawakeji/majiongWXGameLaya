@@ -26,6 +26,13 @@ var MjGame;
         Constants.O_TYPE_PENG = 3;
         Constants.O_TYPE_CHI = 4;
         Constants.O_TYPE_DA = 5;
+        Constants.O_TYPE_ZIMO = 6;
+        Constants.PLAYER_STATE_NONE = 0; // 玩家初始化
+        Constants.PLAYER_STATE_NOT_READY = 1; // 房间内未准备状态
+        Constants.PLAYER_STATE_READY = 2; // 房间内准备状态
+        Constants.PLAYER_STATE_DISCONNECT = 3; // 断开连接状态
+        Constants.PLAYER_STATE_GAME = 4; // 正在游戏中
+        Constants.PLAYER_STATE_EXIT = 5; // 玩家退出
         return Constants;
     }());
     MjGame.Constants = Constants;

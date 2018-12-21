@@ -54,6 +54,7 @@ module MjGame{
         private _$game_io_error_handler(event: any): void {
             console.log("socket io-error:", event);
 			this.handler(ProtocolType.CONNECT_RESULT,MjSocket.IO_ERROR);
+            AlertManager.getInstance().showAlert("服务器关闭了，请稍后连接！");
         }
 
         private _$game_data_handler(event: any): void {

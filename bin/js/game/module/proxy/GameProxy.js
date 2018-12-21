@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -32,8 +32,10 @@ var MjGame;
             MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_GANG_PAI, this.onGangPai);
             MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_HU_PAI, this.onHuPai);
             MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_OPERATION, this.onOperation);
-            MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_READY, this.onReady);
+            MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_UPDATE_CUR_OUT_PAI, this.onUpdateCurPai);
+            MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_STATUS_CHANGE, this.onStatusChange);
             MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_HUANG_ZHUANG, this.onHuangZhuang);
+            MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_TIMEOUT, this.onTimeOut);
         };
         GameProxy.prototype.onUpdateCurPlayer = function (data) {
             MjGame.EventManager.getInstance().event(MjGame.ServerHandEvent.UPDATE_CUR_PLAYER, [data]);
@@ -62,9 +64,14 @@ var MjGame;
         GameProxy.prototype.onHuangZhuang = function (data) {
             MjGame.EventManager.getInstance().event(MjGame.ServerHandEvent.HUANG_ZHUANG);
         };
-        GameProxy.prototype.onReady = function (data) {
-            // var playerVO:PlayerVO = serverModel.getPlayerVOById(msg.value);
-            MjGame.EventManager.getInstance().event(MjGame.ServerHandEvent.READY, [data]);
+        GameProxy.prototype.onUpdateCurPai = function (data) {
+            MjGame.EventManager.getInstance().event(MjGame.ServerHandEvent.UPDATE_CUR_OUT_PAI, [data]);
+        };
+        GameProxy.prototype.onStatusChange = function (data) {
+            MjGame.EventManager.getInstance().event(MjGame.ServerHandEvent.STATUS_CHANGE, [data]);
+        };
+        GameProxy.prototype.onTimeOut = function (data) {
+            MjGame.EventManager.getInstance().event(MjGame.ServerHandEvent.TIME_OUT, [data]);
         };
         GameProxy.prototype.removeProtos = function () {
         };
@@ -80,36 +87,38 @@ var MjGame;
             msg.operationType = oType;
             MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.CMJ_QUITOPERATIONI, msg);
         };
-        GameProxy.prototype.sendHuToServer = function (playerVO, stPai) {
+        GameProxy.prototype.sendHuToServer = function (playerVO) {
             var msg = {};
             msg.playerId = playerVO.playerId;
-            msg.stPai = stPai;
-            msg.goodInfo = playerVO.cmj.m_GoodInfoArr;
             MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.CMJ_HU, msg);
         };
-        GameProxy.prototype.sendChiToServer = function (playerVO, stChi) {
+        GameProxy.prototype.sendChiToServer = function (playerVO, index) {
             var msg = {};
             msg.playerId = playerVO.playerId;
-            msg.stChi = stChi;
+            msg.index = index;
             MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.CMJ_CHIPAI, msg);
         };
-        GameProxy.prototype.sendPengToServer = function (playerVO, stPai) {
+        GameProxy.prototype.sendPengToServer = function (playerVO) {
             var msg = {};
             msg.playerId = playerVO.playerId;
-            msg.stPai = stPai;
             MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.CMJ_PENGPAI, msg);
         };
-        GameProxy.prototype.sendGangToServer = function (playerVO, stPai) {
+        GameProxy.prototype.sendGangToServer = function (playerVO) {
             var msg = {};
             msg.playerId = playerVO.playerId;
-            msg.stPai = stPai;
             MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.CMJ_GANGPAI, msg);
         };
         GameProxy.prototype.sendReadyToServer = function (playerVO) {
             var msg = {};
             msg.playerId = playerVO.playerId;
-            msg.isReady = true;
+            msg.status = MjGame.Constants.PLAYER_STATE_READY;
             MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.CMJ_READY, msg);
+        };
+        GameProxy.prototype.sendTimeOut = function (playerVO) {
+            var msg = {};
+            msg.playerId = playerVO.playerId;
+            msg.isTimeOut = true;
+            MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.CMJ_TIMEOUT, msg);
         };
         return GameProxy;
     }(MjGame.BaseProxy));

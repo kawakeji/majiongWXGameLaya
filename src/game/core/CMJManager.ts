@@ -11,10 +11,11 @@ module MjGame{
 		//剩余牌数
 		remainNum:number;
 
-		//当前打的牌
-		curOutPai:StPAI;
-		//当前操作的牌，杠的，碰的，吃的，胡的
-		curOperationPai:StPAI;
+        //当前打的最后一张牌
+        curOutPai: StPAI;
+
+        //当前摸上来的最后一张牌
+        curInPai:StPAI;
 
 		private static instance:CMJManager;
 		/**

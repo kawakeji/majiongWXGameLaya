@@ -20,29 +20,26 @@ var MjGame;
             return str;
         };
         /**
- * 获取客户端相对位置，默认在下方是 0 ，右边是 1 依次类推
- * 这个地方会修改玩家的服务器对应的position
- */
+         * 获取客户端相对位置，默认在下方是 0 ，右边是 1 依次类推
+         * 这个地方会修改玩家的服务器对应的position
+         */
         util.getClientRefPos = function (serverPos, selfServerPos) {
             var offPos = (serverPos - selfServerPos);
             return offPos < 0 ? MjGame.GlobalConfig.MAX_MEMBER_NUM + offPos : offPos;
         };
         util.getByChiPai = function (stChi, index) {
             if (!index) {
-                index = stChi.byChiIndex;
+                index = stChi.m_byChiIndex;
             }
-            var pai = new MjGame.StPAI();
-            pai.m_Type = stChi.m_Type;
-            if (index == 2) {
-                pai.m_Value = stChi.m_Value2;
+            if (index == 1) {
+                return stChi.m_ChiPai1;
             }
-            else if (index == 3) {
-                pai.m_Value = stChi.m_Value3;
+            else if (index == 2) {
+                return stChi.m_ChiPai2;
             }
             else {
-                pai.m_Value = stChi.m_Value1;
+                return stChi.m_ChiPai3;
             }
-            return pai;
         };
         return util;
     }());

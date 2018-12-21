@@ -22,6 +22,12 @@ var MjGame;
                 this.parentView.addChild(card);
                 card.setData(stPai, startX, startY, i);
             }
+            if (card) {
+                this.lsCard = card.card;
+            }
+        };
+        OutCardCm.prototype.getLastOutCard = function () {
+            return this.lsCard;
         };
         return OutCardCm;
     }());

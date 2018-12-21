@@ -46,11 +46,19 @@ var MjGame;
         /**
          * 有玩家准备了
          */
-        ServerHandEvent.READY = "ServerHandEvent.ready";
+        ServerHandEvent.STATUS_CHANGE = "status_change";
         /**
          * 黄庄了
          */
         ServerHandEvent.HUANG_ZHUANG = "huang_zhuang";
+        /**
+         * 倒计时
+         */
+        ServerHandEvent.TIME_OUT = "time_out";
+        /**
+         * 更新当前的出的牌
+         */
+        ServerHandEvent.UPDATE_CUR_OUT_PAI = "update_cur_out_pai";
         return ServerHandEvent;
     }());
     MjGame.ServerHandEvent = ServerHandEvent;

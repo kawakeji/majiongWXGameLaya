@@ -68,9 +68,13 @@ module MjGame{
 
 		removeInputNum()
 		{
-			var img:Laya.Image = this.inputNumArr.pop();
-			img.removeSelf();
             this.isEnter = false;
+            if (this.inputNumArr.length <= 0) return ;
+			var img:Laya.Image = this.inputNumArr.pop();
+            if (img)
+            {
+                img.removeSelf();
+            }
 		}
 
 		checkIsCanEnter(curLen:number)

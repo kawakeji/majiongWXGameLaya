@@ -69,19 +69,26 @@ module ui.game.scene {
     export class DeskSceneUI extends View {
 		public clockUI:ui.game.view.ClockUI;
 		public upView:View;
-		public downView:View;
 		public leftView:View;
 		public rightView:View;
-		public outDownView:View;
 		public outUpView:View;
 		public outLeftView:View;
 		public outRightView:View;
-		public hunPai:Laya.Label;
+		public outDownView:View;
+		public downView:View;
+		public leftPlayerView:ui.game.view.PlayerViewUI;
+		public upPlayerView:ui.game.view.PlayerViewUI;
+		public downPlayerView:ui.game.view.PlayerViewUI;
+		public rightPlayerView:ui.game.view.PlayerViewUI;
+		public chatBtn:Laya.Image;
+		public roomInfoView:ui.game.view.RoomInfoViewUI;
 
-        public static  uiView:any ={"type":"View","props":{"width":1136,"height":640},"child":[{"type":"Image","props":{"y":0,"x":0,"visible":true,"skin":"game/game/loginbg.png"}},{"type":"Clock","props":{"y":320,"x":568,"visible":true,"var":"clockUI","rotation":0,"runtime":"ui.game.view.ClockUI"}},{"type":"View","props":{"y":12,"x":322,"width":492,"var":"upView","height":50}},{"type":"View","props":{"y":539,"x":198,"width":793,"var":"downView","height":89,"anchorY":0,"anchorX":0}},{"type":"View","props":{"y":121,"x":169,"width":57,"var":"leftView","height":398}},{"type":"View","props":{"y":483,"x":942,"width":59,"var":"rightView","height":9}},{"type":"View","props":{"y":471,"x":297,"width":56,"var":"outDownView","height":45}},{"type":"View","props":{"y":82,"x":801,"width":29,"var":"outUpView","rotation":0,"height":34}},{"type":"View","props":{"y":179,"x":202,"width":15,"var":"outLeftView","rotation":0,"height":29}},{"type":"View","props":{"y":390,"x":886,"width":17,"var":"outRightView","rotation":0,"height":26}},{"type":"Label","props":{"var":"hunPai","text":"label","fontSize":30}}]};
+        public static  uiView:any ={"type":"View","props":{"width":1136,"height":640},"child":[{"type":"Image","props":{"y":-181,"x":-144,"skin":"game/loading/ui_di2.jpg"}},{"type":"Clock","props":{"y":320,"x":568,"visible":true,"var":"clockUI","rotation":0,"runtime":"ui.game.view.ClockUI"}},{"type":"View","props":{"y":12,"x":322,"width":492,"var":"upView","height":50}},{"type":"View","props":{"y":121,"x":169,"width":57,"var":"leftView","height":398}},{"type":"View","props":{"y":483,"x":942,"width":59,"var":"rightView","height":9}},{"type":"View","props":{"y":82,"x":801,"width":29,"var":"outUpView","rotation":0,"height":34}},{"type":"View","props":{"y":179,"x":202,"width":15,"var":"outLeftView","rotation":0,"height":29}},{"type":"View","props":{"y":390,"x":886,"width":17,"var":"outRightView","rotation":0,"height":26}},{"type":"View","props":{"y":471,"x":297,"width":56,"var":"outDownView","height":45}},{"type":"View","props":{"y":539,"x":198,"width":892,"var":"downView","height":89,"anchorY":0,"anchorX":0}},{"type":"PlayerView","props":{"y":236,"x":18,"var":"leftPlayerView","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":10,"x":818,"var":"upPlayerView","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":473,"x":36,"var":"downPlayerView","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":236,"x":1004,"var":"rightPlayerView","runtime":"ui.game.view.PlayerViewUI"}},{"type":"Image","props":{"y":457,"x":1058,"var":"chatBtn","skin":"game/chat/s_chat_shuohua_nomal.png"}},{"type":"RoomInfoView","props":{"y":3,"x":-1,"var":"roomInfoView","runtime":"ui.game.view.RoomInfoViewUI"}}]};
         constructor(){ super()}
         createChildren():void {
         			View.regComponent("ui.game.view.ClockUI",ui.game.view.ClockUI);
+			View.regComponent("ui.game.view.PlayerViewUI",ui.game.view.PlayerViewUI);
+			View.regComponent("ui.game.view.RoomInfoViewUI",ui.game.view.RoomInfoViewUI);
 
             super.createChildren();
             this.createView(ui.game.scene.DeskSceneUI.uiView);
@@ -96,7 +103,7 @@ module ui.game.scene {
 		public createRoomBtn:Laya.Button;
 		public enterRoomBtn:Laya.Button;
 
-        public static  uiView:any ={"type":"View","props":{"width":1136,"height":640},"child":[{"type":"Image","props":{"y":0,"x":0,"skin":"game/hallLayer_bg.png"}},{"type":"Image","props":{"y":-4,"x":0,"skin":"game/hall/top_bg.png"}},{"type":"Image","props":{"y":186,"x":80,"skin":"game/hall/createRoomBG.png"}},{"type":"Button","props":{"y":430,"x":206,"var":"createRoomBtn","stateNum":1,"skin":"game/hall/btn_craeteRoom.png"}},{"type":"Image","props":{"y":186,"x":650,"skin":"game/hall/enterRoomBG.png"}},{"type":"Button","props":{"y":430,"x":788,"var":"enterRoomBtn","stateNum":1,"skin":"game/hall/btn_enterRoom.png"}}]};
+        public static  uiView:any ={"type":"View","props":{"width":1136,"height":640},"child":[{"type":"Image","props":{"y":-181,"x":-144,"skin":"game/loading/ui_di2.jpg"}},{"type":"Button","props":{"y":72,"x":209,"var":"createRoomBtn","stateNum":1,"skin":"game/hall/btn_craeteRoom.png"}},{"type":"Button","props":{"y":204,"x":208,"var":"enterRoomBtn","stateNum":1,"skin":"game/hall/btn_enterRoom.png"}}]};
         constructor(){ super()}
         createChildren():void {
         
@@ -109,11 +116,29 @@ module ui.game.scene {
 }
 
 module ui.game.scene {
+    export class LoadingSceneUI extends View {
+		public bg:Laya.Image;
+		public loadingBar:Laya.ProgressBar;
+		public loadingLabel:Laya.Label;
+
+        public static  uiView:any ={"type":"View","props":{"x":0,"width":1136,"height":640},"child":[{"type":"Image","props":{"y":-181,"x":-144,"var":"bg","skin":"game/loading/ui_di2.jpg"}},{"type":"ProgressBar","props":{"y":530,"x":102,"var":"loadingBar","value":1,"skin":"game/loading/loadingBar.png"}},{"type":"Label","props":{"y":514,"x":568,"var":"loadingLabel","text":"当前进度：0% ","fontSize":30,"color":"#9f9a11","anchorY":0.5,"anchorX":0.5,"align":"center"}}]};
+        constructor(){ super()}
+        createChildren():void {
+        
+            super.createChildren();
+            this.createView(ui.game.scene.LoadingSceneUI.uiView);
+
+        }
+
+    }
+}
+
+module ui.game.scene {
     export class LoginSceneUI extends View {
 		public username:Laya.TextInput;
 		public loginBtn:Laya.Button;
 
-        public static  uiView:any ={"type":"View","props":{"width":1136,"visible":true,"height":640},"child":[{"type":"Image","props":{"y":0,"x":0},"child":[{"type":"Rect","props":{"y":0,"x":0,"width":1136,"lineWidth":1,"height":640,"fillColor":"#00a3ff"}},{"type":"TextInput","props":{"y":420,"x":452,"width":224,"var":"username","text":"logen","height":41,"fontSize":25}},{"type":"Button","props":{"y":489,"x":446,"var":"loginBtn","stateNum":1,"skin":"game/ui/btn_guest.png"}}]}]};
+        public static  uiView:any ={"type":"View","props":{"width":1136,"visible":true,"height":640},"child":[{"type":"Image","props":{"y":-181,"x":-144,"skin":"game/loading/ui_di2.jpg"},"child":[{"type":"Image","props":{"y":407,"x":582,"width":328,"skin":"game/ui/s_chat_button2nomal.png","sizeGrid":"20,20,20,20","height":52}},{"type":"TextInput","props":{"y":414,"x":597,"width":305,"var":"username","strokeColor":"#a544d2","stroke":2,"maxChars":14,"height":41,"fontSize":30}},{"type":"Button","props":{"y":469,"x":569,"var":"loginBtn","stateNum":1,"skin":"game/ui/btn_guest.png"}},{"type":"Label","props":{"y":419,"x":471,"text":"用户名：","fontSize":30,"color":"#0a0000","bold":true,"align":"right"}}]}]};
         constructor(){ super()}
         createChildren():void {
         
@@ -135,13 +160,28 @@ module ui.game.scene {
 		public readyBtn:Laya.Image;
 		public roomNum:Laya.Label;
 
-        public static  uiView:any ={"type":"View","props":{"width":1136,"height":640},"child":[{"type":"PlayerView","props":{"y":34,"x":510,"var":"upPosPlayer","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":208,"x":230,"var":"leftPosPlayer","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":208,"x":896,"var":"rightPosPlayer","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":367,"x":510,"var":"downPosPlayer","runtime":"ui.game.view.PlayerViewUI"}},{"type":"Button","props":{"y":543,"x":471,"var":"startBtn","stateNum":1,"skin":"game/ui/btn_start.png"}},{"type":"Image","props":{"y":539,"x":496,"visible":false,"var":"readyBtn","skin":"game/ui/room_btn.png"},"child":[{"type":"Image","props":{"y":12,"x":26,"skin":"game/ui/word_ready.png"}}]},{"type":"Label","props":{"y":38,"x":42,"var":"roomNum","text":"房间号：","fontSize":25,"color":"#ea0e0a"}}]};
+        public static  uiView:any ={"type":"View","props":{"width":1136,"height":640},"child":[{"type":"Image","props":{"y":-181,"x":-144,"skin":"game/loading/ui_di2.jpg"}},{"type":"PlayerView","props":{"y":34,"x":510,"var":"upPosPlayer","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":208,"x":230,"var":"leftPosPlayer","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":208,"x":896,"var":"rightPosPlayer","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":367,"x":510,"var":"downPosPlayer","runtime":"ui.game.view.PlayerViewUI"}},{"type":"Button","props":{"y":543,"x":471,"var":"startBtn","stateNum":1,"skin":"game/ui/btn_start.png"}},{"type":"Image","props":{"y":539,"x":496,"visible":false,"var":"readyBtn","skin":"game/ui/room_btn.png"},"child":[{"type":"Image","props":{"y":12,"x":26,"skin":"game/ui/word_ready.png"}}]},{"type":"Label","props":{"y":38,"x":42,"var":"roomNum","text":"房间号：","fontSize":30,"color":"#000000","bold":true}}]};
         constructor(){ super()}
         createChildren():void {
         			View.regComponent("ui.game.view.PlayerViewUI",ui.game.view.PlayerViewUI);
 
             super.createChildren();
             this.createView(ui.game.scene.RoomSceneUI.uiView);
+
+        }
+
+    }
+}
+
+module ui.game.view {
+    export class ChatViewUI extends View {
+
+        public static  uiView:any ={"type":"View","props":{"width":346,"height":413},"child":[{"type":"Image","props":{"y":0,"x":0,"skin":"game/chat/chat_bg.png"}},{"type":"Image","props":{"y":87,"x":39,"skin":"game/chat/1.png"}},{"type":"Image","props":{"y":136,"x":39,"skin":"game/chat/2.png"}},{"type":"Image","props":{"y":186,"x":39,"skin":"game/chat/3.png"}},{"type":"Image","props":{"y":288,"x":39,"skin":"game/chat/5.png"}},{"type":"Image","props":{"y":338,"x":39,"skin":"game/chat/6.png"}},{"type":"Image","props":{"y":240,"x":39,"skin":"game/chat/7.png"}}]};
+        constructor(){ super()}
+        createChildren():void {
+        
+            super.createChildren();
+            this.createView(ui.game.view.ChatViewUI.uiView);
 
         }
 
@@ -226,13 +266,32 @@ module ui.game.view {
 		public headIcon:Laya.Image;
 		public isReady:Laya.Image;
 		public playerName:Laya.Label;
+		public dealerImg:Laya.Image;
 
-        public static  uiView:any ={"type":"View","props":{"width":115,"height":118},"child":[{"type":"Image","props":{"y":0,"x":2,"var":"headIcon","skin":"game/head/local_head_01.png"}},{"type":"Image","props":{"y":-15,"x":-18,"skin":"game/head/kuang_on.png"}},{"type":"Image","props":{"y":36,"x":14,"var":"isReady","skin":"game/ui/word_ready.png"}},{"type":"Label","props":{"y":139,"x":56,"var":"playerName","text":"playerName","fontSize":20,"color":"#0acd1a","bold":true,"anchorY":0.5,"anchorX":0.5}}]};
+        public static  uiView:any ={"type":"View","props":{"width":115,"visible":true,"height":118},"child":[{"type":"Image","props":{"y":0,"x":2,"var":"headIcon","skin":"game/head/local_head_01.png"}},{"type":"Image","props":{"y":-15,"x":-18,"skin":"game/head/kuang_on.png"}},{"type":"Image","props":{"y":36,"x":14,"var":"isReady","skin":"game/ui/word_ready.png"}},{"type":"Label","props":{"y":139,"x":56,"var":"playerName","text":"playerName","fontSize":20,"color":"#0acd1a","bold":true,"anchorY":0.5,"anchorX":0.5}},{"type":"Image","props":{"y":6,"x":79,"visible":false,"var":"dealerImg","skin":"game/operationImg/head_banker.png"}}]};
         constructor(){ super()}
         createChildren():void {
         
             super.createChildren();
             this.createView(ui.game.view.PlayerViewUI.uiView);
+
+        }
+
+    }
+}
+
+module ui.game.view {
+    export class RoomInfoViewUI extends View {
+		public roomIdLabel:Laya.Label;
+		public roomRoundNumLabel:Laya.Label;
+		public hunContainer:Laya.Image;
+
+        public static  uiView:any ={"type":"View","props":{"width":150,"height":200},"child":[{"type":"Label","props":{"y":6,"x":9,"var":"roomIdLabel","text":"房间号：","fontSize":20,"color":"#31bea7","bold":true}},{"type":"Label","props":{"y":36,"x":9,"var":"roomRoundNumLabel","text":"label","fontSize":20,"color":"#31bea7","bold":true}},{"type":"Image","props":{"y":68,"x":11,"var":"hunContainer"}}]};
+        constructor(){ super()}
+        createChildren():void {
+        
+            super.createChildren();
+            this.createView(ui.game.view.RoomInfoViewUI.uiView);
 
         }
 

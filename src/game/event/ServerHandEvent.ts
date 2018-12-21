@@ -44,11 +44,19 @@ module MjGame{
 		/**
 		 * 有玩家准备了 
 		 */		
-		public static READY:string = "ServerHandEvent.ready";
+		public static STATUS_CHANGE:string = "status_change";
 		/**
 		 * 黄庄了 
 		 */		
 		public static HUANG_ZHUANG:string = "huang_zhuang";
+        /**
+         * 倒计时
+         */
+		public static TIME_OUT:string = "time_out";
+        /**
+         * 更新当前的出的牌
+         */
+		public static UPDATE_CUR_OUT_PAI:string = "update_cur_out_pai";
 		
 	}
 }

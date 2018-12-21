@@ -8,13 +8,18 @@ module MjGame
 		constructor(){
 			super();
 			this.loginBtn.on(Laya.Event.CLICK,this,this.onLogin);
-            // this.scale(0.4,0.4);
+            MjSoundManager.getInstance().playMusic(SoundType.MAIN,0);
 		}
 
 		onLogin():void
 		{
             var self = this;
 			var username:string = this.username.text;
+            if (username == "")
+            {
+                AlertManager.getInstance().showAlert("用户名不能为空");
+                return;
+            }
             SocketManager.getInstance().close();
 			SocketManager.getInstance().connect(GlobalConfig.HOST,GlobalConfig.PORT,function(data)
             {
@@ -47,6 +52,7 @@ module MjGame
                 {
                     if (data.code == 200)
                     {
+                        ServerTimeManager.getInstance().syncServerTime();
                         PlayerManager.getInstance().selfUsername = data.username;
                         var hallScene:HallScene = new HallScene();
                         Laya.stage.addChild(hallScene);

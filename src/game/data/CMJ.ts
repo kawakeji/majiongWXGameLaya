@@ -15,13 +15,10 @@ module MjGame{
 		m_OutPAIVec:Array<StPAI>;     //打出去的牌型
 		m_MyPAIVec:Array<Array<number>>;      //起的种牌型  
 		m_ChiPAIVec:Array<StCHI>;     //吃的种牌型  
-		m_PengPAIVec:Array<StPAI>;    //碰的种牌型  
-		m_GangPAIVec:Array<StPAI>;    //杠的种牌型  
+		m_PengPAIVec:Array<StPeng>;    //碰的种牌型  
+		m_GangPAIVec:Array<StGang>;    //杠的种牌型  
 		m_HuPAIVec:Array<StPAI>;    //胡的种牌型  
-		
-		m_TempChiPAIVec:Array<StCHI>;    //吃的可选组合  
-		m_TempPengPAIVec:Array<StPAI>;   //碰的可选组合  
-		m_TempGangPAIVec:Array<StPAI>;   //杠的可选组合  
+		m_TempChiPAIVec:Array<StCHI>;    //胡的种牌型  
 		
 		m_LastPAI:StPAI;          //最后起的牌  
 		m_LastPAIIsSelf:boolean = false;         // 最后一张牌的是否是自摸上来的
@@ -54,11 +51,10 @@ module MjGame{
 			this.m_GoodInfoArr = new Array<StGoodInfo>();
 			
 			this.m_ChiPAIVec = new Array<StCHI>();
-			this.m_PengPAIVec = new Array<StPAI>();
-			this.m_GangPAIVec = new Array<StPAI>();
+			this.m_PengPAIVec = new Array<StPeng>();
+			this.m_GangPAIVec = new Array<StGang>();
 			this.m_HuPAIVec = new Array<StPAI>();
 			
-			this.m_TempChiPAIVec = new Array<StCHI>();
 			this.fengChiConfig = {};
 			this.fengChiConfig[1] = "2,3|2,4|3,4".split("|");
 			this.fengChiConfig[2] = "1,3|1,4|3,4".split("|");
@@ -91,10 +87,12 @@ module MjGame{
 				tempArr = this.m_MyPAIVec[i];
 				if (tempArr[0] > 0)
 				{
-					for (var j:number = 1; j < GlobalConfig.CARD_VALUE_NUM; j++) {
+					for (var j:number = 1; j < GlobalConfig.CARD_VALUE_NUM; j++) 
+                    {
 						paiCount = tempArr[j];
 						count = count + paiCount;
-						if (count >= pos) {
+						if (count >= pos) 
+                        {
 							tempPai = new StPAI();
 							tempPai.m_Type = i;
 							tempPai.m_Value = j;
@@ -172,6 +170,7 @@ module MjGame{
 			{
 				this.m_OutPAIVec.push(pai);
 			}
+            this.m_LastPAI = null; 
 		}  
 
         setHunPai(hunPai:StPAI)
@@ -218,80 +217,71 @@ module MjGame{
 		// 获取吃牌的类型个数
 		getChiPaiNum():number
 		{
-            this.checkChiPai(this.cmjManager.curOperationPai);
+            this.checkChiPai(this.cmjManager.curOutPai);
 			return this.m_TempChiPAIVec.length;
 		}
 		
 		//吃牌 
-		checkChiPai(pai:StPAI):boolean
-		{
-			var p_Type:number = pai.m_Type;
-			var p_Value:number = pai.m_Value;
-			this.m_TempChiPAIVec = new Array<StCHI>();  
-			var tempArr:Array<number> = this.m_MyPAIVec[p_Type].concat([]);
-			var iSize:number = tempArr[0];
-			var t_Chi:StCHI;
-			if (iSize >= 2) 
-			{
-				if (p_Type == GlobalConfig.MJPAI_FENG) 
-				{
-					var configValueArr:Array<string>; 
-					var configArr:Array<string> = this.fengChiConfig[p_Value];
-					for (var j:number = 0; j < configArr.length; j++) 
-					{
-						configValueArr = configArr[j].split(",");
-						if(tempArr[configValueArr[0]] > 0 && tempArr[configValueArr[1]] > 0)
-						{
-							t_Chi = new StCHI();
-							t_Chi.m_Type = p_Type;
-							t_Chi.m_Value1 = Number(configValueArr[0]);
-							t_Chi.m_Value2 = Number(configValueArr[1]);
-							t_Chi.m_Value3 = p_Value;
-							t_Chi.byChiIndex = 3;
-							this.m_TempChiPAIVec.push(t_Chi);
-						}
-					}
-				}
-				else
-				{
-					if (p_Value > 2 && tempArr[p_Value - 2] > 0 && tempArr[p_Value - 1] > 0)
-					{
-						t_Chi = new StCHI();
-						t_Chi.m_Type = p_Type;
-						t_Chi.m_Value1 = p_Value - 2;
-						t_Chi.m_Value2 = p_Value - 1;
-						t_Chi.m_Value3 = p_Value;
-						t_Chi.byChiIndex = 3;
-						this.m_TempChiPAIVec.push(t_Chi);
-					}
-					if (p_Value > 1 && p_Value < GlobalConfig.CARD_VALUE_NUM - 1 && tempArr[p_Value - 1] > 0 && tempArr[p_Value + 1] > 0) 
-					{
-						t_Chi = new StCHI();
-						t_Chi.m_Type = p_Type;
-						t_Chi.m_Value1 = p_Value - 1;
-						t_Chi.m_Value2 = p_Value;
-						t_Chi.m_Value3 = p_Value + 1;
-						t_Chi.byChiIndex = 2;
-						this.m_TempChiPAIVec.push(t_Chi);
-					}
-					if (p_Value > 0 && p_Value < GlobalConfig.CARD_VALUE_NUM - 2 && tempArr[p_Value + 1] > 0 && tempArr[p_Value + 2] > 0) 
-					{
-						t_Chi = new StCHI();
-						t_Chi.m_Type = p_Type;
-						t_Chi.m_Value1 = p_Value;
-						t_Chi.m_Value2 = p_Value + 1;
-						t_Chi.m_Value3 = p_Value + 2;
-						t_Chi.byChiIndex = 1;
-						this.m_TempChiPAIVec.push(t_Chi);
-					}
-				}
-			} 
-			if(this.m_TempChiPAIVec.length > 0)  
-			{  
-				return  true;  
-			}  
-			return false;
-		}
+        checkChiPai(pai:StPAI)
+        {
+            var p_Type:number = pai.m_Type;
+            var p_Value:number = pai.m_Value;
+            this.m_TempChiPAIVec = new Array<StCHI>();  
+            var tempArr:Array<number> = this.m_MyPAIVec[p_Type].concat([]);
+            var iSize:number = tempArr[0];
+            var t_Chi:StCHI;
+            if (iSize >= 2) 
+            {
+                if (p_Type == GlobalConfig.MJPAI_FENG) 
+                {
+                    var configValueArr:Array<string>; 
+                    var configArr:Array<string> = this.fengChiConfig[p_Value];
+                    for (var j:number = 0; j < configArr.length; j++) 
+                    {
+                        configValueArr = configArr[j].split(",");
+                        if(tempArr[configValueArr[0]] > 0 && tempArr[configValueArr[1]] > 0)
+                        {
+                            t_Chi = new StCHI();
+                            t_Chi.m_ChiPai1 = this.getStPaiNewValue(pai,Number(configValueArr[0]));
+                            t_Chi.m_ChiPai2 = this.getStPaiNewValue(pai,Number(configValueArr[1]));
+                            t_Chi.m_ChiPai3 = pai;
+                            t_Chi.m_byChiIndex = 3;
+                            this.m_TempChiPAIVec.push(t_Chi);
+                        }
+                    }
+                }
+                else
+                {
+                    if (p_Value > 2 && tempArr[p_Value - 2] > 0 && tempArr[p_Value - 1] > 0)
+                    {
+                        t_Chi = new StCHI();
+                        t_Chi.m_ChiPai1 = this.getStPaiNewValue(pai,p_Value - 2);
+                        t_Chi.m_ChiPai2 = this.getStPaiNewValue(pai,p_Value - 1);
+                        t_Chi.m_ChiPai3 = pai;
+                        t_Chi.m_byChiIndex = 3;
+                        this.m_TempChiPAIVec.push(t_Chi);
+                    }
+                    if (p_Value > 1 && p_Value < GlobalConfig.CARD_VALUE_NUM - 1 && tempArr[p_Value - 1] > 0 && tempArr[p_Value + 1] > 0) 
+                    {
+                        t_Chi = new StCHI();
+                        t_Chi.m_ChiPai1 = this.getStPaiNewValue(pai,p_Value - 1);
+                        t_Chi.m_ChiPai2 = pai;
+                        t_Chi.m_ChiPai3 = this.getStPaiNewValue(pai,p_Value + 1);
+                        t_Chi.m_byChiIndex = 2;
+                        this.m_TempChiPAIVec.push(t_Chi);
+                    }
+                    if (p_Value > 0 && p_Value < GlobalConfig.CARD_VALUE_NUM - 2 && tempArr[p_Value + 1] > 0 && tempArr[p_Value + 2] > 0) 
+                    {
+                        t_Chi = new StCHI();
+                        t_Chi.m_ChiPai1 = pai;
+                        t_Chi.m_ChiPai2 = this.getStPaiNewValue(pai,p_Value + 1);
+                        t_Chi.m_ChiPai3 = this.getStPaiNewValue(pai,p_Value + 2);
+                        t_Chi.m_byChiIndex = 1;
+                        this.m_TempChiPAIVec.push(t_Chi);
+                    }
+                }
+            } 
+        }
 		
         doChiPaiServer(stChi:StCHI):void
         {
@@ -303,194 +293,57 @@ module MjGame{
             this.m_ChiPAIVec.push(stChi);
         }
 
-		//吃牌  
-		doChiPai(p_iIndex:number,pai:StPAI):boolean
-		{   
-			this.addPai(pai,false);  
-			var tempCHI:StCHI;
-			for (var i:number = 0; i < this.m_TempChiPAIVec.length; i++) 
-			{
-				tempCHI = this.m_TempChiPAIVec[i];
-				if(i == p_iIndex)  
-				{  
-					this.delPai(util.getByChiPai(tempCHI,1),false);  
-					this.delPai(util.getByChiPai(tempCHI,2),false);  
-					this.delPai(util.getByChiPai(tempCHI,3),false);  
-					this.m_ChiPAIVec.push(tempCHI);
-					return true;  
-				}  
-			}  
-			return false;
-		} 
+        getStPaiNewValue(stPai:StPAI,value:number):StPAI
+        {
+            var pai:StPAI = new StPAI();
+            pai.m_Type = stPai.m_Type;
+            pai.m_Value = value;
+            return pai
+        }
+
+        // 被吃的牌的返回空
+        getByChiPai(stChi:StCHI,index?:number):StPAI
+        {
+            if (index == stChi.m_byChiIndex)
+            {
+                return null;
+            }
+            var pai:StPAI = util.getByChiPai(stChi,index);
+            return pai;
+        }
 		
-		//碰牌  
-		checkPengPai(pai:StPAI):boolean
-		{  
-			var p_Type:number = pai.m_Type;
-			var p_Value:number = pai.m_Value;
-			var m_TempPengPAIVec = new Array<StPAI>();  
-			var tempArr:Array<number> = this.m_MyPAIVec[p_Type];
-			var iSize:number = tempArr[p_Value];
-			var t_Peng:StPAI;
-			if (iSize >= 2) 
-			{
-				t_Peng = new StPAI();
-				t_Peng.m_Type = p_Type;
-				t_Peng.m_Value = p_Value;
-				m_TempPengPAIVec.push(t_Peng);
-			}
-			if(m_TempPengPAIVec.length > 0)  
-			{  
-				return true;  
-			}  
-			return false;  
-		}  
-		//碰牌  
-		doPengPai(pai:StPAI):boolean
-		{  
-            this.doPengPaiServer(pai);
-            return true;
-			// this.addPai(pai,false);
-			// var tempPai:StPAI = null;
-			// for (var i:number = 0; i < this.m_TempPengPAIVec.length; i++) 
-			// {
-			// 	tempPai = this.m_TempPengPAIVec[i];
-			// 	if(tempPai.m_Type == pai.m_Type && tempPai.m_Value == pai.m_Value)
-			// 	{
-			// 		this.delPai(tempPai, false);
-			// 		this.delPai(tempPai, false);
-			// 		this.delPai(tempPai, false);
-			// 		this.m_PengPAIVec.push(tempPai);
-			// 		return true;
-			// 	}
-			// }
-			// return false;
-		}  
-		
-		doPengPaiServer(pai:StPAI):void
+		doPengPaiServer(t_Peng:StPeng):void
 		{
-			this.addPai(pai,false);
-			this.delPai(pai, false);
-			this.delPai(pai, false);
-			this.delPai(pai, false);
-			this.m_PengPAIVec.push(pai);
+            var pai:StPAI = t_Peng.m_stPai;
+            this.addPai(pai,false);
+            this.delPai(pai, false);
+            this.delPai(pai, false);
+            this.delPai(pai, false);
+            this.m_PengPAIVec.push(t_Peng);
 		}
 		
 		
-		/**
-		 * 检测是否能杠 
-		 * @param pai
-		 * @param isSelfHad 是自己摸得牌，还是别人打的
-		 * @return 
-		 * 
-		 */
-		checkGangPai(pai:StPAI,isSelfHad:boolean = true):boolean  
-		{     
-			var p_Type:number = pai.m_Type;
-			var p_Value:number = pai.m_Value;
-			let m_TempGangPAIVec = new Array<StPAI>();  
-			var tempArr:Array<number> = this.m_MyPAIVec[p_Type];
-			var iSize:number = tempArr[p_Value];
-			var t_Gang:StPAI;
-			if (isSelfHad) 
-			{
-				if (iSize >= 4)
-				{
-					t_Gang = new StPAI();
-					t_Gang.m_Type = p_Type;
-					t_Gang.m_Value = p_Value;
-					m_TempGangPAIVec.push(t_Gang);
-				}
-				
-				// 检测已经碰的牌中是否能补杠
-				for (var i:number = 0; i < this.m_PengPAIVec.length; i++) 
-				{
-					var st:StPAI = this.m_PengPAIVec[i];
-					if (st.m_Type == p_Type && st.m_Value == p_Value) 
-					{
-						t_Gang = new StPAI();
-						t_Gang.m_Type = p_Type;
-						t_Gang.m_Value = p_Value;
-						m_TempGangPAIVec.push(t_Gang);
-						break;
-					}
-				}
-				
-				//可能有4张的开始没有杠，想等后面再杠的
-				for (i = 0; i < GlobalConfig.CARD_TYPE_NUM; i++) 
-				{
-					tempArr = this.m_MyPAIVec[i];
-					if(tempArr[0] < 4) continue;
-					for (var j:number = 1; j < GlobalConfig.CARD_VALUE_NUM; j++) 
-					{
-						iSize = tempArr[j];
-						if(iSize >= 4)
-						{
-							t_Gang = new StPAI();
-							t_Gang.m_Type = p_Type;
-							t_Gang.m_Value = p_Value;
-							m_TempGangPAIVec.push(t_Gang);
-						}
-					}
-				}
-			} 
-			else 
-			{
-				if (iSize >= 3) 
-				{
-					t_Gang = new StPAI();
-					t_Gang.m_Type = p_Type;
-					t_Gang.m_Value = p_Value;
-					m_TempGangPAIVec.push(t_Gang);
-				}
-			}
-			
-			if(m_TempGangPAIVec.length > 0)  
-			{  
-				return true;  
-			}  
-			return false;  
-		}  
 		//杠牌  
-		doGangPai(pai:StPAI):boolean  
-		{  
-            this.doGangPaiServer(pai);
-            return true;
-			// var tempPai:StPAI = null;
-			// for (var i:number = 0; i < this.m_TempGangPAIVec.length; i++) 
-			// {
-			// 	tempPai = this.m_TempGangPAIVec[i];
-			// 	if(tempPai.m_Type == pai.m_Type && tempPai.m_Value == pai.m_Value)
-			// 	{
-			// 		this.delPai(tempPai, false);
-			// 		this.delPai(tempPai, false);
-			// 		this.delPai(tempPai, false);
-			// 		this.delPai(tempPai, false);
-			// 		this.m_GangPAIVec.push(tempPai);
-			// 		// 检测已经碰的牌中是否能补杠
-			// 		for (var j:number = 0; j < this.m_PengPAIVec.length; j++) 
-			// 		{
-			// 			var st:StPAI = this.m_PengPAIVec[j];
-			// 			if (st.m_Type == tempPai.m_Type && st.m_Value == tempPai.m_Value) 
-			// 			{
-			// 				this.m_PengPAIVec.splice(j,1);
-			// 				return true;
-			// 			}
-			// 		}
-			// 		return true;
-			// 	}
-			// }
-			// return false;
-		}  
-		
-		//杠牌  
-		doGangPaiServer(pai:StPAI):void  
+		doGangPaiServer(t_Gang:StGang):void  
 		{ 
-			this.delPai(pai, false);
-			this.delPai(pai, false);
-			this.delPai(pai, false);
-			this.delPai(pai, false);
-			this.m_GangPAIVec.push(pai);
+            var tempPai:StPAI = t_Gang.m_stPai;
+            this.delPai(tempPai, false);
+            this.delPai(tempPai, false);
+            this.delPai(tempPai, false);
+            this.delPai(tempPai, false);
+            this.m_GangPAIVec.push(t_Gang);
+            if (t_Gang.m_Otype == GlobalConfig.GANG_BU)
+            {
+                // 补杠的要把碰过的牌堆里删掉
+                for (var j:number = 0; j < this.m_PengPAIVec.length; j++) 
+                {
+                    var st:StPAI = this.m_PengPAIVec[j].m_stPai;
+                    if (st.m_Type == tempPai.m_Type && st.m_Value == tempPai.m_Value) 
+                    {
+                        this.m_PengPAIVec.splice(j,1);
+                    }
+                }
+            }
 		}
 		
 		doHuPai(pai:StPAI):void
@@ -524,36 +377,17 @@ module MjGame{
 			}
 		}
 		
-		//检测胡  
-		checkHU(pai:StPAI,isSelfFetch:boolean = false):boolean
-		{  
-			// console.log("当前抓的牌为：",Log.traceSinglePai(pai.m_Type,pai.m_Value));
-			this.addPai(pai,false,isSelfFetch);
-			var flag:boolean = false;
-			var hunPai:StPAI = this.cmjManager.getHunPai();
-			if (this.getOutHunPaiNum(hunPai) > 0)
-			{
-				flag = this.checkHunHuManager.checkHu(this);
-			}
-			else
-			{
-				flag = this.checkHuManager.checkHu(this);
-			}
-			this.delPai(pai,false);
-			return flag;
-		}  
-		
 		getChiPai():StCHI
 		{
 			return this.m_ChiPAIVec[this.m_ChiPAIVec.length - 1];
 		}
 		
-		getPengPai():StPAI
+		getPengPai():StPeng
 		{
 			return this.m_PengPAIVec[this.m_PengPAIVec.length - 1];
 		}
 		
-		getGangPai():StPAI
+		getGangPai():StGang
 		{
 			return this.m_GangPAIVec[this.m_GangPAIVec.length - 1];
 		}

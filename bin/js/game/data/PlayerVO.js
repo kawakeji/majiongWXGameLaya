@@ -6,7 +6,7 @@ var MjGame;
             this.roomId = 0;
             this.isRoomOwner = false;
             this.isDealer = false;
-            this.isReady = false;
+            this.status = 0;
             this.position = 0;
             this.cmj = new MjGame.CMJ();
         }

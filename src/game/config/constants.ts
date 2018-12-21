@@ -29,5 +29,13 @@ module MjGame
         public static O_TYPE_PENG:number = 3;
         public static O_TYPE_CHI:number = 4;
         public static O_TYPE_DA:number = 5;
+        public static O_TYPE_ZIMO:number = 6;
+        
+        public static PLAYER_STATE_NONE:number = 0; // 玩家初始化
+        public static PLAYER_STATE_NOT_READY:number = 1; // 房间内未准备状态
+        public static PLAYER_STATE_READY:number = 2; // 房间内准备状态
+        public static PLAYER_STATE_DISCONNECT:number = 3; // 断开连接状态
+        public static PLAYER_STATE_GAME:number = 4; // 正在游戏中
+        public static PLAYER_STATE_EXIT:number = 5; // 玩家退出
     }
 }

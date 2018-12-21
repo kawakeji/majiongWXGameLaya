@@ -4,7 +4,7 @@
 module MjGame{
     export class HandCard extends ui.game.view.HandCardUI
     {
-        private TOGGLE_DIST: number = 80;
+        private TOGGLE_DIST: number = 50;
 
         downResBasePath:string = 'game/handCard/';
 		rightResBasePath:string = "game/bgCard/right_card.png";

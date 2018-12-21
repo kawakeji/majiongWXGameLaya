@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -28,31 +28,32 @@ var MjGame;
             this.removeSelf();
         };
         AccoutView.prototype.onContinue = function () {
+            this.onClose();
             MjGame.ProxyManager.getInstance().gameProxy.sendReadyToServer(MjGame.PlayerManager.getInstance().selfPlayerVO);
         };
-        AccoutView.prototype.setData = function (player, stGoodInfos, stPai) {
+        AccoutView.prototype.setData = function (player, goodInfos, stPai) {
             if (player) {
                 var str = "";
                 var count = 0;
-                for (var i = 0; i < stGoodInfos.length; i++) {
-                    var goodInfo = stGoodInfos[i];
-                    str = str + goodInfo.m_GoodName;
-                    count = count + goodInfo.m_GoodValue;
-                    if (i < stGoodInfos.length - 1) {
-                        str = str + "+";
-                    }
-                }
-                str = str + ":" + count + "番";
-                this.descLabel.text = player.username + "           " + str;
-                this.updateHandCard(player.cmj, true);
+                // for (var i = 0; i < goodInfos.length; i++) {
+                //     var goodInfo:StGoodInfo = goodInfos[i];
+                //     str = str + goodInfo.m_GoodName;
+                //     count = count + goodInfo.m_GoodValue;
+                //     if (i < stGoodInfos.length - 1)
+                //     {
+                //         str = str + "+";
+                //     }
+                // }
+                // str = str + ":" + count + "番";
+                // this.descLabel.text = player.username + "           " + str;
+                this.updateHandCard(player.cmj, stPai);
             }
             else {
                 this.descLabel.text = "黄庄了！！";
                 this.contentView.removeChildren();
             }
         };
-        AccoutView.prototype.updateHandCard = function (cmj, isShowLast) {
-            if (isShowLast === void 0) { isShowLast = true; }
+        AccoutView.prototype.updateHandCard = function (cmj, lastStPai) {
             this.contentView.removeChildren();
             var index = 0;
             var ret = this.addChiPengGangPai(cmj);
@@ -61,16 +62,13 @@ var MjGame;
             var card;
             var arr;
             var tempStPai;
-            var lastStPai;
             for (var j = 0; j < MjGame.GlobalConfig.CARD_TYPE_NUM; j++) {
                 arr = cmj.m_MyPAIVec[j];
                 if (arr[0] > 0) {
                     for (var i = 1; i < MjGame.GlobalConfig.CARD_VALUE_NUM; i++) {
                         for (var k = 0; k < arr[i]; k++) {
                             tempStPai = new MjGame.StPAI(j, i);
-                            if (isShowLast && cmj.m_LastPAI.m_Type == tempStPai.m_Type && cmj.m_LastPAI.m_Value == tempStPai.m_Value) {
-                                lastStPai = cmj.m_LastPAI;
-                                isShowLast = false;
+                            if (lastStPai && lastStPai.m_Type == tempStPai.m_Type && lastStPai.m_Value == tempStPai.m_Value) {
                                 continue;
                             }
                             card = new MjGame.HandCard();
@@ -106,13 +104,13 @@ var MjGame;
                 }
             }
             for (var j = 0; j < t_MyPlayer.m_PengPAIVec.length; j++) {
-                tempPai = t_MyPlayer.m_PengPAIVec[j];
+                tempPai = t_MyPlayer.m_PengPAIVec[j].m_stPai;
                 for (var i3 = 0; i3 < 3; i3++) {
                     outPaiArr.push(tempPai);
                 }
             }
             for (var k = 0; k < t_MyPlayer.m_GangPAIVec.length; k++) {
-                tempPai = t_MyPlayer.m_PengPAIVec[j];
+                tempPai = t_MyPlayer.m_PengPAIVec[j].m_stPai;
                 for (var i4 = 0; i4 < 4; i4++) {
                     outPaiArr.push(tempPai);
                 }

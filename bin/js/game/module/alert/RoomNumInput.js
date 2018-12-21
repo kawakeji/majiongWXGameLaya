@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -65,9 +65,13 @@ var MjGame;
             }
         };
         RoomNumInput.prototype.removeInputNum = function () {
-            var img = this.inputNumArr.pop();
-            img.removeSelf();
             this.isEnter = false;
+            if (this.inputNumArr.length <= 0)
+                return;
+            var img = this.inputNumArr.pop();
+            if (img) {
+                img.removeSelf();
+            }
         };
         RoomNumInput.prototype.checkIsCanEnter = function (curLen) {
             if (this.isEnter) {

@@ -12,4 +12,6 @@
    <item name="game/result/win_di.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
    <item name="game/result/di.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
    <item name="game/animation/1pen/1pen.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/loading/loadingBar.png" type="ProgressBar" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
+   <item name="game/loading/ui_di2.jpg" type="Image" compress="0" pack="1" quality="80" props="" picType="0" scale="0"/>
 </res>

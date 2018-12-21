@@ -51,6 +51,7 @@ module MjGame{
         delPai(pai:StPAI):void
         {
             this.cmj.delPai(pai);
+            MjSoundManager.getInstance().playOutCardSound(pai);
             this.updateHandCard(this.cmj,false);
         }
         
@@ -64,41 +65,6 @@ module MjGame{
             this.operationView.showView(operations);
         }
         
-        checkHU(pai:StPAI):boolean
-        {
-            var returnVal:boolean = this.cmj.checkHU(pai);
-            this.operationView.showHuBtn(returnVal);
-            return returnVal;
-        }
-        
-        checkChiPai(pai:StPAI):boolean
-        {
-            var returnVal:boolean = this.cmj.checkChiPai(pai);
-            this.operationView.showChiBtn(returnVal);
-            return returnVal;
-        }
-        
-        checkPengPai(pai:StPAI):boolean
-        {
-            var returnVal:boolean = this.cmj.checkPengPai(pai);
-            this.operationView.showPengBtn(returnVal);
-            return returnVal;
-        }
-        
-        checkGangPai(pai:StPAI,isSelfHad:boolean = true):boolean
-        {
-            var returnVal:boolean = this.cmj.checkGangPai(pai,isSelfHad);
-            this.operationView.showGangBtn(returnVal);
-            return returnVal;
-        }
-        
-        doChiPai(idx:number, curOutPai:StPAI):boolean
-        {
-            var flag:boolean = this.cmj.doChiPai(idx, curOutPai);
-            this.updateHandCard(this.cmj);
-            return flag;
-        }
-
         doChiPaiServer(stChi:StCHI)
         {
             this.cmj.doChiPaiServer(stChi);
@@ -106,18 +72,33 @@ module MjGame{
             return true;
         }
         
-        doGangPai(curOutPai:StPAI):boolean
+        doPengPaiServer(stPeng:StPeng):boolean
         {
-            var flag:boolean = this.cmj.doGangPai(curOutPai);
+            this.cmj.doPengPaiServer(stPeng);
             this.updateHandCard(this.cmj);
-            return flag;
+            return true;
+        }
+
+        doGangPaiServer(stGang:StGang):boolean
+        {
+            this.cmj.doGangPaiServer(stGang);
+            this.updateHandCard(this.cmj);
+            return true;
         }
         
-        doPengPai(curOutPai:StPAI):boolean
+
+        timeOut()
         {
-            var flag:boolean = this.cmj.doPengPai(curOutPai);
-            this.updateHandCard(this.cmj);
-            return flag;
+            if(this.operationView.isCanDrag)
+            {
+                var firstPai:StPAI = this.cmj.getPaiByPos(1);
+                MjSoundManager.getInstance().playCommonSound(SoundType.OUT_CARD);
+                EventManager.getInstance().event(ClientHandEvent.WAITING_OUT_MJ,[firstPai]);
+            }
+            else
+            {
+                this.operationView.sendQuitOperation()
+            }
         }
 
 		updateHandCard(cmj:CMJ, isShowLast:boolean = true)
@@ -142,7 +123,8 @@ module MjGame{
                         for (var k:number = 0; k < arr[i]; k++) 
                         {
                             tempStPai = new StPAI(j,i);
-                            if(isShowLast && this.cardPos == GlobalConfig.DOWN_POS && cmj.m_LastPAI.m_Type == tempStPai.m_Type && cmj.m_LastPAI.m_Value == tempStPai.m_Value)
+                            if(isShowLast && this.cardPos == GlobalConfig.DOWN_POS && cmj.m_LastPAI && 
+                                cmj.m_LastPAI.m_Type == tempStPai.m_Type && cmj.m_LastPAI.m_Value == tempStPai.m_Value)
                             {
                                 lastStPai = cmj.m_LastPAI;
                                 isShowLast = false;
@@ -155,7 +137,7 @@ module MjGame{
                             if (this.cardPos == GlobalConfig.DOWN_POS)
                             {
                                 // card.addClickHandler(this,this.on)
-                                card.addClickHandler(this,this.onBtnClick)
+                                card.addClickHandler(this,this.onCardClick)
                                 // card.on(Laya.Event.CLICK, this, this.onBtnClick); 
                             }
                             
@@ -179,8 +161,7 @@ module MjGame{
             card.cardPos = this.cardPos;
             this.parentView.addChild(card);  
             card.setData(lastStPai,startX + 10,startY,index);
-            card.addClickHandler(this,this.onBtnClick);
-            // card.on(Laya.Event.CLICK, this, this.onBtnClick); 
+            card.addClickHandler(this,this.onCardClick);
         }
 
         updateOutCard(cmj)
@@ -188,50 +169,16 @@ module MjGame{
             this.outCardCm.updateOutCard(cmj);
         }
 
-        onBtnClick(card:HandCard): void 
+        onCardClick(card:HandCard): void 
         {
-            console.log("onBtnclick");
+            this.operationView.isCanDrag = false;
+            MjSoundManager.getInstance().playCommonSound(SoundType.OUT_CARD);
             EventManager.getInstance().event(ClientHandEvent.WAITING_OUT_MJ,[card.stPai]);
-            // var card = <HandCard><any>e.currentTarget;
-            // if (this.curClickCard != card && this.curClickCard)
-            // {
-            //     this.curClickCard.pos(this.curClickCard.x,this.curClickCard.cardOldPosY);
-            // }
-            // console.log("onBtnclick",card.index);
-            // //手动控制组件属性
-            // if (card.y == card.cardOldPosY)
-            // {
-            //     card.pos(card.x,card.cardOldPosY-20);
-            //     this.curClickCard = card;
-            // }
-            // else
-            // {
-            //     card.pos(card.x,card.cardOldPosY);
-            //     this.curClickCard = null;
-            // }
         }
 
-        onBtnClick2(e: Event): void 
+        getLastOutCard():Laya.Image
         {
-            console.log("onBtnclick",e);
-
-            var card = <HandCard><any>e.currentTarget;
-            if (this.curClickCard != card && this.curClickCard)
-            {
-                this.curClickCard.pos(this.curClickCard.x,this.curClickCard.cardOldPosY);
-            }
-            console.log("onBtnclick",card.index);
-            //手动控制组件属性
-            if (card.y == card.cardOldPosY)
-            {
-                card.pos(card.x,card.cardOldPosY-20);
-                this.curClickCard = card;
-            }
-            else
-            {
-                card.pos(card.x,card.cardOldPosY);
-                this.curClickCard = null;
-            }
+            return this.outCardCm.getLastOutCard();
         }
 
         addChiPengGangPai(t_MyPlayer:CMJ):any
@@ -245,29 +192,42 @@ module MjGame{
 			for (var i:number = 0; i < t_MyPlayer.m_ChiPAIVec.length; i++) 
 			{
 				var stChi:StCHI = t_MyPlayer.m_ChiPAIVec[i];
-				for (var i2:number = 0; i2 < 3; i2++) 
-				{
-                    tempPai = util.getByChiPai(stChi,i2 + 1);
-                    outPaiArr.push(tempPai);
-				}
+                if (stChi)
+                {
+                    for (var i2:number = 0; i2 < 3; i2++) 
+                    {
+                        tempPai = util.getByChiPai(stChi,i2 + 1);
+                        if (tempPai)
+                        {
+                            outPaiArr.push(tempPai);
+                        }
+                    }
+                }
 			}
 			
 			for (var j:number = 0; j < t_MyPlayer.m_PengPAIVec.length; j++) 
 			{
-                tempPai = t_MyPlayer.m_PengPAIVec[j];
-				for (var i3:number = 0; i3 < 3; i3++) 
-				{
-                    outPaiArr.push(tempPai);
-				}
+                tempPai = t_MyPlayer.m_PengPAIVec[j].m_stPai;
+                if (tempPai)
+                {
+                    for (var i3:number = 0; i3 < 3; i3++) 
+                    {
+                        outPaiArr.push(tempPai);
+                    }
+                }
 			}
 			
 			for (var k:number = 0; k < t_MyPlayer.m_GangPAIVec.length; k++) 
 			{
-                tempPai = t_MyPlayer.m_PengPAIVec[j];
-				for (var i4:number = 0; i4 < 4; i4++) 
-				{
-                    outPaiArr.push(tempPai);
-				}
+                tempPai = t_MyPlayer.m_GangPAIVec[k].m_stPai;
+                if (tempPai)
+                {
+                    for (var i4:number = 0; i4 < 4; i4++) 
+                    {
+                        outPaiArr.push(tempPai);
+                    }
+                }
+
 			}
 
             for (var index = 0; index < outPaiArr.length; index++) 

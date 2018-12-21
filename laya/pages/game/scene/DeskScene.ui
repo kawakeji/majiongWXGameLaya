@@ -2,7 +2,7 @@
     "x":0,
     "type":"View",
     "selectedBox":1,
-    "selecteID":39,
+    "selecteID":46,
     "props":{"width":1136,"sceneColor":"#064030","height":640},
     "nodeParent":-1,
     "label":"View",
@@ -15,16 +15,15 @@
         {
             "x":15,
             "type":"Image",
-            "props":{"y":0,"x":0,"visible":true,"skin":"game/game/loginbg.png"},
+            "props":{"y":-181,"x":-144,"skin":"game/loading/ui_di2.jpg"},
             "nodeParent":1,
             "label":"Image",
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,
-            "compId":6,
+            "compId":45,
             "child":[
-                ],
-            "$HIDDEN":false
+                ]
         },
         {
             "x":15,
@@ -39,7 +38,7 @@
             "compId":22,
             "child":[
                 ],
-            "$HIDDEN":false
+            "$HIDDEN":true
         },
         {
             "x":15,
@@ -52,20 +51,6 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":24,
-            "child":[
-                ]
-        },
-        {
-            "x":15,
-            "type":"View",
-            "props":{"y":539,"x":198,"width":793,"var":"downView","height":89,"anchorY":0,"anchorX":0},
-            "nodeParent":1,
-            "label":"View(downView)",
-            "isOpen":true,
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":25,
             "child":[
                 ]
         },
@@ -94,20 +79,6 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":27,
-            "child":[
-                ]
-        },
-        {
-            "x":15,
-            "type":"View",
-            "props":{"y":471,"x":297,"width":56,"var":"outDownView","height":45},
-            "nodeParent":1,
-            "label":"View(outDownView)",
-            "isOpen":true,
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":32,
             "child":[
                 ]
         },
@@ -155,14 +126,112 @@
         },
         {
             "x":15,
-            "type":"Label",
-            "props":{"var":"hunPai","text":"label","fontSize":30},
+            "type":"View",
+            "props":{"y":471,"x":297,"width":56,"var":"outDownView","height":45},
             "nodeParent":1,
-            "label":"Label(hunPai)",
+            "label":"View(outDownView)",
+            "isOpen":true,
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,
-            "compId":39,
+            "compId":32,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"View",
+            "props":{"y":539,"x":198,"width":892,"var":"downView","height":89,"anchorY":0,"anchorX":0},
+            "nodeParent":1,
+            "label":"View(downView)",
+            "isOpen":true,
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":25,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"UIView",
+            "source":"game/view/PlayerView.ui",
+            "props":{"y":236,"x":18,"var":"leftPlayerView"},
+            "nodeParent":1,
+            "label":"UIView(leftPlayerView)",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":40,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"UIView",
+            "source":"game/view/PlayerView.ui",
+            "props":{"y":10,"x":818,"var":"upPlayerView"},
+            "nodeParent":1,
+            "label":"UIView(upPlayerView)",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":41,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"UIView",
+            "source":"game/view/PlayerView.ui",
+            "props":{"y":473,"x":36,"var":"downPlayerView"},
+            "nodeParent":1,
+            "label":"UIView(downPlayerView)",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":42,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"UIView",
+            "source":"game/view/PlayerView.ui",
+            "props":{"y":236,"x":1004,"var":"rightPlayerView"},
+            "nodeParent":1,
+            "label":"UIView(rightPlayerView)",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":43,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "props":{"y":457,"x":1058,"var":"chatBtn","skin":"game/chat/s_chat_shuohua_nomal.png"},
+            "nodeParent":1,
+            "label":"Image(chatBtn)",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":44,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"UIView",
+            "source":"game/view/RoomInfoView.ui",
+            "props":{"y":3,"x":-1,"var":"roomInfoView"},
+            "nodeParent":1,
+            "label":"UIView(roomInfoView)",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":46,
             "child":[
                 ]
         }],

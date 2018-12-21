@@ -6,7 +6,7 @@ module MjGame {
             this.roomId = 0;
             this.isRoomOwner = false;
             this.isDealer = false;
-            this.isReady = false;
+            this.status = 0;
             this.position = 0;
             this.cmj = new CMJ();
         }
@@ -21,7 +21,7 @@ module MjGame {
 
 		isDealer: boolean;
 
-        isReady:boolean;
+        status:number;
 
 		position: number;
 

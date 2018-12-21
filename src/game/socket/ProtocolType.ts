@@ -19,6 +19,8 @@ module MjGame{
 		public static CMJ_PENGPAI:string = 'area.cmjHandler.pengPai';
 		public static CMJ_GANGPAI:string = 'area.cmjHandler.gangPai';
 		public static CMJ_READY:string = 'area.cmjHandler.ready';
+		public static CMJ_TIMEOUT:string = 'area.cmjHandler.timeOut';
+		public static CMJ_TIMESYNC:string = 'area.cmjHandler.timeSync';
 
 		//======================== on server listen type============================//
 		public static ON_ADD_Room:string = 'onAddRoom';
@@ -28,6 +30,8 @@ module MjGame{
 		public static ON_ROOMMATE_LEAVE_ROOM:string = 'onRoommateLeaveRoom';
 		public static ON_START_GAME:string = 'onStartGame';
 		public static ON_CHAT:string = 'onChat';
+		public static ON_TIMEOUT:string = 'onTimeOut';
+		public static ON_UPDATE_CUR_OUT_PAI:string = 'onUpdateCurOutPai';
 
         //========================= 操作类型 ======================================//
         public static ON_UPDATE_CUR_PLAYER:string = "onUpdateCurPlayer";
@@ -38,7 +42,7 @@ module MjGame{
         public static ON_GANG_PAI:string = "onGangPai";
         public static ON_HU_PAI:string = "onHuPai";
         public static ON_OPERATION:string = "onOperation";
-        public static ON_READY:string = "onReady";
+        public static ON_STATUS_CHANGE:string = "onStatusChange";
         public static ON_HUANG_ZHUANG:string = "onHuangZhuang";
 	}
 }
