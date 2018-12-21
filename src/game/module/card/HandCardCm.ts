@@ -51,6 +51,7 @@ module MjGame{
         delPai(pai:StPAI):void
         {
             this.cmj.delPai(pai);
+            MjSoundManager.getInstance().playOutCardSound(pai);
             this.updateHandCard(this.cmj,false);
         }
         
@@ -120,6 +121,20 @@ module MjGame{
             return flag;
         }
 
+        timeOut()
+        {
+            if(this.operationView.isCanDrag)
+            {
+                var firstPai:StPAI = this.cmj.getPaiByPos(1);
+                MjSoundManager.getInstance().playCommonSound(SoundType.OUT_CARD);
+                EventManager.getInstance().event(ClientHandEvent.WAITING_OUT_MJ,[firstPai]);
+            }
+            else
+            {
+                this.operationView.sendQuitOperation()
+            }
+        }
+
 		updateHandCard(cmj:CMJ, isShowLast:boolean = true)
 		{
             this.cmj = cmj;
@@ -155,7 +170,7 @@ module MjGame{
                             if (this.cardPos == GlobalConfig.DOWN_POS)
                             {
                                 // card.addClickHandler(this,this.on)
-                                card.addClickHandler(this,this.onBtnClick)
+                                card.addClickHandler(this,this.onCardClick)
                                 // card.on(Laya.Event.CLICK, this, this.onBtnClick); 
                             }
                             
@@ -179,8 +194,7 @@ module MjGame{
             card.cardPos = this.cardPos;
             this.parentView.addChild(card);  
             card.setData(lastStPai,startX + 10,startY,index);
-            card.addClickHandler(this,this.onBtnClick);
-            // card.on(Laya.Event.CLICK, this, this.onBtnClick); 
+            card.addClickHandler(this,this.onCardClick);
         }
 
         updateOutCard(cmj)
@@ -188,50 +202,11 @@ module MjGame{
             this.outCardCm.updateOutCard(cmj);
         }
 
-        onBtnClick(card:HandCard): void 
+        onCardClick(card:HandCard): void 
         {
-            console.log("onBtnclick");
+            this.operationView.isCanDrag = false;
+            MjSoundManager.getInstance().playCommonSound(SoundType.OUT_CARD);
             EventManager.getInstance().event(ClientHandEvent.WAITING_OUT_MJ,[card.stPai]);
-            // var card = <HandCard><any>e.currentTarget;
-            // if (this.curClickCard != card && this.curClickCard)
-            // {
-            //     this.curClickCard.pos(this.curClickCard.x,this.curClickCard.cardOldPosY);
-            // }
-            // console.log("onBtnclick",card.index);
-            // //手动控制组件属性
-            // if (card.y == card.cardOldPosY)
-            // {
-            //     card.pos(card.x,card.cardOldPosY-20);
-            //     this.curClickCard = card;
-            // }
-            // else
-            // {
-            //     card.pos(card.x,card.cardOldPosY);
-            //     this.curClickCard = null;
-            // }
-        }
-
-        onBtnClick2(e: Event): void 
-        {
-            console.log("onBtnclick",e);
-
-            var card = <HandCard><any>e.currentTarget;
-            if (this.curClickCard != card && this.curClickCard)
-            {
-                this.curClickCard.pos(this.curClickCard.x,this.curClickCard.cardOldPosY);
-            }
-            console.log("onBtnclick",card.index);
-            //手动控制组件属性
-            if (card.y == card.cardOldPosY)
-            {
-                card.pos(card.x,card.cardOldPosY-20);
-                this.curClickCard = card;
-            }
-            else
-            {
-                card.pos(card.x,card.cardOldPosY);
-                this.curClickCard = null;
-            }
         }
 
         addChiPengGangPai(t_MyPlayer:CMJ):any
@@ -263,7 +238,7 @@ module MjGame{
 			
 			for (var k:number = 0; k < t_MyPlayer.m_GangPAIVec.length; k++) 
 			{
-                tempPai = t_MyPlayer.m_PengPAIVec[j];
+                tempPai = t_MyPlayer.m_PengPAIVec[k];
 				for (var i4:number = 0; i4 < 4; i4++) 
 				{
                     outPaiArr.push(tempPai);

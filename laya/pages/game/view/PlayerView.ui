@@ -2,8 +2,8 @@
     "x":0,
     "type":"View",
     "selectedBox":1,
-    "selecteID":5,
-    "props":{"width":115,"sceneColor":"#000000","height":118},
+    "selecteID":6,
+    "props":{"width":115,"visible":true,"sceneColor":"#000000","height":118},
     "nodeParent":-1,
     "label":"View",
     "isOpen":true,
@@ -61,6 +61,19 @@
             "isAniNode":true,
             "hasChild":false,
             "compId":5,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "props":{"y":6,"x":79,"visible":false,"var":"dealerImg","skin":"game/operationImg/head_banker.png"},
+            "nodeParent":1,
+            "label":"Image(dealerImg)",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":6,
             "child":[
                 ]
         }],

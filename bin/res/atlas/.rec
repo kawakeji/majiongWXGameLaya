@@ -50,8 +50,21 @@ P 3BBFB706 otherMark.png
 P CE835635 ownMark.png
 P 25140F09 right_card.png
 P 607E22E7 top_card.png
+D game/chat
+P 8D2F2A37 1.png
+P 566F3903 2.png
+P 16D16518 3.png
+P B04C9F67 4.png
+P CFA0755F 5.png
+P 889C7842 6.png
+P 3EF65110 7.png
+P F4515600 btn_cancle.png
+P 800677FB btn_ok.png
+P 3B5EFBBA chat_bg.png
+R EE800B5C prompt_bg.png
+P 4F75F4F1 s_chat_shuohua_nomal.png
+P 6E9FA684 s_chat_shuohua_play.png
 D game/clock
-R 672A4BC2 .DS_Store
 P B3864450 clock_num.png
 P 8CABD917 east.png
 P 5A99DD30 east_up.png
@@ -171,7 +184,7 @@ D game/result
 P 2C92C709 btn-1.png
 P 819CCD86 btn-2.png
 P 36EDBDF9 di.png
-R 5FD9BE9F futura-48.fnt
+R A55A8702 futura-48.fnt
 P 74C62E28 futura-48.png
 P 12A02926 headKuang.png
 P E5BEF9FF normalHead.png
@@ -192,6 +205,11 @@ P C0FEA48A btn_close.png
 P 9129806A chongshu.png
 R A9A446E8 meng.png
 P 732D71B8 shanchu.png
+D game/sound
+R 9DD7DA68 bg.mp3
+R 9DD8B9D1 button.mp3
+R 5A42D855 close.mp3
+R 244B5E61 main.mp3
 D game/ui
 P 5D00C60C btn_chiType1.png
 P 6C1E8AFE btn_guest.png
@@ -431,3 +449,188 @@ P 9DF8601B w_9.png
 P 059D115E zhong_1.png
 P 4F641A6F zhong_2.png
 P 08663893 zhong_3.png
+D game/sound/boy
+D game/sound/common
+R 86D9D299 addStar.mp3
+R 9DD7DA68 bg.mp3
+R D0843B59 cancel.mp3
+R AC788DFB cancelmanage.mp3
+R B7DA5EBE clean.mp3
+R B7DA5EBE cleancard.mp3
+R 3B5C9C4E coin_fly_start_sound.mp3
+R DE29321A congratulation.mp3
+R CAF9476A dice.mp3
+R A65DCF8E effectword.mp3
+R 06178640 enter.mp3
+R 9254BBDF error.mp3
+R CB33D3FF exit.mp3
+R 905C6707 getcard.mp3
+R 01C215CA huLight.mp3
+R B8410DAC hurry.mp3
+R 1AB8B0D4 hurry1.mp3
+R D1E89FB7 laizi.mp3
+R 70F4BE00 manage.mp3
+R 757F429B move.mp3
+R C4ECB01C moveProgress.mp3
+R 2E52ED79 msg.mp3
+R 0C619D41 outcard.mp3
+R 2817D398 pass.mp3
+R 6DF121CF qingQue.mp3
+R 44CC9A06 removeStar.mp3
+R BA2D4C6F selectmahjong.mp3
+R 2C95CC4D sendmahjong.mp3
+R 98D281F3 shandian.mp3
+R 4041F496 shootinglost.mp3
+R 421A7651 shootingwin.mp3
+R E8BAF1F5 shuffling.mp3
+R 9012E2FD smellvillage.mp3
+R 47D37F9A stargame.mp3
+R 09206353 startgame.mp3
+R 39133B7D threelost.mp3
+R 535A50CC time.mp3
+R 70E93677 tingpai.mp3
+R AB9E2D84 warnning.mp3
+R 39133B7D zimolost.mp3
+R 9A32A039 zimowin.mp3
+D game/sound/face
+R 2C496843 face_1_xiao.mp3
+R B70330CD face_2_hehe.mp3
+R F0FA2FBF face_3_biaoyang.mp3
+R 99C62915 face_4_qiushen.mp3
+R 3D173E8B face_5_shengqi.mp3
+R 9AE8A462 face_6_ku.mp3
+D game/sound/girl
+D game/sound/qw
+D game/sound/boy/chi
+R 0E690BCB 0.mp3
+R 688BD466 1.mp3
+R 15701451 2.mp3
+D game/sound/boy/gang
+R C8DC94E8 0.mp3
+R 4160C430 1.mp3
+R 4160C430 2.mp3
+R C8DC94E8 3.mp3
+D game/sound/boy/hu
+R 1D42BF2C 0.mp3
+R 3A9F45DB 1.mp3
+R 1D42BF2C 2.mp3
+R 1EDD8FCD 3.mp3
+R 1EDD8FCD 4.mp3
+D game/sound/boy/pai
+R BB83D83E 01.mp3
+R BD1BFB6E 02.mp3
+R 9C262C3D 03.mp3
+R 49AE6504 11.mp3
+R 96BC39B9 12.mp3
+R C6134D0C 13.mp3
+R 0F9D0FD7 14.mp3
+R 1BF16FA2 21.mp3
+R 75422D5D 22.mp3
+R D5187140 23.mp3
+R 369918E6 24.mp3
+R EC01E56A 25.mp3
+R 7AFEEDED 26.mp3
+R 996DDF9E 27.mp3
+R 67D7D374 28.mp3
+R 9578004E 29.mp3
+R C38E3D3C 31.mp3
+R A9709B3C 32.mp3
+R 4231A0F4 33.mp3
+R 3CF2FE21 34.mp3
+R 465E8CAD 35.mp3
+R 43DF4905 36.mp3
+R 5960606D 37.mp3
+R 4056F1DC 38.mp3
+R F1FEE817 39.mp3
+R D1331591 41.mp3
+R BA73A07E 42.mp3
+R E12070DE 43.mp3
+R 1490F63B 44.mp3
+R DA21A393 45.mp3
+R ABC5A3F4 46.mp3
+R EBFDD4A5 47.mp3
+R B4F5F8AA 48.mp3
+R F0FC82EC 49.mp3
+D game/sound/boy/peng
+R E14C333F 0.mp3
+R 9C22BE34 1.mp3
+R 08414A6A 2.mp3
+R 08414A6A 3.mp3
+D game/sound/boy/zimo
+R C500E450 0.mp3
+R 0088D935 1.mp3
+R F4401D93 2.mp3
+D game/sound/girl/chi
+R 2C5B7036 0.mp3
+R 332E00B8 1.mp3
+R 52B924A3 2.mp3
+D game/sound/girl/gang
+R BD675AA0 0.mp3
+R CAE08325 1.mp3
+R 4C066B96 2.mp3
+R 4C066B96 3.mp3
+D game/sound/girl/hu
+R FE016377 0.mp3
+R 033DB2DD 1.mp3
+R DA983D82 2.mp3
+R 033DB2DD 3.mp3
+R DA983D82 4.mp3
+D game/sound/girl/pai
+R 444FAC6F 01.mp3
+R 875F9F5A 02.mp3
+R 9533665F 03.mp3
+R 3BB3F4E6 11.mp3
+R DC144BC6 12.mp3
+R A2EF89B3 13.mp3
+R 6DDAD478 14.mp3
+R EBAF8B67 21.mp3
+R 2AE667D7 22.mp3
+R 07975D61 23.mp3
+R 974F2907 24.mp3
+R B120788D 25.mp3
+R DEF075C5 26.mp3
+R 4A95C336 27.mp3
+R 479EB2C1 28.mp3
+R 6BBA35E0 29.mp3
+R 1B88ECBB 31.mp3
+R 12E80FB2 32.mp3
+R 5B06AA10 33.mp3
+R 79A45D9F 34.mp3
+R 05C6EEDB 35.mp3
+R 80A39C05 36.mp3
+R 29A539AA 37.mp3
+R BA886B89 38.mp3
+R 77F42716 39.mp3
+R 5439FCE8 41.mp3
+R 71F4752D 42.mp3
+R E65F289A 43.mp3
+R AA84ADE1 44.mp3
+R 4E8722C5 45.mp3
+R 49ABE424 46.mp3
+R 5EDC9BFD 47.mp3
+R F566553A 48.mp3
+R 6DC79A71 49.mp3
+D game/sound/girl/peng
+R FFFA6E4A 0.mp3
+R 0CA02869 1.mp3
+R C13F9DFE 2.mp3
+R C13F9DFE 3.mp3
+D game/sound/girl/zimo
+R 8B66C942 0.mp3
+R 4957D129 1.mp3
+R 2F9226A6 2.mp3
+R 2F9226A6 3.mp3
+D game/sound/qw/boy
+R 7A5DC7E1 1.mp3
+R DE5625EA 2.mp3
+R 77685DFF 3.mp3
+R C89DC7F5 4.mp3
+R 8D537FB0 5.mp3
+R A6C82E2C 6.mp3
+D game/sound/qw/girl
+R 521A5C29 1.mp3
+R 427C06DD 2.mp3
+R 2DB4A992 3.mp3
+R CBF6A20B 4.mp3
+R 2B64ABEB 5.mp3
+R 76F57873 6.mp3

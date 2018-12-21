@@ -26,7 +26,8 @@ var MjGame;
         GlobalConfig.DESK_HEIGHT = 640;
         GlobalConfig.MAX_MEMBER_NUM = 2;
         //==================gate 服务器信息=================================
-        GlobalConfig.HOST = '127.0.0.1';
+        // public static HOST:string  = '127.0.0.1';
+        GlobalConfig.HOST = '47.105.205.5';
         GlobalConfig.PORT = 3010;
         //==================玩家的视图位置=================================
         /**

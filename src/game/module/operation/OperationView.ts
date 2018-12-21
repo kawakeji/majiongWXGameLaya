@@ -85,25 +85,7 @@ module MjGame{
 				}
 				case this.quitBtn:
 				{
-                    var oType:number = Constants.O_TYPE_NULL;
-					if(this.huBtn.visible == true)
-					{
-						oType = Constants.O_TYPE_HU;
-					}
-					else if(this.gangBtn.visible == true)
-					{
-						oType = Constants.O_TYPE_GANG;
-					}
-					else if(this.pengBtn.visible == true)
-					{
-						oType = Constants.O_TYPE_PENG;
-					}
-					else if(this.chiBtn.visible == true)
-					{
-						oType = Constants.O_TYPE_CHI;
-					}
-					this.hideAllBtn();
-					EventManager.getInstance().event(ClientHandEvent.QUIT_OPERATION,[ClientHandEvent.QUIT_OPERATION,oType]);
+                    this.sendQuitOperation();
 					break;
 				}
 				default:
@@ -285,5 +267,29 @@ module MjGame{
 				}
 			}
 		}
+
+        sendQuitOperation()
+        {
+            var oType:number = Constants.O_TYPE_NULL;
+            if(this.huBtn.visible == true)
+            {
+                oType = Constants.O_TYPE_HU;
+            }
+            else if(this.gangBtn.visible == true)
+            {
+                oType = Constants.O_TYPE_GANG;
+            }
+            else if(this.pengBtn.visible == true)
+            {
+                oType = Constants.O_TYPE_PENG;
+            }
+            else if(this.chiBtn.visible == true)
+            {
+                oType = Constants.O_TYPE_CHI;
+            }
+            this.hideAllBtn();
+            EventManager.getInstance().event(ClientHandEvent.QUIT_OPERATION,[ClientHandEvent.QUIT_OPERATION,oType]);
+        }
+        
 	}
 }

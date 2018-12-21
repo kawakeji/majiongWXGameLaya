@@ -64,6 +64,18 @@ module MjGame
             }
         }
 
+        public getPlayerByPos(pos:number)
+        {
+            for (let index = 0; index < this.playerVOs.length; index++)
+            {
+                let player: PlayerVO = this.playerVOs[index];
+                if (player.position === pos)
+                {
+                    return player;
+                }
+            }
+        }
+
         get roomId():number
         {
             if (this.roomOwnerPlayer)

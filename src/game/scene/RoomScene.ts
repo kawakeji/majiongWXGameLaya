@@ -12,7 +12,7 @@ module MjGame
             this.playerPosView = [this.downPosPlayer, this.rightPosPlayer, this.upPosPlayer, this.leftPosPlayer];
             this.updatePlayerInfo();
             this.addEvent();
-            // this.scale(0.4,0.4);
+            // MjSoundManager.getInstance().playMusic(SoundType.MAIN);
         }
 
         addEvent()
@@ -36,39 +36,59 @@ module MjGame
         updatePlayerInfo()
         {
             var playerVOs: Array<PlayerVO> = RoomManager.getInstance().playerVOs;
+            let selfPlayer: PlayerVO = PlayerManager.getInstance().selfPlayerVO;
             var player: PlayerVO;
             var playerView: ui.game.view.PlayerViewUI;
             var playerNum:number = playerVOs.length;
+            var clientPos: number = 0;
+            var maxPos:number = clientPos;
             this.startBtn.visible = false;
             this.readyBtn.visible = false;
-            for (var index = 0; index < 4; index++)
+
+            this.roomNum.text = "房间号：" + selfPlayer.roomId;
+
+            for (var i = 0; i < playerVOs.length; i++) 
             {
-                playerView = this.playerPosView[index];
-                if (index < GlobalConfig.MAX_MEMBER_NUM)
+                player = playerVOs[i];
+                clientPos = util.getClientRefPos(player.position, selfPlayer.position);
+                playerView = this.playerPosView[clientPos];
+                playerView.isReady.visible = player.isReady;
+                playerView.headIcon.visible = true;
+                playerView.playerName.text = player.username;
+                playerView.dealerImg.visible = player.isDealer;
+                playerView.visible = true;
+                this.updateStartBtnState(player,playerNum);
+                if (maxPos < clientPos)
                 {
-                    player = playerVOs[index];
-                    if (player)
-                    {
-                        playerView.isReady.visible = player.isReady;
-                        playerView.headIcon.visible = true;
-                        playerView.playerName.text = player.username;
-                        this.updateStartBtnState(player,playerNum);
-                        this.roomNum.text = "房间号：" + player.roomId;
-                    }
-                    else
-                    {
-                        playerView.isReady.visible = false;
-                        playerView.headIcon.visible = false;
-                        playerView.playerName.text = "";
-                    }
-                }
-                else
-                {
-                    playerView.isReady.visible = false;
-                    playerView.headIcon.visible = false;
-                    playerView.playerName.text = "";
+                    maxPos = clientPos;
                 }
             }
+
+            for (var index = (maxPos + 1); index < 4; index++)
+            {
+                playerView = this.playerPosView[index];
+                playerView.visible = false;
+            }
+            // for (var index = 0; index < 4; index++)
+            // {
+            //     player = playerVOs[index];
+            //     playerView = this.playerPosView[index];
+            //     if (index < GlobalConfig.MAX_MEMBER_NUM && player)
+            //     {
+            //         playerView.isReady.visible = player.isReady;
+            //         playerView.headIcon.visible = true;
+            //         playerView.playerName.text = player.username;
+            //         this.updateStartBtnState(player,playerNum);
+            //         playerView.dealerImg.visible = player.isDealer;
+            //     }
+            //     else
+            //     {
+            //         playerView.isReady.visible = false;
+            //         playerView.headIcon.visible = false;
+            //         playerView.playerName.text = "";
+            //         playerView.dealerImg.visible = false;
+            //     }
+            // }
         }
 
         onLeave()

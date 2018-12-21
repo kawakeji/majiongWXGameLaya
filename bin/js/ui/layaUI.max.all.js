@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -89,10 +89,11 @@ var ui;
                 }
                 DeskSceneUI.prototype.createChildren = function () {
                     View.regComponent("ui.game.view.ClockUI", ui.game.view.ClockUI);
+                    View.regComponent("ui.game.view.PlayerViewUI", ui.game.view.PlayerViewUI);
                     _super.prototype.createChildren.call(this);
                     this.createView(ui.game.scene.DeskSceneUI.uiView);
                 };
-                DeskSceneUI.uiView = { "type": "View", "props": { "width": 1136, "height": 640 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "visible": true, "skin": "game/game/loginbg.png" } }, { "type": "Clock", "props": { "y": 320, "x": 568, "visible": true, "var": "clockUI", "rotation": 0, "runtime": "ui.game.view.ClockUI" } }, { "type": "View", "props": { "y": 12, "x": 322, "width": 492, "var": "upView", "height": 50 } }, { "type": "View", "props": { "y": 539, "x": 198, "width": 793, "var": "downView", "height": 89, "anchorY": 0, "anchorX": 0 } }, { "type": "View", "props": { "y": 121, "x": 169, "width": 57, "var": "leftView", "height": 398 } }, { "type": "View", "props": { "y": 483, "x": 942, "width": 59, "var": "rightView", "height": 9 } }, { "type": "View", "props": { "y": 471, "x": 297, "width": 56, "var": "outDownView", "height": 45 } }, { "type": "View", "props": { "y": 82, "x": 801, "width": 29, "var": "outUpView", "rotation": 0, "height": 34 } }, { "type": "View", "props": { "y": 179, "x": 202, "width": 15, "var": "outLeftView", "rotation": 0, "height": 29 } }, { "type": "View", "props": { "y": 390, "x": 886, "width": 17, "var": "outRightView", "rotation": 0, "height": 26 } }, { "type": "Label", "props": { "var": "hunPai", "text": "label", "fontSize": 30 } }] };
+                DeskSceneUI.uiView = { "type": "View", "props": { "width": 1136, "height": 640 }, "child": [{ "type": "Clock", "props": { "y": 320, "x": 568, "visible": true, "var": "clockUI", "rotation": 0, "runtime": "ui.game.view.ClockUI" } }, { "type": "View", "props": { "y": 12, "x": 322, "width": 492, "var": "upView", "height": 50 } }, { "type": "View", "props": { "y": 121, "x": 169, "width": 57, "var": "leftView", "height": 398 } }, { "type": "View", "props": { "y": 483, "x": 942, "width": 59, "var": "rightView", "height": 9 } }, { "type": "View", "props": { "y": 82, "x": 801, "width": 29, "var": "outUpView", "rotation": 0, "height": 34 } }, { "type": "View", "props": { "y": 179, "x": 202, "width": 15, "var": "outLeftView", "rotation": 0, "height": 29 } }, { "type": "View", "props": { "y": 390, "x": 886, "width": 17, "var": "outRightView", "rotation": 0, "height": 26 } }, { "type": "View", "props": { "y": 471, "x": 297, "width": 56, "var": "outDownView", "height": 45 } }, { "type": "View", "props": { "y": 539, "x": 198, "width": 793, "var": "downView", "height": 89, "anchorY": 0, "anchorX": 0 } }, { "type": "Label", "props": { "var": "hunPai", "text": "label", "fontSize": 30 } }, { "type": "PlayerView", "props": { "y": 236, "x": 18, "var": "leftPlayerView", "runtime": "ui.game.view.PlayerViewUI" } }, { "type": "PlayerView", "props": { "y": 10, "x": 818, "var": "upPlayerView", "runtime": "ui.game.view.PlayerViewUI" } }, { "type": "PlayerView", "props": { "y": 473, "x": 36, "var": "downPlayerView", "runtime": "ui.game.view.PlayerViewUI" } }, { "type": "PlayerView", "props": { "y": 236, "x": 1004, "var": "rightPlayerView", "runtime": "ui.game.view.PlayerViewUI" } }, { "type": "Image", "props": { "y": 457, "x": 1058, "var": "chatBtn", "skin": "game/chat/s_chat_shuohua_nomal.png" } }] };
                 return DeskSceneUI;
             }(View));
             scene.DeskSceneUI = DeskSceneUI;
@@ -161,6 +162,27 @@ var ui;
             }(View));
             scene.RoomSceneUI = RoomSceneUI;
         })(scene = game.scene || (game.scene = {}));
+    })(game = ui.game || (ui.game = {}));
+})(ui || (ui = {}));
+(function (ui) {
+    var game;
+    (function (game) {
+        var view;
+        (function (view) {
+            var ChatViewUI = /** @class */ (function (_super) {
+                __extends(ChatViewUI, _super);
+                function ChatViewUI() {
+                    return _super.call(this) || this;
+                }
+                ChatViewUI.prototype.createChildren = function () {
+                    _super.prototype.createChildren.call(this);
+                    this.createView(ui.game.view.ChatViewUI.uiView);
+                };
+                ChatViewUI.uiView = { "type": "View", "props": { "width": 346, "height": 413 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "game/chat/chat_bg.png" } }, { "type": "Image", "props": { "y": 87, "x": 39, "skin": "game/chat/1.png" } }, { "type": "Image", "props": { "y": 136, "x": 39, "skin": "game/chat/2.png" } }, { "type": "Image", "props": { "y": 186, "x": 39, "skin": "game/chat/3.png" } }, { "type": "Image", "props": { "y": 288, "x": 39, "skin": "game/chat/5.png" } }, { "type": "Image", "props": { "y": 338, "x": 39, "skin": "game/chat/6.png" } }, { "type": "Image", "props": { "y": 240, "x": 39, "skin": "game/chat/7.png" } }] };
+                return ChatViewUI;
+            }(View));
+            view.ChatViewUI = ChatViewUI;
+        })(view = game.view || (game.view = {}));
     })(game = ui.game || (ui.game = {}));
 })(ui || (ui = {}));
 (function (ui) {
@@ -261,7 +283,7 @@ var ui;
                     _super.prototype.createChildren.call(this);
                     this.createView(ui.game.view.PlayerViewUI.uiView);
                 };
-                PlayerViewUI.uiView = { "type": "View", "props": { "width": 115, "height": 118 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 2, "var": "headIcon", "skin": "game/head/local_head_01.png" } }, { "type": "Image", "props": { "y": -15, "x": -18, "skin": "game/head/kuang_on.png" } }, { "type": "Image", "props": { "y": 36, "x": 14, "var": "isReady", "skin": "game/ui/word_ready.png" } }, { "type": "Label", "props": { "y": 139, "x": 56, "var": "playerName", "text": "playerName", "fontSize": 20, "color": "#0acd1a", "bold": true, "anchorY": 0.5, "anchorX": 0.5 } }] };
+                PlayerViewUI.uiView = { "type": "View", "props": { "width": 115, "visible": true, "height": 118 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 2, "var": "headIcon", "skin": "game/head/local_head_01.png" } }, { "type": "Image", "props": { "y": -15, "x": -18, "skin": "game/head/kuang_on.png" } }, { "type": "Image", "props": { "y": 36, "x": 14, "var": "isReady", "skin": "game/ui/word_ready.png" } }, { "type": "Label", "props": { "y": 139, "x": 56, "var": "playerName", "text": "playerName", "fontSize": 20, "color": "#0acd1a", "bold": true, "anchorY": 0.5, "anchorX": 0.5 } }, { "type": "Image", "props": { "y": 6, "x": 79, "visible": false, "var": "dealerImg", "skin": "game/operationImg/head_banker.png" } }] };
                 return PlayerViewUI;
             }(View));
             view.PlayerViewUI = PlayerViewUI;

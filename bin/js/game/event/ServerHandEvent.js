@@ -51,6 +51,10 @@ var MjGame;
          * 黄庄了
          */
         ServerHandEvent.HUANG_ZHUANG = "huang_zhuang";
+        /**
+         * 倒计时
+         */
+        ServerHandEvent.TIME_OUT = "time_out";
         return ServerHandEvent;
     }());
     MjGame.ServerHandEvent = ServerHandEvent;

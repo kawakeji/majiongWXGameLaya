@@ -8,7 +8,7 @@ module MjGame
 		constructor(){
 			super();
 			this.addEvent();
-            // this.scale(0.4,0.4);
+            // MjSoundManager.getInstance().playMusic(SoundType.MAIN);
 		}
 
         addEvent()

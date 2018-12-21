@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -34,6 +34,7 @@ var MjGame;
             MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_OPERATION, this.onOperation);
             MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_READY, this.onReady);
             MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_HUANG_ZHUANG, this.onHuangZhuang);
+            MjGame.SocketManager.getInstance().addProto(MjGame.ProtocolType.ON_TIMEOUT, this.onTimeOut);
         };
         GameProxy.prototype.onUpdateCurPlayer = function (data) {
             MjGame.EventManager.getInstance().event(MjGame.ServerHandEvent.UPDATE_CUR_PLAYER, [data]);
@@ -65,6 +66,9 @@ var MjGame;
         GameProxy.prototype.onReady = function (data) {
             // var playerVO:PlayerVO = serverModel.getPlayerVOById(msg.value);
             MjGame.EventManager.getInstance().event(MjGame.ServerHandEvent.READY, [data]);
+        };
+        GameProxy.prototype.onTimeOut = function (data) {
+            MjGame.EventManager.getInstance().event(MjGame.ServerHandEvent.TIME_OUT, [data]);
         };
         GameProxy.prototype.removeProtos = function () {
         };
@@ -110,6 +114,12 @@ var MjGame;
             msg.playerId = playerVO.playerId;
             msg.isReady = true;
             MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.CMJ_READY, msg);
+        };
+        GameProxy.prototype.sendTimeOut = function (playerVO) {
+            var msg = {};
+            msg.playerId = playerVO.playerId;
+            msg.isTimeOut = true;
+            MjGame.SocketManager.getInstance().request(MjGame.ProtocolType.CMJ_TIMEOUT, msg);
         };
         return GameProxy;
     }(MjGame.BaseProxy));

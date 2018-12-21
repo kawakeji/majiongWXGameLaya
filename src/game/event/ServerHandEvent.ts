@@ -49,6 +49,10 @@ module MjGame{
 		 * 黄庄了 
 		 */		
 		public static HUANG_ZHUANG:string = "huang_zhuang";
+        /**
+         * 倒计时
+         */
+		public static TIME_OUT:string = "time_out";
 		
 	}
 }

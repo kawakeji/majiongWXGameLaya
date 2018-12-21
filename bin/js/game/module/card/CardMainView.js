@@ -40,13 +40,16 @@ var MjGame;
             this.outCardCmArr = [];
             this.handCardParentViewArr = [this.deskScene.downView, this.deskScene.rightView, this.deskScene.upView, this.deskScene.leftView];
             this.outCardParentViewArr = [this.deskScene.outDownView, this.deskScene.outRightView, this.deskScene.outUpView, this.deskScene.outLeftView];
+            this.playerViewArr = [this.deskScene.downPlayerView, this.deskScene.rightPlayerView, this.deskScene.upPlayerView, this.deskScene.leftPlayerView];
             this.initView();
             this.addEvent();
         }
         CardMainView.prototype.initView = function () {
             this.anim = new MjGame.CMJAnim(this.deskScene, "game/anim/CMJ.ani");
             this.anim.pos(MjGame.GlobalConfig.DESK_WIDHT * 0.5, MjGame.GlobalConfig.DESK_HEIGHT * 0.5);
+            this.updatePlayerView();
             this.updateCardViews();
+            this.playOperationEffect(MjGame.Constants.O_TYPE_NULL, this.myHandCardCm);
         };
         CardMainView.prototype.addEvent = function () {
             MjGame.EventManager.getInstance().on(MjGame.ServerHandEvent.UPDATE_CUR_PLAYER, this, this.onUpdateCurPlayer);
@@ -60,6 +63,7 @@ var MjGame;
             MjGame.EventManager.getInstance().on(MjGame.ServerHandEvent.OPERATION, this, this.onOperation);
             MjGame.EventManager.getInstance().on(MjGame.ServerHandEvent.READY, this, this.onReady);
             MjGame.EventManager.getInstance().on(MjGame.ServerHandEvent.HUANG_ZHUANG, this, this.onHuangZhuang);
+            MjGame.EventManager.getInstance().on(MjGame.ServerHandEvent.TIME_OUT, this, this.onTimeOut);
         };
         CardMainView.prototype.removeEvent = function () {
             MjGame.EventManager.getInstance().off(MjGame.ServerHandEvent.UPDATE_CUR_PLAYER, this, this.onUpdateCurPlayer);
@@ -73,12 +77,13 @@ var MjGame;
             MjGame.EventManager.getInstance().off(MjGame.ServerHandEvent.OPERATION, this, this.onOperation);
             MjGame.EventManager.getInstance().off(MjGame.ServerHandEvent.READY, this, this.onReady);
             MjGame.EventManager.getInstance().off(MjGame.ServerHandEvent.HUANG_ZHUANG, this, this.onHuangZhuang);
+            MjGame.EventManager.getInstance().off(MjGame.ServerHandEvent.TIME_OUT, this, this.onTimeOut);
             Laya.timer.clearAll(this.deskScene);
         };
         CardMainView.prototype.onUpdateCurPlayer = function (data) {
             var player = MjGame.RoomManager.getInstance().getPlayer(data.playerId);
-            var pos = this.getClientPos(player);
-            this.deskScene.updateCurPlayer(pos);
+            this.curOperationPlayer = player;
+            this.deskScene.updateCurPlayer(player, data.endTime);
         };
         CardMainView.prototype.onAddPai = function (data) {
             var player = MjGame.RoomManager.getInstance().getPlayer(data.playerId);
@@ -141,30 +146,34 @@ var MjGame;
             }
         };
         CardMainView.prototype.onHuPai = function (data) {
+            var self = this;
             var player = MjGame.RoomManager.getInstance().getPlayer(data.playerId);
             var stGoodInfos = data.stGoodInfos;
             var stPai = data.stPai;
             var otherHandCardCm = this.getPlayerViewByVO(player);
-            if (otherHandCardCm) {
-                var self = this;
-                // otherHandCardCm.doHuPai(stPai);
-                this.playOperationEffect(MjGame.Constants.O_TYPE_HU, otherHandCardCm, function () {
-                    if (self) {
-                        var roomScene = new MjGame.RoomScene();
-                        Laya.stage.addChild(roomScene);
-                        self.removeEvent();
-                        self.deskScene.removeSelf();
-                        self.showAccoutView(player, stGoodInfos, stPai);
-                    }
-                });
-            }
-            this.showAccoutView(player, stGoodInfos, stPai);
+            // if(otherHandCardCm)
+            // {
+            //     var self = this;
+            // 	// otherHandCardCm.doHuPai(stPai);
+            // }
+            this.playOperationEffect(MjGame.Constants.O_TYPE_HU, otherHandCardCm, function () {
+                if (self) {
+                    self.showAccoutView(player, stGoodInfos, stPai);
+                }
+            });
+            // this.showAccoutView(player,stGoodInfos,stPai);
             // _lastPaiFlagImg.visible = false;
         };
         CardMainView.prototype.onReady = function (data) {
-            var player = MjGame.RoomManager.getInstance().getPlayer(data.playerId);
-            var otherHandCardCm = this.getPlayerViewByVO(player);
-            if (otherHandCardCm) {
+            if (data) {
+                var player = MjGame.RoomManager.getInstance().getPlayer(data.playerId);
+                player.isReady = data.isReady;
+                if (data.playerId == MjGame.PlayerManager.getInstance().selfPlayerVO.playerId) {
+                    var roomScene = new MjGame.RoomScene();
+                    Laya.stage.addChild(roomScene);
+                    this.removeEvent();
+                    this.deskScene.removeSelf();
+                }
             }
         };
         CardMainView.prototype.getPlayerViewByVO = function (playerVO) {
@@ -184,13 +193,16 @@ var MjGame;
         };
         CardMainView.prototype.onOperation = function (data) {
             var player = MjGame.RoomManager.getInstance().getPlayer(data.playerId);
-            var stPai = data.stPai;
-            var isSelfHand = data.isSelfHand;
-            // let oType:number = data.operations;
-            var operations = data.operations;
-            MjGame.CMJManager.getInstance().curOperationPai = stPai;
-            this.myHandCardCm.showOpertaionView(operations);
-            this.waitOperation();
+            this.curOperationPlayer = player;
+            if (player.playerId == MjGame.PlayerManager.getInstance().selfPlayerVO.playerId) {
+                var stPai = data.stPai;
+                var isSelfHand = data.isSelfHand;
+                // let oType:number = data.operations;
+                var operations = data.operations;
+                MjGame.CMJManager.getInstance().curOperationPai = stPai;
+                this.myHandCardCm.showOpertaionView(operations);
+                this.waitOperation();
+            }
         };
         CardMainView.prototype.waitOperation = function () {
             MjGame.EventManager.getInstance().on(MjGame.ClientHandEvent.WAITING_OPERATION_HU, this, this.onWaitMyOperation);
@@ -238,6 +250,7 @@ var MjGame;
                     }
                 case MjGame.ClientHandEvent.QUIT_OPERATION:
                     {
+                        MjGame.MjSoundManager.getInstance().playCommonSound(MjGame.SoundType.PASS);
                         MjGame.ProxyManager.getInstance().gameProxy.sendQuitOperation(this.myHandCardCm.player, Number(data));
                         break;
                     }
@@ -263,22 +276,24 @@ var MjGame;
         };
         CardMainView.prototype.playOperationEffect = function (oType, playerView, cb) {
             var movieLabel;
-            if (oType == MjGame.Constants.O_TYPE_HU) {
-                movieLabel = "hu";
-            }
-            else if (oType == MjGame.Constants.O_TYPE_GANG) {
-                movieLabel = "gang";
+            if (oType == MjGame.Constants.O_TYPE_CHI) {
+                movieLabel = "chi";
+                MjGame.MjSoundManager.getInstance().playCommonSound(MjGame.SoundType.START_GAME);
             }
             else if (oType == MjGame.Constants.O_TYPE_PENG) {
                 movieLabel = "peng";
             }
-            else if (oType == MjGame.Constants.O_TYPE_CHI) {
-                movieLabel = "chi";
+            else if (oType == MjGame.Constants.O_TYPE_GANG) {
+                movieLabel = "gang";
             }
-            this.anim.play(movieLabel, this.onAnimComplete);
-        };
-        CardMainView.prototype.onAnimComplete = function () {
-            // _oTypeImg.remove();
+            else if (oType == MjGame.Constants.O_TYPE_HU) {
+                movieLabel = "hu";
+            }
+            else if (oType == MjGame.Constants.O_TYPE_NULL) {
+                movieLabel = "open";
+            }
+            this.anim.play(movieLabel, cb);
+            MjGame.MjSoundManager.getInstance().playOperationSound(movieLabel);
         };
         CardMainView.prototype.showAccoutView = function (playerVO, stGoodInfos, stPai) {
             if (!this.accoutView) {
@@ -294,12 +309,18 @@ var MjGame;
             this.accoutView.setData(null, null, null);
             this.accoutView.show();
         };
+        CardMainView.prototype.onTimeOut = function () {
+            if (this.curOperationPlayer && this.curOperationPlayer.playerId == this.myHandCardCm.player.playerId) {
+                this.myHandCardCm.timeOut();
+            }
+        };
         CardMainView.prototype.updateCardViews = function () {
             var playerVOs = MjGame.RoomManager.getInstance().playerVOs;
+            var selfPlayer = MjGame.PlayerManager.getInstance().selfPlayerVO;
             this.otherHandCardCms = [];
             for (var i = 0; i < playerVOs.length; i++) {
                 var player = playerVOs[i];
-                var clientPos = this.getClientPos(player);
+                var clientPos = MjGame.util.getClientRefPos(player.position, selfPlayer.position);
                 var outCardCm = new MjGame.OutCardCm(this.outCardParentViewArr[clientPos], player, clientPos);
                 var handCardcm = new MjGame.HandCardCm(this.handCardParentViewArr[clientPos], outCardCm, player, clientPos);
                 handCardcm.updateHandCard(player.cmj, false);
@@ -311,11 +332,33 @@ var MjGame;
                 }
                 this.handCardCmArr.push(handCardcm);
             }
-            // SinglePlayManager.getInstance().startGame(myPlayer,otherPlayers)
         };
-        CardMainView.prototype.getClientPos = function (player) {
+        CardMainView.prototype.updatePlayerView = function () {
+            var playerVOs = MjGame.RoomManager.getInstance().playerVOs;
             var selfPlayer = MjGame.PlayerManager.getInstance().selfPlayerVO;
-            return MjGame.util.getClientRefPos(player.position, selfPlayer.position);
+            var playerView;
+            var player;
+            var clientPos;
+            var maxPos = clientPos;
+            this.deskScene.hunPai.text = "房间号：" + selfPlayer.roomId;
+            this.otherHandCardCms = [];
+            for (var i = 0; i < playerVOs.length; i++) {
+                player = playerVOs[i];
+                clientPos = MjGame.util.getClientRefPos(player.position, selfPlayer.position);
+                playerView = this.playerViewArr[clientPos];
+                playerView.isReady.visible = false;
+                playerView.headIcon.visible = true;
+                playerView.playerName.text = player.username;
+                playerView.dealerImg.visible = player.isDealer;
+                playerView.visible = true;
+                if (maxPos < clientPos) {
+                    maxPos = clientPos;
+                }
+            }
+            for (var index = (maxPos + 1); index < 4; index++) {
+                playerView = this.playerViewArr[index];
+                playerView.visible = false;
+            }
         };
         return CardMainView;
     }());

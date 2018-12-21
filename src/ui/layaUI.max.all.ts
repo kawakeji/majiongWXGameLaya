@@ -69,19 +69,25 @@ module ui.game.scene {
     export class DeskSceneUI extends View {
 		public clockUI:ui.game.view.ClockUI;
 		public upView:View;
-		public downView:View;
 		public leftView:View;
 		public rightView:View;
-		public outDownView:View;
 		public outUpView:View;
 		public outLeftView:View;
 		public outRightView:View;
+		public outDownView:View;
+		public downView:View;
 		public hunPai:Laya.Label;
+		public leftPlayerView:ui.game.view.PlayerViewUI;
+		public upPlayerView:ui.game.view.PlayerViewUI;
+		public downPlayerView:ui.game.view.PlayerViewUI;
+		public rightPlayerView:ui.game.view.PlayerViewUI;
+		public chatBtn:Laya.Image;
 
-        public static  uiView:any ={"type":"View","props":{"width":1136,"height":640},"child":[{"type":"Image","props":{"y":0,"x":0,"visible":true,"skin":"game/game/loginbg.png"}},{"type":"Clock","props":{"y":320,"x":568,"visible":true,"var":"clockUI","rotation":0,"runtime":"ui.game.view.ClockUI"}},{"type":"View","props":{"y":12,"x":322,"width":492,"var":"upView","height":50}},{"type":"View","props":{"y":539,"x":198,"width":793,"var":"downView","height":89,"anchorY":0,"anchorX":0}},{"type":"View","props":{"y":121,"x":169,"width":57,"var":"leftView","height":398}},{"type":"View","props":{"y":483,"x":942,"width":59,"var":"rightView","height":9}},{"type":"View","props":{"y":471,"x":297,"width":56,"var":"outDownView","height":45}},{"type":"View","props":{"y":82,"x":801,"width":29,"var":"outUpView","rotation":0,"height":34}},{"type":"View","props":{"y":179,"x":202,"width":15,"var":"outLeftView","rotation":0,"height":29}},{"type":"View","props":{"y":390,"x":886,"width":17,"var":"outRightView","rotation":0,"height":26}},{"type":"Label","props":{"var":"hunPai","text":"label","fontSize":30}}]};
+        public static  uiView:any ={"type":"View","props":{"width":1136,"height":640},"child":[{"type":"Clock","props":{"y":320,"x":568,"visible":true,"var":"clockUI","rotation":0,"runtime":"ui.game.view.ClockUI"}},{"type":"View","props":{"y":12,"x":322,"width":492,"var":"upView","height":50}},{"type":"View","props":{"y":121,"x":169,"width":57,"var":"leftView","height":398}},{"type":"View","props":{"y":483,"x":942,"width":59,"var":"rightView","height":9}},{"type":"View","props":{"y":82,"x":801,"width":29,"var":"outUpView","rotation":0,"height":34}},{"type":"View","props":{"y":179,"x":202,"width":15,"var":"outLeftView","rotation":0,"height":29}},{"type":"View","props":{"y":390,"x":886,"width":17,"var":"outRightView","rotation":0,"height":26}},{"type":"View","props":{"y":471,"x":297,"width":56,"var":"outDownView","height":45}},{"type":"View","props":{"y":539,"x":198,"width":793,"var":"downView","height":89,"anchorY":0,"anchorX":0}},{"type":"Label","props":{"var":"hunPai","text":"label","fontSize":30}},{"type":"PlayerView","props":{"y":236,"x":18,"var":"leftPlayerView","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":10,"x":818,"var":"upPlayerView","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":473,"x":36,"var":"downPlayerView","runtime":"ui.game.view.PlayerViewUI"}},{"type":"PlayerView","props":{"y":236,"x":1004,"var":"rightPlayerView","runtime":"ui.game.view.PlayerViewUI"}},{"type":"Image","props":{"y":457,"x":1058,"var":"chatBtn","skin":"game/chat/s_chat_shuohua_nomal.png"}}]};
         constructor(){ super()}
         createChildren():void {
         			View.regComponent("ui.game.view.ClockUI",ui.game.view.ClockUI);
+			View.regComponent("ui.game.view.PlayerViewUI",ui.game.view.PlayerViewUI);
 
             super.createChildren();
             this.createView(ui.game.scene.DeskSceneUI.uiView);
@@ -142,6 +148,21 @@ module ui.game.scene {
 
             super.createChildren();
             this.createView(ui.game.scene.RoomSceneUI.uiView);
+
+        }
+
+    }
+}
+
+module ui.game.view {
+    export class ChatViewUI extends View {
+
+        public static  uiView:any ={"type":"View","props":{"width":346,"height":413},"child":[{"type":"Image","props":{"y":0,"x":0,"skin":"game/chat/chat_bg.png"}},{"type":"Image","props":{"y":87,"x":39,"skin":"game/chat/1.png"}},{"type":"Image","props":{"y":136,"x":39,"skin":"game/chat/2.png"}},{"type":"Image","props":{"y":186,"x":39,"skin":"game/chat/3.png"}},{"type":"Image","props":{"y":288,"x":39,"skin":"game/chat/5.png"}},{"type":"Image","props":{"y":338,"x":39,"skin":"game/chat/6.png"}},{"type":"Image","props":{"y":240,"x":39,"skin":"game/chat/7.png"}}]};
+        constructor(){ super()}
+        createChildren():void {
+        
+            super.createChildren();
+            this.createView(ui.game.view.ChatViewUI.uiView);
 
         }
 
@@ -226,8 +247,9 @@ module ui.game.view {
 		public headIcon:Laya.Image;
 		public isReady:Laya.Image;
 		public playerName:Laya.Label;
+		public dealerImg:Laya.Image;
 
-        public static  uiView:any ={"type":"View","props":{"width":115,"height":118},"child":[{"type":"Image","props":{"y":0,"x":2,"var":"headIcon","skin":"game/head/local_head_01.png"}},{"type":"Image","props":{"y":-15,"x":-18,"skin":"game/head/kuang_on.png"}},{"type":"Image","props":{"y":36,"x":14,"var":"isReady","skin":"game/ui/word_ready.png"}},{"type":"Label","props":{"y":139,"x":56,"var":"playerName","text":"playerName","fontSize":20,"color":"#0acd1a","bold":true,"anchorY":0.5,"anchorX":0.5}}]};
+        public static  uiView:any ={"type":"View","props":{"width":115,"visible":true,"height":118},"child":[{"type":"Image","props":{"y":0,"x":2,"var":"headIcon","skin":"game/head/local_head_01.png"}},{"type":"Image","props":{"y":-15,"x":-18,"skin":"game/head/kuang_on.png"}},{"type":"Image","props":{"y":36,"x":14,"var":"isReady","skin":"game/ui/word_ready.png"}},{"type":"Label","props":{"y":139,"x":56,"var":"playerName","text":"playerName","fontSize":20,"color":"#0acd1a","bold":true,"anchorY":0.5,"anchorX":0.5}},{"type":"Image","props":{"y":6,"x":79,"visible":false,"var":"dealerImg","skin":"game/operationImg/head_banker.png"}}]};
         constructor(){ super()}
         createChildren():void {
         

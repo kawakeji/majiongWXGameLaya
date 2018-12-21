@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -82,21 +82,7 @@ var MjGame;
                     }
                 case this.quitBtn:
                     {
-                        var oType = MjGame.Constants.O_TYPE_NULL;
-                        if (this.huBtn.visible == true) {
-                            oType = MjGame.Constants.O_TYPE_HU;
-                        }
-                        else if (this.gangBtn.visible == true) {
-                            oType = MjGame.Constants.O_TYPE_GANG;
-                        }
-                        else if (this.pengBtn.visible == true) {
-                            oType = MjGame.Constants.O_TYPE_PENG;
-                        }
-                        else if (this.chiBtn.visible == true) {
-                            oType = MjGame.Constants.O_TYPE_CHI;
-                        }
-                        this.hideAllBtn();
-                        MjGame.EventManager.getInstance().event(MjGame.ClientHandEvent.QUIT_OPERATION, [MjGame.ClientHandEvent.QUIT_OPERATION, oType]);
+                        this.sendQuitOperation();
                         break;
                     }
                 default:
@@ -233,6 +219,23 @@ var MjGame;
                     oX += btn.width + 5;
                 }
             }
+        };
+        OperationView.prototype.sendQuitOperation = function () {
+            var oType = MjGame.Constants.O_TYPE_NULL;
+            if (this.huBtn.visible == true) {
+                oType = MjGame.Constants.O_TYPE_HU;
+            }
+            else if (this.gangBtn.visible == true) {
+                oType = MjGame.Constants.O_TYPE_GANG;
+            }
+            else if (this.pengBtn.visible == true) {
+                oType = MjGame.Constants.O_TYPE_PENG;
+            }
+            else if (this.chiBtn.visible == true) {
+                oType = MjGame.Constants.O_TYPE_CHI;
+            }
+            this.hideAllBtn();
+            MjGame.EventManager.getInstance().event(MjGame.ClientHandEvent.QUIT_OPERATION, [MjGame.ClientHandEvent.QUIT_OPERATION, oType]);
         };
         return OperationView;
     }(ui.game.view.OperationUI));

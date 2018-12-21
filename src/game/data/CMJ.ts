@@ -91,10 +91,12 @@ module MjGame{
 				tempArr = this.m_MyPAIVec[i];
 				if (tempArr[0] > 0)
 				{
-					for (var j:number = 1; j < GlobalConfig.CARD_VALUE_NUM; j++) {
+					for (var j:number = 1; j < GlobalConfig.CARD_VALUE_NUM; j++) 
+                    {
 						paiCount = tempArr[j];
 						count = count + paiCount;
-						if (count >= pos) {
+						if (count >= pos) 
+                        {
 							tempPai = new StPAI();
 							tempPai.m_Type = i;
 							tempPai.m_Value = j;
@@ -486,6 +488,15 @@ module MjGame{
 		//杠牌  
 		doGangPaiServer(pai:StPAI):void  
 		{ 
+            // 检测已经碰的牌中是否能补杠
+            for (var j:number = 0; j < this.m_PengPAIVec.length; j++) 
+            {
+                var st:StPAI = this.m_PengPAIVec[j];
+                if (st.m_Type == pai.m_Type && st.m_Value == pai.m_Value) 
+                {
+                    this.m_PengPAIVec.splice(j,1);
+                }
+            }
 			this.delPai(pai, false);
 			this.delPai(pai, false);
 			this.delPai(pai, false);

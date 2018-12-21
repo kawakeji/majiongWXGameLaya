@@ -42,6 +42,14 @@ var MjGame;
                 }
             }
         };
+        RoomManager.prototype.getPlayerByPos = function (pos) {
+            for (var index = 0; index < this.playerVOs.length; index++) {
+                var player = this.playerVOs[index];
+                if (player.position === pos) {
+                    return player;
+                }
+            }
+        };
         Object.defineProperty(RoomManager.prototype, "roomId", {
             get: function () {
                 if (this.roomOwnerPlayer) {

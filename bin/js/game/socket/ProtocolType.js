@@ -21,6 +21,8 @@ var MjGame;
         ProtocolType.CMJ_PENGPAI = 'area.cmjHandler.pengPai';
         ProtocolType.CMJ_GANGPAI = 'area.cmjHandler.gangPai';
         ProtocolType.CMJ_READY = 'area.cmjHandler.ready';
+        ProtocolType.CMJ_TIMEOUT = 'area.cmjHandler.timeOut';
+        ProtocolType.CMJ_TIMESYNC = 'area.cmjHandler.timeSync';
         //======================== on server listen type============================//
         ProtocolType.ON_ADD_Room = 'onAddRoom';
         ProtocolType.ON_LEAVE_ROOM = 'onLeaveRoom';
@@ -29,6 +31,7 @@ var MjGame;
         ProtocolType.ON_ROOMMATE_LEAVE_ROOM = 'onRoommateLeaveRoom';
         ProtocolType.ON_START_GAME = 'onStartGame';
         ProtocolType.ON_CHAT = 'onChat';
+        ProtocolType.ON_TIMEOUT = 'onTimeOut';
         //========================= 操作类型 ======================================//
         ProtocolType.ON_UPDATE_CUR_PLAYER = "onUpdateCurPlayer";
         ProtocolType.ON_ADD_PAI = "onAddPai";

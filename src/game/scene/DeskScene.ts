@@ -3,19 +3,23 @@
 */
 module MjGame{
     export class DeskScene extends ui.game.scene.DeskSceneUI{
-        ROUND_TIME:number = 30;
+        ROUND_TIME:number = 15;
         cardMainView:CardMainView;
-        leftTime:number = 30;
+        leftTime:number = 0;
         selectedDirectionArr:Array<Laya.Image>;
         lastSelected:Laya.Image;
+        curPlayer:PlayerVO;
+        isSendTimeOut:boolean = false;
+        endTime:number = 0;
+        curClientPos:number = 0;
         constructor() 
         {
             super();
             this.selectedDirectionArr = [this.clockUI.downSelected,this.clockUI.rightSelected,this.clockUI.upSelected,this.clockUI.leftSelected];
             this.initView();
             this.createCardMainView();
-            this.clockUI.timeLabel
-            // this.scale(0.3,0.3);
+            Laya.timer.loop(1000,this,this.updateClock);
+            MjSoundManager.getInstance().playMusic(SoundType.BG_SOUND);
         }
 
         initView()
@@ -37,26 +41,42 @@ module MjGame{
             }
         }
 
-        updateCurPlayer(pos:number)
+        updateCurPlayer(player:PlayerVO, endTime:number)
         {
-            this.leftTime = this.ROUND_TIME;
+            this.curPlayer = player;
+            this.endTime = endTime;
+            this.isSendTimeOut = false;
+            let selfPlayer:PlayerVO = PlayerManager.getInstance().selfPlayerVO;
+			var pos:number = util.getClientRefPos(player.position,selfPlayer.position);
+            this.curClientPos = pos;
             if(this.lastSelected)
             {
                 this.lastSelected.visible = false;
             }
             this.selectedDirectionArr[pos].visible = true;
             this.lastSelected = this.selectedDirectionArr[pos];
-            Laya.timer.loop(1000,this,this.updateClock);
         }
 
         updateClock()
         {
-            this.leftTime = this.leftTime - 1;
-            if (this.leftTime <= 0)
+            let leftTime = ServerTimeManager.getInstance().getCountDown(this.endTime);
+            if (leftTime <= 0)
             {
-                this.leftTime = 0;
+                this.clockUI.timeLabel.value = "0";
+                if(!this.isSendTimeOut && this.curPlayer && this.curPlayer.playerId == PlayerManager.getInstance().selfPlayerVO.playerId)
+                {
+                    this.isSendTimeOut = true;
+                    ProxyManager.getInstance().gameProxy.sendTimeOut(this.curPlayer);
+                }
             }
-            this.clockUI.timeLabel.value = this.leftTime + "";
+            else
+            {
+                if(this.curClientPos == GlobalConfig.DOWN_POS)
+                {
+                    MjSoundManager.getInstance().playCommonSound(SoundType.TIME);
+                }
+                this.clockUI.timeLabel.value = Math.ceil(leftTime/1000) + "";
+            }
         }
 
     }

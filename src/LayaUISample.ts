@@ -74,7 +74,8 @@ function beginLoad(){
 	"res/atlas/game/roomNumInput.atlas","res/atlas/game/head.atlas","res/atlas/game/result.atlas",
     "res/atlas/game/anim/chi.atlas","res/atlas/game/anim/peng.atlas","res/atlas/game/anim/hu.atlas",
     "res/atlas/game/anim/gang.atlas","res/atlas/game/anim/chip.atlas","res/atlas/game/anim/drawn.atlas",
-    "res/atlas/game/anim/open.atlas","res/atlas/game/anim/ting.atlas","res/atlas/game/anim/pointer.atlas"], Handler.create(null, onLoaded));
+    "res/atlas/game/anim/open.atlas","res/atlas/game/anim/ting.atlas","res/atlas/game/anim/pointer.atlas",
+    "res/atlas/game/chat.atlas"], Handler.create(null, onLoaded));
 }
 
 function onLoaded(): void {
@@ -85,7 +86,7 @@ function onLoaded(): void {
 
 	// 初始化服务器监听
 	ProxyManager.getInstance();
-
+    // Laya.stage.scale(0.3,0.3);
 	var loginScene:LoginScene = new LoginScene();
 	Laya.stage.addChild(loginScene);
 }

@@ -19,6 +19,7 @@ module MjGame{
 
         onContinue()
         {
+            this.onClose();
             ProxyManager.getInstance().gameProxy.sendReadyToServer(PlayerManager.getInstance().selfPlayerVO);
         }
 

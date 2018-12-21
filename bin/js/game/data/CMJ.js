@@ -385,6 +385,13 @@ var MjGame;
         };
         //杠牌  
         CMJ.prototype.doGangPaiServer = function (pai) {
+            // 检测已经碰的牌中是否能补杠
+            for (var j = 0; j < this.m_PengPAIVec.length; j++) {
+                var st = this.m_PengPAIVec[j];
+                if (st.m_Type == pai.m_Type && st.m_Value == pai.m_Value) {
+                    this.m_PengPAIVec.splice(j, 1);
+                }
+            }
             this.delPai(pai, false);
             this.delPai(pai, false);
             this.delPai(pai, false);

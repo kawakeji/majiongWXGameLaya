@@ -20,9 +20,9 @@ var MjGame;
             return str;
         };
         /**
- * 获取客户端相对位置，默认在下方是 0 ，右边是 1 依次类推
- * 这个地方会修改玩家的服务器对应的position
- */
+         * 获取客户端相对位置，默认在下方是 0 ，右边是 1 依次类推
+         * 这个地方会修改玩家的服务器对应的position
+         */
         util.getClientRefPos = function (serverPos, selfServerPos) {
             var offPos = (serverPos - selfServerPos);
             return offPos < 0 ? MjGame.GlobalConfig.MAX_MEMBER_NUM + offPos : offPos;

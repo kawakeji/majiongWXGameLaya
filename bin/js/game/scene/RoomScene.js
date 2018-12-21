@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -24,7 +24,7 @@ var MjGame;
             _this.updatePlayerInfo();
             _this.addEvent();
             return _this;
-            // this.scale(0.4,0.4);
+            // MjSoundManager.getInstance().playMusic(SoundType.MAIN);
         }
         RoomScene.prototype.addEvent = function () {
             MjGame.EventManager.getInstance().on(MjGame.BaseEvent.PLAYER_ENTER_ROOM, this, this.updatePlayerInfo);
@@ -42,34 +42,53 @@ var MjGame;
         };
         RoomScene.prototype.updatePlayerInfo = function () {
             var playerVOs = MjGame.RoomManager.getInstance().playerVOs;
+            var selfPlayer = MjGame.PlayerManager.getInstance().selfPlayerVO;
             var player;
             var playerView;
             var playerNum = playerVOs.length;
+            var clientPos = 0;
+            var maxPos = clientPos;
             this.startBtn.visible = false;
             this.readyBtn.visible = false;
-            for (var index = 0; index < 4; index++) {
-                playerView = this.playerPosView[index];
-                if (index < MjGame.GlobalConfig.MAX_MEMBER_NUM) {
-                    player = playerVOs[index];
-                    if (player) {
-                        playerView.isReady.visible = player.isReady;
-                        playerView.headIcon.visible = true;
-                        playerView.playerName.text = player.username;
-                        this.updateStartBtnState(player, playerNum);
-                        this.roomNum.text = "房间号：" + player.roomId;
-                    }
-                    else {
-                        playerView.isReady.visible = false;
-                        playerView.headIcon.visible = false;
-                        playerView.playerName.text = "";
-                    }
-                }
-                else {
-                    playerView.isReady.visible = false;
-                    playerView.headIcon.visible = false;
-                    playerView.playerName.text = "";
+            this.roomNum.text = "房间号：" + selfPlayer.roomId;
+            for (var i = 0; i < playerVOs.length; i++) {
+                player = playerVOs[i];
+                clientPos = MjGame.util.getClientRefPos(player.position, selfPlayer.position);
+                playerView = this.playerPosView[clientPos];
+                playerView.isReady.visible = player.isReady;
+                playerView.headIcon.visible = true;
+                playerView.playerName.text = player.username;
+                playerView.dealerImg.visible = player.isDealer;
+                playerView.visible = true;
+                this.updateStartBtnState(player, playerNum);
+                if (maxPos < clientPos) {
+                    maxPos = clientPos;
                 }
             }
+            for (var index = (maxPos + 1); index < 4; index++) {
+                playerView = this.playerPosView[index];
+                playerView.visible = false;
+            }
+            // for (var index = 0; index < 4; index++)
+            // {
+            //     player = playerVOs[index];
+            //     playerView = this.playerPosView[index];
+            //     if (index < GlobalConfig.MAX_MEMBER_NUM && player)
+            //     {
+            //         playerView.isReady.visible = player.isReady;
+            //         playerView.headIcon.visible = true;
+            //         playerView.playerName.text = player.username;
+            //         this.updateStartBtnState(player,playerNum);
+            //         playerView.dealerImg.visible = player.isDealer;
+            //     }
+            //     else
+            //     {
+            //         playerView.isReady.visible = false;
+            //         playerView.headIcon.visible = false;
+            //         playerView.playerName.text = "";
+            //         playerView.dealerImg.visible = false;
+            //     }
+            // }
         };
         RoomScene.prototype.onLeave = function () {
             this.updatePlayerInfo();

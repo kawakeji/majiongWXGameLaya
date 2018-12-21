@@ -8,7 +8,7 @@ module MjGame
 		constructor(){
 			super();
 			this.loginBtn.on(Laya.Event.CLICK,this,this.onLogin);
-            // this.scale(0.4,0.4);
+            MjSoundManager.getInstance().playMusic(SoundType.MAIN,0);
 		}
 
 		onLogin():void
@@ -47,6 +47,7 @@ module MjGame
                 {
                     if (data.code == 200)
                     {
+                        ServerTimeManager.getInstance().syncServerTime();
                         PlayerManager.getInstance().selfUsername = data.username;
                         var hallScene:HallScene = new HallScene();
                         Laya.stage.addChild(hallScene);

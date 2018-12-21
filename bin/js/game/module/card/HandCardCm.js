@@ -32,6 +32,7 @@ var MjGame;
         };
         HandCardCm.prototype.delPai = function (pai) {
             this.cmj.delPai(pai);
+            MjGame.MjSoundManager.getInstance().playOutCardSound(pai);
             this.updateHandCard(this.cmj, false);
         };
         HandCardCm.prototype.cleanUp = function () {
@@ -81,6 +82,16 @@ var MjGame;
             this.updateHandCard(this.cmj);
             return flag;
         };
+        HandCardCm.prototype.timeOut = function () {
+            if (this.operationView.isCanDrag) {
+                var firstPai = this.cmj.getPaiByPos(1);
+                MjGame.MjSoundManager.getInstance().playCommonSound(MjGame.SoundType.OUT_CARD);
+                MjGame.EventManager.getInstance().event(MjGame.ClientHandEvent.WAITING_OUT_MJ, [firstPai]);
+            }
+            else {
+                this.operationView.sendQuitOperation();
+            }
+        };
         HandCardCm.prototype.updateHandCard = function (cmj, isShowLast) {
             if (isShowLast === void 0) { isShowLast = true; }
             this.cmj = cmj;
@@ -110,7 +121,7 @@ var MjGame;
                             card.setData(tempStPai, startX, startY, index);
                             if (this.cardPos == MjGame.GlobalConfig.DOWN_POS) {
                                 // card.addClickHandler(this,this.on)
-                                card.addClickHandler(this, this.onBtnClick);
+                                card.addClickHandler(this, this.onCardClick);
                                 // card.on(Laya.Event.CLICK, this, this.onBtnClick); 
                             }
                             index++;
@@ -129,49 +140,15 @@ var MjGame;
             card.cardPos = this.cardPos;
             this.parentView.addChild(card);
             card.setData(lastStPai, startX + 10, startY, index);
-            card.addClickHandler(this, this.onBtnClick);
-            // card.on(Laya.Event.CLICK, this, this.onBtnClick); 
+            card.addClickHandler(this, this.onCardClick);
         };
         HandCardCm.prototype.updateOutCard = function (cmj) {
             this.outCardCm.updateOutCard(cmj);
         };
-        HandCardCm.prototype.onBtnClick = function (card) {
-            console.log("onBtnclick");
+        HandCardCm.prototype.onCardClick = function (card) {
+            this.operationView.isCanDrag = false;
+            MjGame.MjSoundManager.getInstance().playCommonSound(MjGame.SoundType.OUT_CARD);
             MjGame.EventManager.getInstance().event(MjGame.ClientHandEvent.WAITING_OUT_MJ, [card.stPai]);
-            // var card = <HandCard><any>e.currentTarget;
-            // if (this.curClickCard != card && this.curClickCard)
-            // {
-            //     this.curClickCard.pos(this.curClickCard.x,this.curClickCard.cardOldPosY);
-            // }
-            // console.log("onBtnclick",card.index);
-            // //手动控制组件属性
-            // if (card.y == card.cardOldPosY)
-            // {
-            //     card.pos(card.x,card.cardOldPosY-20);
-            //     this.curClickCard = card;
-            // }
-            // else
-            // {
-            //     card.pos(card.x,card.cardOldPosY);
-            //     this.curClickCard = null;
-            // }
-        };
-        HandCardCm.prototype.onBtnClick2 = function (e) {
-            console.log("onBtnclick", e);
-            var card = e.currentTarget;
-            if (this.curClickCard != card && this.curClickCard) {
-                this.curClickCard.pos(this.curClickCard.x, this.curClickCard.cardOldPosY);
-            }
-            console.log("onBtnclick", card.index);
-            //手动控制组件属性
-            if (card.y == card.cardOldPosY) {
-                card.pos(card.x, card.cardOldPosY - 20);
-                this.curClickCard = card;
-            }
-            else {
-                card.pos(card.x, card.cardOldPosY);
-                this.curClickCard = null;
-            }
         };
         HandCardCm.prototype.addChiPengGangPai = function (t_MyPlayer) {
             var card;
@@ -193,7 +170,7 @@ var MjGame;
                 }
             }
             for (var k = 0; k < t_MyPlayer.m_GangPAIVec.length; k++) {
-                tempPai = t_MyPlayer.m_PengPAIVec[j];
+                tempPai = t_MyPlayer.m_PengPAIVec[k];
                 for (var i4 = 0; i4 < 4; i4++) {
                     outPaiArr.push(tempPai);
                 }

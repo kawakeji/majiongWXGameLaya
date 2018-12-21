@@ -20,6 +20,7 @@ module MjGame{
 			SocketManager.getInstance().addProto(ProtocolType.ON_OPERATION,this.onOperation);
 			SocketManager.getInstance().addProto(ProtocolType.ON_READY,this.onReady);
 			SocketManager.getInstance().addProto(ProtocolType.ON_HUANG_ZHUANG,this.onHuangZhuang);
+			SocketManager.getInstance().addProto(ProtocolType.ON_TIMEOUT,this.onTimeOut);
 		}
 		
 		onUpdateCurPlayer(data:any):void
@@ -72,6 +73,11 @@ module MjGame{
 			// var playerVO:PlayerVO = serverModel.getPlayerVOById(msg.value);
 			EventManager.getInstance().event(ServerHandEvent.READY,[data]);
 		}
+
+        onTimeOut(data:any)
+        {
+            EventManager.getInstance().event(ServerHandEvent.TIME_OUT,[data]);
+        }
 
 		removeProtos():void
 		{
@@ -133,6 +139,14 @@ module MjGame{
 			msg.playerId = playerVO.playerId;
 			msg.isReady = true;
 			SocketManager.getInstance().request(ProtocolType.CMJ_READY,msg);
+        }
+
+        sendTimeOut(playerVO:PlayerVO)
+        {
+            var msg:any = {};
+			msg.playerId = playerVO.playerId;
+			msg.isTimeOut = true;
+			SocketManager.getInstance().request(ProtocolType.CMJ_TIMEOUT,msg);
         }
 	}
 }
